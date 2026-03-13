@@ -1191,54 +1191,24 @@
 </section>
 
 <!-- PROJECTS -->
+<!-- PROJECTS -->
 <section id="projects" style="padding-top:0;">
-  <div class="section-tag">05 / Project Buildouts</div>
-  <h2>Custom <em>Dashboard Concepts</em></h2>
-  <p class="portfolio-intro">These mock dashboard layouts are based on the same KPIs and analytic patterns used in my resume experience across DoD, VHA, and grant/compliance environments.</p>
+  <div class="section-tag">05 / GitHub Projects</div>
+  <h2>Code <em>Projects</em></h2>
+  <p class="portfolio-intro">
+    A selection of practical analytics and engineering work focused on APIs, dashboard modeling, and risk analytics pipelines.
+  </p>
 
-  <div class="dashboard-lab reveal">
-    <div class="dash-card">
-      <div class="dash-meta">Defense Analytics · Power BI Pattern</div>
-      <div class="dash-title">Force-Wide Risk Monitoring</div>
-      <div class="kpi-row">
-        <div class="kpi"><b>6</b><span>Branches</span></div>
-        <div class="kpi"><b>122</b><span>Installations</span></div>
-        <div class="kpi"><b>-18%</b><span>YoY Risk</span></div>
-      </div>
-      <div class="spark"><i style="height:28%"></i><i style="height:41%"></i><i style="height:38%"></i><i style="height:52%"></i><i style="height:67%"></i><i style="height:74%"></i><i style="height:80%"></i><i style="height:88%"></i></div>
-    </div>
-    <div class="dash-card">
-      <div class="dash-meta">VHA Program Ops · R Shiny Pattern</div>
-      <div class="dash-title">Prevention Program Performance</div>
-      <div class="kpi-row">
-        <div class="kpi"><b>94%</b><span>Coverage</span></div>
-        <div class="kpi"><b>61</b><span>Sites</span></div>
-        <div class="kpi"><b>+23%</b><span>Engagement</span></div>
-      </div>
-      <div class="spark green"><i style="height:36%"></i><i style="height:48%"></i><i style="height:44%"></i><i style="height:59%"></i><i style="height:56%"></i><i style="height:70%"></i><i style="height:76%"></i><i style="height:83%"></i></div>
-    </div>
-    <div class="dash-card">
-      <div class="dash-meta">Grant + Compliance · Executive View</div>
-      <div class="dash-title">Funding & Compliance Health</div>
-      <div class="kpi-row">
-        <div class="kpi"><b>$18.4M</b><span>Budget</span></div>
-        <div class="kpi"><b>97%</b><span>On-time Audits</span></div>
-        <div class="kpi"><b>31</b><span>Programs</span></div>
-      </div>
-      <div class="spark orange"><i style="height:22%"></i><i style="height:35%"></i><i style="height:31%"></i><i style="height:47%"></i><i style="height:66%"></i><i style="height:61%"></i><i style="height:77%"></i><i style="height:86%"></i></div>
-    </div>
-  </div>
-
-  <h2 style="margin-top:0;">Code <em>Projects</em></h2>
   <div class="skills-grid reveal" style="grid-template-columns: 1fr 1fr 1fr;">
-    <div class="skill-group">
-      <div class="skill-group project-card">
+    <div class="skill-group" style="display:flex; flex-direction:column; justify-content:space-between; gap:20px;">
       <div>
         <div class="skill-group-title">FastAPI · Python</div>
-        <div style=">Hands-On API Development</div>
-        <p s.</p>
-           <div class="project-title">Hands-On API Development</div>
-        <p class="project-desc">Built production-style API endpoints for data validation, aggregation, and dashboard-ready payloads. Includes typed request models, unit-style validation logic, and clean JSON contracts for BI consumers.</p>
+        <div style="font-family:'Syne',sans-serif; font-size:18px; font-weight:700; margin-bottom:12px; color:var(--text);">
+          Hands-On API Development
+        </div>
+        <p style="font-size:13px; color:var(--muted); line-height:1.7;">
+          Built production-style API endpoints for validation, aggregation, and dashboard-ready payloads. Includes typed request models and clean response contracts for BI workflows.
+        </p>
       </div>
       <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
         <span class="chip">Python</span>
@@ -1246,13 +1216,29 @@
         <span class="chip orange">REST API</span>
         <span class="chip purple">Pydantic</span>
       </div>
-            <a href="https://github.com/Braxo23" target="_blank" class="project-link">⌥ View on GitHub →</a>
+      <a href="https://github.com/Braxo23" target="_blank" style="
+        display:inline-flex; align-items:center; gap:10px;
+        margin-top:16px;
+        font-family:'JetBrains Mono',monospace;
+        font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+        color:var(--accent); text-decoration:none;
+        border:1px solid var(--border); padding:10px 20px;
+        transition:all 0.2s;
+      " onmouseover="this.style.background='rgba(0,200,255,0.08)';this.style.borderColor='var(--accent)'"
+         onmouseout="this.style.background='transparent';this.style.borderColor='var(--border)'">
+        ⌥ View on GitHub →
+      </a>
     </div>
-        <div class="skill-group project-card">
+
+    <div class="skill-group" style="display:flex; flex-direction:column; justify-content:space-between; gap:20px;">
       <div>
         <div class="skill-group-title">Power BI · SQL</div>
-        <div class="project-title">Federal KPI Modeling Framework</div>
-        <p class="project-desc">Reusable KPI model design for mission operations: star schema mapping, DAX measures, trend windows, and leadership scorecards aligned to performance objectives.</p>
+        <div style="font-family:'Syne',sans-serif; font-size:18px; font-weight:700; margin-bottom:12px; color:var(--text);">
+          Federal KPI Modeling Framework
+        </div>
+        <p style="font-size:13px; color:var(--muted); line-height:1.7;">
+          Reusable KPI model pattern for mission operations using dimensional modeling, DAX measures, trend windows, and executive scorecard design.
+        </p>
       </div>
       <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
         <span class="chip">Power BI</span>
@@ -1260,7 +1246,48 @@
         <span class="chip orange">SQL</span>
         <span class="chip purple">Data Modeling</span>
       </div>
-      <a href="https://github.com/Braxo23" target="_blank" class="project-link">⌥ View on GitHub →</a>   
+      <a href="https://github.com/Braxo23" target="_blank" style="
+        display:inline-flex; align-items:center; gap:10px;
+        margin-top:16px;
+        font-family:'JetBrains Mono',monospace;
+        font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+        color:var(--accent); text-decoration:none;
+        border:1px solid var(--border); padding:10px 20px;
+        transition:all 0.2s;
+      " onmouseover="this.style.background='rgba(0,200,255,0.08)';this.style.borderColor='var(--accent)'"
+         onmouseout="this.style.background='transparent';this.style.borderColor='var(--border)'">
+        ⌥ View on GitHub →
+      </a>
+    </div>
+
+    <div class="skill-group" style="display:flex; flex-direction:column; justify-content:space-between; gap:20px;">
+      <div>
+        <div class="skill-group-title">Python · Forecasting</div>
+        <div style="font-family:'Syne',sans-serif; font-size:18px; font-weight:700; margin-bottom:12px; color:var(--text);">
+          Program Risk Early-Warning Pipeline
+        </div>
+        <p style="font-size:13px; color:var(--muted); line-height:1.7;">
+          Analytics prototype that scores program risk from trend signals, anomaly thresholds, and explainable feature flags for non-technical stakeholders.
+        </p>
+      </div>
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+        <span class="chip">Python</span>
+        <span class="chip green">Pandas</span>
+        <span class="chip orange">Scikit-learn</span>
+        <span class="chip purple">Time Series</span>
+      </div>
+      <a href="https://github.com/Braxo23" target="_blank" style="
+        display:inline-flex; align-items:center; gap:10px;
+        margin-top:16px;
+        font-family:'JetBrains Mono',monospace;
+        font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+        color:var(--accent); text-decoration:none;
+        border:1px solid var(--border); padding:10px 20px;
+        transition:all 0.2s;
+      " onmouseover="this.style.background='rgba(0,200,255,0.08)';this.style.borderColor='var(--accent)'"
+         onmouseout="this.style.background='transparent';this.style.borderColor='var(--border)'">
+        ⌥ View on GitHub →
+      </a>
     </div>
   </div>
 </section>
