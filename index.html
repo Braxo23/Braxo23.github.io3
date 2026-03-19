@@ -20,10 +20,10 @@
     --card: rgba(10,18,32,0.8);
     --glow: rgba(0,200,255,0.3);
   }
- 
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
- 
+
   body {
     background: var(--bg);
     color: var(--text);
@@ -31,7 +31,7 @@
     overflow-x: hidden;
     cursor: none;
   }
- 
+
   .cursor {
     width: 8px; height: 8px;
     background: var(--accent);
@@ -51,7 +51,7 @@
     z-index: 9998;
     transition: transform 0.15s, width 0.2s, height 0.2s;
   }
- 
+
   #bg-canvas {
     position: fixed;
     top: 0; left: 0;
@@ -59,7 +59,7 @@
     z-index: 0;
     opacity: 0.4;
   }
- 
+
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -98,7 +98,7 @@
   }
   .nav-links a:hover { color: var(--accent); }
   .nav-links a:hover::before { opacity: 1; }
- 
+
   section {
     position: relative;
     z-index: 1;
@@ -106,7 +106,7 @@
     max-width: 1400px;
     margin: 0 auto;
   }
- 
+
   .section-tag {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
@@ -125,7 +125,7 @@
     background: var(--accent);
     opacity: 0.5;
   }
- 
+
   #hero {
     min-height: 100vh;
     display: flex;
@@ -230,7 +230,7 @@
     clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
   }
   .btn-ghost:hover { border-color: var(--accent); background: rgba(0,200,255,0.08); box-shadow: 0 0 20px rgba(0,200,255,0.15); }
- 
+
   .hero-stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -283,7 +283,7 @@
     letter-spacing: 0.15em;
     text-transform: uppercase;
   }
- 
+
   h2 {
     font-family: 'Syne', sans-serif;
     font-size: clamp(36px, 4vw, 56px);
@@ -293,7 +293,7 @@
     margin-bottom: 60px;
   }
   h2 em { color: var(--accent); font-style: normal; }
- 
+
   #skills { padding-top: 0; }
   .skills-grid {
     display: grid;
@@ -346,7 +346,7 @@
   .skill-group:nth-child(2) .skill-bar-fill::after { box-shadow: 0 0 6px var(--accent2); }
   .skill-group:nth-child(3) .skill-bar-fill { background: #a78bfa; }
   .skill-group:nth-child(3) .skill-bar-fill::after { box-shadow: 0 0 6px #a78bfa; }
- 
+
   .tools-section {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -379,7 +379,7 @@
   .chip.green:hover { background: rgba(0,255,157,0.12); border-color: var(--accent2); }
   .chip.orange { border-color: rgba(255,107,53,0.2); color: var(--accent3); background: rgba(255,107,53,0.05); }
   .chip.purple { border-color: rgba(167,139,250,0.2); color: #a78bfa; background: rgba(167,139,250,0.05); }
- 
+
   .timeline { position: relative; }
   .timeline::before {
     content: '';
@@ -405,7 +405,7 @@
   .tl-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; }
   .tl-bullets li { font-size: 14px; color: rgba(232,240,254,0.75); line-height: 1.6; padding-left: 20px; position: relative; }
   .tl-bullets li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); font-size: 10px; top: 3px; }
- 
+
   .portfolio-intro {
     font-size: 15px;
     color: var(--muted);
@@ -413,7 +413,7 @@
     max-width: 680px;
     margin-bottom: 48px;
   }
- 
+
   /* DSPO dashboard */
   .dspo-full { grid-column: 1 / -1; padding: 0; overflow: hidden; gap: 0; }
   .dspo-header {
@@ -450,7 +450,7 @@
   .dspo-chart-panel { background: rgba(0,200,255,0.025); border: 1px solid rgba(0,200,255,0.1); border-radius: 8px; padding: 12px 14px; }
   .dspo-panel-title { font-size: 0.7rem; color: rgba(232,240,254,0.8); font-family: 'JetBrains Mono', monospace; font-weight: 600; margin-bottom: 8px; letter-spacing: 0.02em; text-transform: uppercase; }
   .dspo-chart-panel .dash-chart-area { height: 155px; }
- 
+
   /* Dashboard grid */
   .dashboard-lab {
     display: grid;
@@ -482,7 +482,7 @@
   .dash-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 4px; }
   .dash-legend-item { display: flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.05em; }
   .dash-legend-dot { width: 8px; height: 8px; border-radius: 1px; }
- 
+
   /* ── BYTE BACK ENHANCED ── */
   .kpi-sub {
     font-family: 'JetBrains Mono', monospace;
@@ -492,7 +492,7 @@
     letter-spacing: 0.04em;
   }
   .kpi b { font-size: clamp(15px, 1.8vw, 20px); }
- 
+
   .covid-zone-label {
     position: absolute;
     top: 6px; left: 50%;
@@ -509,14 +509,14 @@
     white-space: nowrap;
     z-index: 2;
   }
- 
+
   .impact-bars { display: flex; flex-direction: column; gap: 9px; margin-top: 10px; }
   .impact-row { display: flex; align-items: center; gap: 8px; }
   .impact-lbl { width: 126px; flex-shrink: 0; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.04em; }
   .impact-track { flex: 1; height: 5px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
   .impact-fill { height: 100%; border-radius: 2px; width: 0; transition: width 1.4s cubic-bezier(.22,1,.36,1); }
   .impact-pct { width: 32px; text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; color: var(--text); }
- 
+
   .covid-alert {
     margin-top: 12px;
     padding: 10px 12px;
@@ -527,13 +527,13 @@
   .covid-alert-head { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #ff6060; letter-spacing: 0.1em; margin-bottom: 4px; }
   .covid-alert p { font-size: 11px; color: var(--muted); line-height: 1.6; }
   .covid-alert strong { color: var(--text); }
- 
+
   .fund-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
   .fund-table tr { border-bottom: 1px solid rgba(255,255,255,0.05); }
   .fund-table td { padding: 7px 4px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
   .fund-table td:last-child { text-align: right; color: var(--text); font-weight: 600; }
   .fund-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 6px; vertical-align: middle; }
- 
+
   .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
   .tag-pill {
     font-family: 'JetBrains Mono', monospace;
@@ -548,7 +548,7 @@
   .tag-orange { background: rgba(255,107,53,0.1); color: var(--accent3); border: 1px solid rgba(255,107,53,0.25); }
   .tag-purple { background: rgba(167,139,250,0.08); color: #a78bfa; border: 1px solid rgba(167,139,250,0.22); }
   .tag-red    { background: rgba(255,80,60,0.1); color: #ff6060; border: 1px solid rgba(255,80,60,0.25); }
- 
+
   /* ── SIGNATURE AVIATION ── */
   .sig-section-intro {
     text-align: center;
@@ -557,7 +557,7 @@
   .sig-section-intro .section-tag { justify-content: center; }
   .sig-section-intro .section-tag::after { display: none; }
   .sig-section-intro p { font-size: 14px; color: var(--muted); max-width: 580px; margin: 12px auto 0; line-height: 1.7; }
- 
+
   .sig-kpi-grid {
     display: grid;
     grid-template-columns: repeat(4,1fr);
@@ -597,7 +597,7 @@
   .sig-kpi-delta { font-family: 'JetBrains Mono', monospace; font-size: 9px; margin-top: 4px; }
   .delta-up   { color: var(--accent2); }
   .delta-nt   { color: var(--muted); }
- 
+
   .ticker-wrap {
     background: rgba(0,0,0,0.35);
     border: 1px solid rgba(96,184,255,0.18);
@@ -622,7 +622,7 @@
   .t-gov  { color: #c880ff; }
   .t-warn { color: var(--accent3); }
   .t-muted { color: var(--muted); }
- 
+
   .ring-flex { display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap; margin: 14px 0; }
   .ring-item { text-align: center; }
   .ring-canvas-wrap { width: 90px; height: 90px; position: relative; }
@@ -631,17 +631,17 @@
   .ring-inner-label .rv { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 700; color: #60b8ff; }
   .ring-inner-label .rs { font-family: 'JetBrains Mono', monospace; font-size: 7px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
   .ring-caption { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.08em; }
- 
+
   .sig-notes { margin-top: 12px; display: flex; flex-direction: column; gap: 7px; }
   .sig-note { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); line-height: 1.5; }
   .sig-note strong { color: var(--text); }
- 
+
   .mini-stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
   .mini-stat { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 4px; padding: 10px 12px; }
   .mini-stat .mv { font-family: 'JetBrains Mono', monospace; font-size: 1.15rem; font-weight: 700; color: #60b8ff; }
   .mini-stat .ml { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); margin-top: 3px; letter-spacing: 0.06em; }
   .mini-stat .md { font-size: 10px; color: var(--muted); margin-top: 2px; }
- 
+
   /* Projects */
   .projects-grid {
     display: grid;
@@ -661,7 +661,7 @@
     padding: 10px 20px; transition: all 0.2s;
   }
   .project-link:hover { background: rgba(0,200,255,0.08); border-color: var(--accent); }
- 
+
   /* Credentials */
   .certs-grid {
     display: grid;
@@ -677,7 +677,7 @@
   .cert-issuer { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
   .cert-year { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent); letter-spacing: 0.1em; }
   .cert-card::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--accent), transparent); opacity: 0.4; }
- 
+
   /* Contact */
   #contact { padding-bottom: 80px; }
   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); border: 1px solid var(--border); }
@@ -691,7 +691,7 @@
   .contact-link-text { flex: 1; }
   .contact-link-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 4px; }
   .contact-link-value { font-size: 14px; color: var(--accent); }
- 
+
   footer {
     position: relative; z-index: 1;
     border-top: 1px solid var(--border);
@@ -699,16 +699,388 @@
     display: flex; justify-content: space-between; align-items: center;
   }
   footer p { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.1em; }
- 
+
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.23,1,0.32,1); }
   .reveal.visible { opacity: 1; transform: translateY(0); }
- 
+
   .chart-tooltip {
     position: absolute; background: rgba(10,18,32,0.95); border: 1px solid var(--border);
     padding: 8px 12px; pointer-events: none; opacity: 0; transition: opacity 0.15s;
     z-index: 10; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text); white-space: nowrap;
   }
- 
+
+  /* ══════════════════════════════════════════════
+     ML & API SECTION STYLES + ANIMATIONS
+  ══════════════════════════════════════════════ */
+  .ml-section-intro {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 700px;
+    margin-bottom: 48px;
+  }
+
+  /* ── Pipeline Strip ── */
+  .ml-arch-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 2px;
+  }
+  .ml-arch-node {
+    background: var(--bg2);
+    padding: 22px 14px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.4s ease;
+  }
+  .ml-arch-strip.anim-active .ml-arch-node { opacity: 1; transform: translateY(0); }
+  .ml-arch-strip.anim-active .ml-arch-node:nth-child(1) { transition-delay: 0s; }
+  .ml-arch-strip.anim-active .ml-arch-node:nth-child(2) { transition-delay: 0.15s; }
+  .ml-arch-strip.anim-active .ml-arch-node:nth-child(3) { transition-delay: 0.3s; }
+  .ml-arch-strip.anim-active .ml-arch-node:nth-child(4) { transition-delay: 0.45s; }
+  .ml-arch-strip.anim-active .ml-arch-node:nth-child(5) { transition-delay: 0.6s; }
+  .ml-arch-node::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(0,200,255,0.06) 40%, rgba(0,200,255,0.12) 50%, rgba(0,200,255,0.06) 60%, transparent 100%);
+    z-index: 0;
+    animation: none;
+  }
+  .ml-arch-strip.anim-active .ml-arch-node::before { animation: nodeSweep 2.5s ease-in-out infinite; }
+  .ml-arch-strip.anim-active .ml-arch-node:nth-child(2)::before { animation-delay: 0.3s; }
+  .ml-arch-strip.anim-active .ml-arch-node:nth-child(3)::before { animation-delay: 0.6s; }
+  .ml-arch-strip.anim-active .ml-arch-node:nth-child(4)::before { animation-delay: 0.9s; }
+  .ml-arch-strip.anim-active .ml-arch-node:nth-child(5)::before { animation-delay: 1.2s; }
+  @keyframes nodeSweep { 0% { left: -100%; } 50% { left: 100%; } 100% { left: 100%; } }
+  .ml-arch-node::after {
+    content: '\2192';
+    position: absolute;
+    right: -7px; top: 50%;
+    transform: translateY(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    opacity: 0;
+    z-index: 2;
+    transition: opacity 0.3s ease;
+  }
+  .ml-arch-strip.anim-active .ml-arch-node::after { opacity: 0.5; }
+  .ml-arch-node:last-child::after { display: none; }
+  .ml-arch-icon {
+    font-size: 22px;
+    margin-bottom: 8px;
+    display: block;
+    position: relative; z-index: 1;
+  }
+  .ml-arch-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    position: relative; z-index: 1;
+  }
+  .ml-arch-desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.4;
+    position: relative; z-index: 1;
+  }
+
+  /* ── Project Cards Grid ── */
+  .ml-projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 2px;
+  }
+  .ml-card {
+    background: var(--bg2);
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: background 0.25s, box-shadow 0.3s;
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  .ml-projects-grid.anim-active .ml-card {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.23,1,0.32,1), background 0.25s, box-shadow 0.3s;
+  }
+  .ml-projects-grid.anim-active .ml-card:nth-child(1) { transition-delay: 0.05s; }
+  .ml-projects-grid.anim-active .ml-card:nth-child(2) { transition-delay: 0.15s; }
+  .ml-projects-grid.anim-active .ml-card:nth-child(3) { transition-delay: 0.25s; }
+  .ml-projects-grid.anim-active .ml-card:nth-child(4) { transition-delay: 0.35s; }
+  .ml-projects-grid.anim-active .ml-card:nth-child(5) { transition-delay: 0.45s; }
+  .ml-card:hover { background: var(--bg3); box-shadow: 0 0 40px rgba(0,200,255,0.06); }
+  .ml-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 0.4s ease;
+  }
+  .ml-card:hover::after { width: 100%; }
+
+  .ml-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .ml-card-type {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .ml-type-api { color: var(--accent); background: rgba(0,200,255,0.08); border: 1px solid rgba(0,200,255,0.2); }
+  .ml-type-ml { color: var(--accent2); background: rgba(0,255,157,0.08); border: 1px solid rgba(0,255,157,0.2); }
+  .ml-type-pipeline { color: var(--accent3); background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2); }
+  .ml-type-nlp { color: #a78bfa; background: rgba(167,139,250,0.08); border: 1px solid rgba(167,139,250,0.2); }
+
+  .ml-card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .ml-card-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* ── Code blocks with typing cursor ── */
+  .ml-code-block {
+    background: rgba(0,0,0,0.45);
+    border: 1px solid rgba(0,200,255,0.12);
+    border-radius: 4px;
+    padding: 14px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    color: var(--muted);
+    overflow-x: auto;
+    position: relative;
+  }
+  .ml-code-block::before {
+    content: attr(data-lang);
+    position: absolute;
+    top: 6px; right: 10px;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(107,140,174,0.5);
+  }
+  /* Blinking cursor after code block */
+  .ml-code-block::after {
+    content: '█';
+    color: var(--accent);
+    animation: cursorBlink 1s step-end infinite;
+    font-size: 11px;
+  }
+  @keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  .ml-code-block .ck { color: var(--accent); }
+  .ml-code-block .cs { color: var(--accent2); }
+  .ml-code-block .co { color: var(--accent3); }
+  .ml-code-block .cp { color: #a78bfa; }
+
+  /* ── Endpoint rows with slide-in ── */
+  .ml-endpoints { display: flex; flex-direction: column; gap: 6px; }
+  .ml-endpoint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: opacity 0.4s ease, transform 0.4s ease, background 0.2s, border-color 0.2s;
+  }
+  .ml-endpoints.anim-active .ml-endpoint { opacity: 1; transform: translateX(0); }
+  .ml-endpoints.anim-active .ml-endpoint:nth-child(1) { transition-delay: 0.1s; }
+  .ml-endpoints.anim-active .ml-endpoint:nth-child(2) { transition-delay: 0.2s; }
+  .ml-endpoints.anim-active .ml-endpoint:nth-child(3) { transition-delay: 0.3s; }
+  .ml-endpoints.anim-active .ml-endpoint:nth-child(4) { transition-delay: 0.4s; }
+  .ml-endpoint:hover { background: rgba(0,200,255,0.04); border-color: rgba(0,200,255,0.15); }
+  .ml-method {
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    flex-shrink: 0;
+    min-width: 42px;
+    text-align: center;
+  }
+  .ml-method-get { background: rgba(0,200,255,0.15); color: var(--accent); }
+  .ml-method-post { background: rgba(0,255,157,0.15); color: var(--accent2); }
+  .ml-route { color: var(--text); }
+  .ml-route-desc { color: var(--muted); margin-left: auto; font-size: 9px; }
+
+  /* ── Metrics ── */
+  .ml-metric-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .ml-metric {
+    border: 1px solid var(--border);
+    background: rgba(0,200,255,0.03);
+    padding: 12px 10px;
+    text-align: center;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .ml-metric:hover {
+    border-color: rgba(0,200,255,0.35);
+    box-shadow: 0 0 16px rgba(0,200,255,0.08);
+  }
+  .ml-metric-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .ml-metric-val.c1 { color: var(--accent); }
+  .ml-metric-val.c2 { color: var(--accent2); }
+  .ml-metric-val.c3 { color: var(--accent3); }
+  .ml-metric-val.c4 { color: #a78bfa; }
+  .ml-metric-lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* ── API Flow Diagram (animated) ── */
+  .ml-api-flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 8px 0;
+  }
+  .ml-flow-node {
+    background: rgba(0,200,255,0.06);
+    border: 1px solid rgba(0,200,255,0.2);
+    padding: 10px 16px;
+    text-align: center;
+    min-width: 110px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.4s, box-shadow 0.4s;
+  }
+  .ml-flow-node .fl-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .ml-flow-node .fl-detail {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .ml-flow-arrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    color: rgba(0,200,255,0.4);
+    padding: 0 6px;
+    flex-shrink: 0;
+    animation: arrowPulse 2s ease-in-out infinite;
+  }
+  @keyframes arrowPulse {
+    0%, 100% { opacity: 0.4; transform: translateX(0); }
+    50% { opacity: 1; transform: translateX(3px); }
+  }
+  .ml-flow-node.node-green { border-color: rgba(0,255,157,0.25); background: rgba(0,255,157,0.05); }
+  .ml-flow-node.node-green .fl-label { color: var(--accent2); }
+  .ml-flow-node.node-green:hover { box-shadow: 0 0 20px rgba(0,255,157,0.12); border-color: rgba(0,255,157,0.5); }
+  .ml-flow-node.node-orange { border-color: rgba(255,107,53,0.25); background: rgba(255,107,53,0.05); }
+  .ml-flow-node.node-orange .fl-label { color: var(--accent3); }
+  .ml-flow-node.node-purple { border-color: rgba(167,139,250,0.25); background: rgba(167,139,250,0.05); }
+  .ml-flow-node.node-purple .fl-label { color: #a78bfa; }
+  .ml-flow-node:hover { box-shadow: 0 0 20px rgba(0,200,255,0.12); border-color: rgba(0,200,255,0.5); }
+
+  /* ── Monitoring Card scanline ── */
+  .ml-card-full { grid-column: 1 / -1; }
+  .ml-card-full::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: monitorScan 3s linear infinite;
+    opacity: 0.6;
+    z-index: 2;
+  }
+  @keyframes monitorScan {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* ── Chart area ── */
+  .ml-chart-area {
+    flex: 1;
+    position: relative;
+    min-height: 140px;
+  }
+  .ml-chart-area canvas { width: 100% !important; height: 100% !important; }
+
+  /* ── Book ref ── */
+  .ml-book-ref {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    background: rgba(0,200,255,0.03);
+    border: 1px solid var(--border);
+    margin-top: 8px;
+    transition: border-color 0.3s;
+  }
+  .ml-book-ref:hover { border-color: rgba(0,200,255,0.3); }
+  .ml-book-icon { font-size: 28px; flex-shrink: 0; }
+  .ml-book-text {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .ml-book-text strong { color: var(--text); }
+  .ml-book-text em { color: var(--accent); font-style: normal; font-family: 'JetBrains Mono', monospace; font-size: 10px; }
+
   @media (max-width: 900px) {
     nav { padding: 16px 24px; }
     .nav-links { display: none; }
@@ -728,15 +1100,22 @@
     .cursor, .cursor-ring { display: none; }
     .ticker-row { grid-template-columns: 90px 1fr auto; }
     .ticker-row .t-muted:nth-child(3) { display: none; }
+    .ml-projects-grid { grid-template-columns: 1fr; }
+    .ml-arch-strip { grid-template-columns: 1fr; }
+    .ml-arch-node::after { display: none; }
+    .ml-metric-row { grid-template-columns: 1fr 1fr; }
+    .ml-api-flow { flex-direction: column; }
+    .ml-flow-arrow { transform: rotate(90deg); }
+    .ml-card-full { grid-column: 1; }
   }
 </style>
 </head>
 <body>
- 
+
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 <canvas id="bg-canvas"></canvas>
- 
+
 <!-- NAV -->
 <nav>
   <div class="nav-logo">braxton<span>.canady</span></div>
@@ -744,12 +1123,13 @@
     <a href="#skills">Skills</a>
     <a href="#experience">Experience</a>
     <a href="#dashboards">Dashboards</a>
+    <a href="#ml-api">ML &amp; APIs</a>
     <a href="#projects">Projects</a>
     <a href="#credentials">Credentials</a>
     <a href="#contact">Contact</a>
   </div>
 </nav>
- 
+
 <!-- HERO -->
 <section id="hero">
   <div class="hero-inner">
@@ -776,7 +1156,7 @@
     </div>
   </div>
 </section>
- 
+
 <!-- SKILLS -->
 <section id="skills">
   <div class="reveal">
@@ -813,7 +1193,7 @@
     <div class="tool-category"><div class="tool-cat-label">Methods</div><div class="tool-chips"><span class="chip purple">Lean Six Sigma</span><span class="chip purple">Agile / Scrum</span><span class="chip purple">Regression</span><span class="chip purple">NLP</span><span class="chip purple">Time Series</span></div></div>
   </div>
 </section>
- 
+
 <!-- EXPERIENCE -->
 <section id="experience">
   <div class="reveal">
@@ -867,7 +1247,7 @@
     </div>
   </div>
 </section>
- 
+
 <!-- ============ DASHBOARDS ============ -->
 <section id="dashboards">
   <div class="reveal">
@@ -875,7 +1255,7 @@
     <h2>Data in <em>Action</em></h2>
     <p class="portfolio-intro">Interactive dashboard samples built with representative data to demonstrate analytical approach and visualization design. These reflect the types of insights I produce for federal and nonprofit stakeholders.</p>
   </div>
- 
+
   <!-- ── DSPO Full-Width ── -->
   <div class="dashboard-lab reveal" style="grid-template-columns:1fr;">
     <div class="dash-card dspo-full">
@@ -901,11 +1281,9 @@
       </div>
     </div>
   </div>
- 
+
   <!-- ── BYTE BACK ROW 1: Enrollment + Funding ── -->
   <div class="dashboard-lab reveal">
- 
-    <!-- Enrollment chart with COVID dip -->
     <div class="dash-card" style="position:relative;">
       <div class="dash-meta">Byte Back Inc. &middot; Washington DC &amp; Baltimore</div>
       <div class="dash-title">Scholar Enrollment &amp; Retention (FY18&ndash;FY23)</div>
@@ -936,8 +1314,6 @@
         <div class="covid-zone-label">&#9888;&#xFE0E; COVID-19 DISRUPTION &mdash; FY20</div>
         <canvas id="chart-byteback"></canvas>
       </div>
- 
-      <!-- Demographic impact bars -->
       <div style="margin-top:14px;">
         <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;">Scholar Demographics</div>
         <div class="impact-bars">
@@ -948,8 +1324,6 @@
         </div>
       </div>
     </div>
- 
-    <!-- Funding breakdown -->
     <div class="dash-card">
       <div class="dash-meta">Byte Back Inc. &middot; Funding &amp; Donor Profile</div>
       <div class="dash-title">Revenue Breakdown &amp; Key Funders (FY20&ndash;FY23)</div>
@@ -983,7 +1357,7 @@
       </div>
     </div>
   </div>
- 
+
   <!-- ── BYTE BACK ROW 2: Cohort + Branch ── -->
   <div class="dashboard-lab reveal">
     <div class="dash-card">
@@ -1009,15 +1383,14 @@
       </div>
     </div>
   </div>
- 
+
   <!-- ── SIGNATURE AVIATION ── -->
   <div class="reveal" style="padding-top:20px;padding-bottom:8px;">
     <div class="section-tag">Aviation Operations</div>
     <h2 style="margin-bottom:16px;">Signature <em>Aviation</em></h2>
     <p class="portfolio-intro" style="margin-bottom:0;">Tracked and managed executive, private, and government aircraft movements across FBO operations. Ensured FAA regulatory compliance, maintained movement logs for high-value clients, and coordinated ground services for VVIP and military passengers.</p>
   </div>
- 
-  <!-- Sig KPI strip -->
+
   <div class="sig-kpi-grid reveal" style="border:1px solid var(--border);margin-top:24px;margin-bottom:2px;">
     <div class="sig-kpi">
       <span class="sig-kpi-val" id="sig-mv">4,380</span>
@@ -1040,15 +1413,11 @@
       <div class="sig-kpi-delta delta-up">Zero audit flags</div>
     </div>
   </div>
- 
-  <!-- Sig Row 1: Movement log + Compliance rings -->
+
   <div class="dashboard-lab reveal">
- 
-    <!-- Movement tracker card -->
     <div class="dash-card">
       <div class="dash-meta">Signature Aviation &middot; Live Operations</div>
       <div class="dash-title">Aircraft Movement &amp; Ops Overview</div>
- 
       <div class="tag-row" style="margin-bottom:4px;">
         <span class="tag-pill tag-green">LADD Compliant</span>
         <span class="tag-pill tag-blue">Part 91 / Part 135</span>
@@ -1056,95 +1425,30 @@
         <span class="tag-pill tag-orange">Executive Charter</span>
         <span class="tag-pill tag-red">VVIP Protocols</span>
       </div>
- 
       <div class="ticker-wrap">
         <div class="ticker-head">&#9656; Movement Log &mdash; Sample Ops Window</div>
-        <div class="ticker-row">
-          <span class="ticker-tail">N872EX</span>
-          <span class="t-muted">Gulfstream G650</span>
-          <span class="t-muted">JFK &#8594; TEB</span>
-          <span class="t-ok">CLEARED</span>
-        </div>
-        <div class="ticker-row">
-          <span class="ticker-tail">09-0016</span>
-          <span class="t-muted">C-40C (CODEL Transport)</span>
-          <span class="t-muted">KBWI &#8594; KDCA</span>
-          <span class="t-gov">GOV PRIORITY</span>
-        </div>
-        <div class="ticker-row">
-          <span class="ticker-tail">N441XJ</span>
-          <span class="t-muted">Citation Latitude</span>
-          <span class="t-muted">KBWI &#8594; KDAL</span>
-          <span class="t-ok">CLEARED</span>
-        </div>
-        <div class="ticker-row">
-          <span class="ticker-tail">N190MA</span>
-          <span class="t-muted">Global 6000</span>
-          <span class="t-muted">KPBI &#8594; KTEB</span>
-          <span class="t-warn">FUEL DELAY +14m</span>
-        </div>
-        <div class="ticker-row">
-          <span class="ticker-tail">84-0025</span>
-          <span class="t-muted">C-32A Exec Transport</span>
-          <span class="t-muted">KADW &#8594; KDOV</span>
-          <span class="t-gov">GOV PRIORITY</span>
-        </div>
-        <div class="ticker-row">
-          <span class="ticker-tail">N558MT</span>
-          <span class="t-muted">Phenom 300</span>
-          <span class="t-muted">KMIA &#8594; KIAD</span>
-          <span class="t-ok">CLEARED</span>
-        </div>
+        <div class="ticker-row"><span class="ticker-tail">N872EX</span><span class="t-muted">Gulfstream G650</span><span class="t-muted">JFK &#8594; TEB</span><span class="t-ok">CLEARED</span></div>
+        <div class="ticker-row"><span class="ticker-tail">09-0016</span><span class="t-muted">C-40C (CODEL Transport)</span><span class="t-muted">KBWI &#8594; KDCA</span><span class="t-gov">GOV PRIORITY</span></div>
+        <div class="ticker-row"><span class="ticker-tail">N441XJ</span><span class="t-muted">Citation Latitude</span><span class="t-muted">KBWI &#8594; KDAL</span><span class="t-ok">CLEARED</span></div>
+        <div class="ticker-row"><span class="ticker-tail">N190MA</span><span class="t-muted">Global 6000</span><span class="t-muted">KPBI &#8594; KTEB</span><span class="t-warn">FUEL DELAY +14m</span></div>
+        <div class="ticker-row"><span class="ticker-tail">84-0025</span><span class="t-muted">C-32A Exec Transport</span><span class="t-muted">KADW &#8594; KDOV</span><span class="t-gov">GOV PRIORITY</span></div>
+        <div class="ticker-row"><span class="ticker-tail">N558MT</span><span class="t-muted">Phenom 300</span><span class="t-muted">KMIA &#8594; KIAD</span><span class="t-ok">CLEARED</span></div>
       </div>
- 
       <div class="mini-stat-row">
-        <div class="mini-stat">
-          <div class="mv">November</div>
-          <div class="ml">Peak Movement Month</div>
-          <div class="md" style="font-size:10px;color:var(--muted);margin-top:2px;">Holiday + political travel surge</div>
-        </div>
-        <div class="mini-stat">
-          <div class="mv" style="color:var(--accent2);">23 min</div>
-          <div class="ml">Avg Turnaround Time</div>
-          <div class="md" style="font-size:10px;color:var(--muted);margin-top:2px;">vs 45 min commercial baseline</div>
-        </div>
+        <div class="mini-stat"><div class="mv">November</div><div class="ml">Peak Movement Month</div><div class="md" style="font-size:10px;color:var(--muted);margin-top:2px;">Holiday + political travel surge</div></div>
+        <div class="mini-stat"><div class="mv" style="color:var(--accent2);">23 min</div><div class="ml">Avg Turnaround Time</div><div class="md" style="font-size:10px;color:var(--muted);margin-top:2px;">vs 45 min commercial baseline</div></div>
       </div>
     </div>
- 
-    <!-- Compliance rings + aircraft mix -->
     <div class="dash-card">
       <div class="dash-meta">Signature Aviation &middot; Regulatory</div>
       <div class="dash-title">FAA Compliance &amp; Safety Metrics</div>
- 
       <div class="ring-flex">
-        <div class="ring-item">
-          <div class="ring-canvas-wrap">
-            <canvas id="ring-faa"></canvas>
-            <div class="ring-inner-label"><div class="rv">99.7%</div><div class="rs">FAA Reg</div></div>
-          </div>
-          <div class="ring-caption">Compliance</div>
-        </div>
-        <div class="ring-item">
-          <div class="ring-canvas-wrap">
-            <canvas id="ring-qt"></canvas>
-            <div class="ring-inner-label"><div class="rv" style="color:var(--accent2);">94.2%</div><div class="rs">QuickTurn</div></div>
-          </div>
-          <div class="ring-caption">On-Time Rate</div>
-        </div>
-        <div class="ring-item">
-          <div class="ring-canvas-wrap">
-            <canvas id="ring-inc"></canvas>
-            <div class="ring-inner-label"><div class="rv" style="color:var(--accent2);">0</div><div class="rs">Incidents</div></div>
-          </div>
-          <div class="ring-caption">Safety Record</div>
-        </div>
+        <div class="ring-item"><div class="ring-canvas-wrap"><canvas id="ring-faa"></canvas><div class="ring-inner-label"><div class="rv">99.7%</div><div class="rs">FAA Reg</div></div></div><div class="ring-caption">Compliance</div></div>
+        <div class="ring-item"><div class="ring-canvas-wrap"><canvas id="ring-qt"></canvas><div class="ring-inner-label"><div class="rv" style="color:var(--accent2);">94.2%</div><div class="rs">QuickTurn</div></div></div><div class="ring-caption">On-Time Rate</div></div>
+        <div class="ring-item"><div class="ring-canvas-wrap"><canvas id="ring-inc"></canvas><div class="ring-inner-label"><div class="rv" style="color:var(--accent2);">0</div><div class="rs">Incidents</div></div></div><div class="ring-caption">Safety Record</div></div>
       </div>
- 
       <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:8px;">Aircraft Category Mix (Annual)</div>
-      <div class="dash-chart-area" style="max-height:160px;min-height:130px;">
-        <canvas id="chart-acmix"></canvas>
-      </div>
- 
+      <div class="dash-chart-area" style="max-height:160px;min-height:130px;"><canvas id="chart-acmix"></canvas></div>
       <div class="sig-notes">
         <div class="sig-note">&#11042; <strong>LADD Program</strong> &mdash; processed aircraft data privacy filter requests for HNWI &amp; gov clients</div>
         <div class="sig-note">&#11042; <strong>Part 91/135 Verification</strong> &mdash; confirmed compliance on all departures; zero regulatory flags</div>
@@ -1152,31 +1456,204 @@
       </div>
     </div>
   </div>
- 
-  <!-- Sig Row 2: Monthly movements + Compliance timeline -->
+
   <div class="dashboard-lab reveal">
     <div class="dash-card">
       <div class="dash-meta">Signature Aviation &middot; Operations Timeline</div>
       <div class="dash-title">Monthly Aircraft Movements by Category</div>
-      <div class="dash-chart-area">
-        <canvas id="chart-sig-movements"></canvas>
-      </div>
+      <div class="dash-chart-area"><canvas id="chart-sig-movements"></canvas></div>
     </div>
     <div class="dash-card">
       <div class="dash-meta">Signature Aviation &middot; FAA Compliance</div>
       <div class="dash-title">Regulatory Score &amp; LADD Requests (Monthly)</div>
-      <div class="dash-chart-area">
-        <canvas id="chart-sig-compliance"></canvas>
-      </div>
+      <div class="dash-chart-area"><canvas id="chart-sig-compliance"></canvas></div>
       <div class="sig-notes" style="margin-top:8px;">
         <div class="sig-note">&#11042; <strong>Zero audit flags</strong> across full operational period</div>
         <div class="sig-note">&#11042; <strong>VVIP protocols</strong> coordinated for executive &amp; government passengers at ramp level</div>
       </div>
     </div>
   </div>
- 
 </section>
- 
+
+<!-- ═══════════════════════════════════════════════════════
+     ML & API ENGINEERING (ANIMATED)
+═══════════════════════════════════════════════════════ -->
+<section id="ml-api">
+  <div class="reveal">
+    <div class="section-tag">Applied Intelligence</div>
+    <h2>ML &amp; <em>API Engineering</em></h2>
+    <p class="ml-section-intro">End-to-end machine learning and API development skills, from model training and evaluation through RESTful deployment and monitoring. Built on principles from <strong>Hands-On APIs for AI and Data Science</strong> (Mike Amundsen, O'Reilly) and applied across federal analytics and nonprofit program evaluation.</p>
+  </div>
+
+  <!-- Animated Pipeline Strip -->
+  <div class="ml-arch-strip reveal" id="ml-pipeline">
+    <div class="ml-arch-node"><span class="ml-arch-icon">⬡</span><div class="ml-arch-label">Ingest</div><div class="ml-arch-desc">REST/GraphQL pulls from federal open data APIs</div></div>
+    <div class="ml-arch-node"><span class="ml-arch-icon">⚙</span><div class="ml-arch-label">Transform</div><div class="ml-arch-desc">Pandas, feature engineering, schema validation</div></div>
+    <div class="ml-arch-node"><span class="ml-arch-icon">◈</span><div class="ml-arch-label">Train</div><div class="ml-arch-desc">Scikit-learn, XGBoost, hyperparameter tuning</div></div>
+    <div class="ml-arch-node"><span class="ml-arch-icon">⟁</span><div class="ml-arch-label">Serve</div><div class="ml-arch-desc">FastAPI endpoints with versioning &amp; auth</div></div>
+    <div class="ml-arch-node"><span class="ml-arch-icon">◉</span><div class="ml-arch-label">Monitor</div><div class="ml-arch-desc">Drift detection, logging, health checks</div></div>
+  </div>
+
+  <!-- Project Cards -->
+  <div class="ml-projects-grid reveal" id="ml-cards-grid">
+
+    <!-- Card 1: Attrition Prediction API -->
+    <div class="ml-card">
+      <div class="ml-card-header">
+        <div class="ml-card-title">Attrition Risk Prediction API</div>
+        <span class="ml-card-type ml-type-ml">ML + API</span>
+      </div>
+      <div class="ml-card-desc">Gradient-boosted classifier trained on workforce indicators (tenure, engagement scores, role transitions) and served via versioned REST endpoints. Designed for integration with HR dashboards and early-intervention workflows.</div>
+      <div class="ml-metric-row">
+        <div class="ml-metric"><div class="ml-metric-val c1">0.91</div><div class="ml-metric-lbl">AUC-ROC</div></div>
+        <div class="ml-metric"><div class="ml-metric-val c2">87%</div><div class="ml-metric-lbl">Precision</div></div>
+        <div class="ml-metric"><div class="ml-metric-val c3">84%</div><div class="ml-metric-lbl">Recall</div></div>
+      </div>
+      <div class="ml-code-block" data-lang="python">
+<span class="ck">@app.post</span>(<span class="cs">"/v1/predict/attrition"</span>)
+<span class="ck">async def</span> predict(payload: <span class="cp">EmployeeFeatures</span>):
+    features = preprocess(payload)
+    prob = model.predict_proba(features)[<span class="co">0</span>][<span class="co">1</span>]
+    <span class="ck">return</span> {<span class="cs">"risk_score"</span>: round(prob, <span class="co">3</span>),
+            <span class="cs">"threshold"</span>: <span class="co">0.65</span>,
+            <span class="cs">"model_version"</span>: <span class="cs">"v2.1.0"</span>}
+      </div>
+      <div class="tag-row">
+        <span class="tag-pill tag-blue">FastAPI</span>
+        <span class="tag-pill tag-green">XGBoost</span>
+        <span class="tag-pill tag-orange">Pydantic</span>
+        <span class="tag-pill tag-purple">Docker</span>
+      </div>
+    </div>
+
+    <!-- Card 2: Federal Open Data Pipeline -->
+    <div class="ml-card">
+      <div class="ml-card-header">
+        <div class="ml-card-title">Federal Open Data API Pipeline</div>
+        <span class="ml-card-type ml-type-pipeline">PIPELINE</span>
+      </div>
+      <div class="ml-card-desc">Automated ETL pipeline consuming REST APIs from USASpending.gov, Census Bureau, and Bureau of Labor Statistics. Handles pagination, rate limiting, retry logic, and schema evolution across agencies with different API conventions.</div>
+      <div class="ml-endpoints" id="ml-ep-list">
+        <div class="ml-endpoint"><span class="ml-method ml-method-get">GET</span><span class="ml-route">/api/v2/search/spending_by_award</span><span class="ml-route-desc">USASpending</span></div>
+        <div class="ml-endpoint"><span class="ml-method ml-method-get">GET</span><span class="ml-route">/data/{year}/acs/acs5</span><span class="ml-route-desc">Census ACS</span></div>
+        <div class="ml-endpoint"><span class="ml-method ml-method-post">POST</span><span class="ml-route">/publicAPI/v2/timeseries/data/</span><span class="ml-route-desc">BLS Stats</span></div>
+        <div class="ml-endpoint"><span class="ml-method ml-method-get">GET</span><span class="ml-route">/api/opportunities/v2/search</span><span class="ml-route-desc">SAM.gov</span></div>
+      </div>
+      <div class="ml-metric-row" style="margin-top:10px;">
+        <div class="ml-metric"><div class="ml-metric-val c1">4</div><div class="ml-metric-lbl">API Sources</div></div>
+        <div class="ml-metric"><div class="ml-metric-val c2">18K+</div><div class="ml-metric-lbl">Records / Run</div></div>
+        <div class="ml-metric"><div class="ml-metric-val c4">99.2%</div><div class="ml-metric-lbl">Uptime</div></div>
+      </div>
+      <div class="tag-row">
+        <span class="tag-pill tag-blue">Requests</span>
+        <span class="tag-pill tag-green">Pandas</span>
+        <span class="tag-pill tag-orange">Rate Limiting</span>
+        <span class="tag-pill tag-purple">JSON Schema</span>
+        <span class="tag-pill tag-blue">OAuth2</span>
+      </div>
+    </div>
+
+    <!-- Card 3: NLP Classification -->
+    <div class="ml-card">
+      <div class="ml-card-header">
+        <div class="ml-card-title">Document Classification API</div>
+        <span class="ml-card-type ml-type-nlp">NLP</span>
+      </div>
+      <div class="ml-card-desc">TF-IDF and logistic regression pipeline classifying federal contract documents by NAICS domain. Exposes a prediction endpoint with confidence scores and supports batch processing for bulk procurement analysis.</div>
+      <div class="ml-code-block" data-lang="python">
+<span class="ck">@app.post</span>(<span class="cs">"/v1/classify"</span>)
+<span class="ck">async def</span> classify_doc(doc: <span class="cp">DocumentInput</span>):
+    vec = tfidf.transform([doc.text])
+    pred = clf.predict(vec)[<span class="co">0</span>]
+    probs = clf.predict_proba(vec)[<span class="co">0</span>]
+    <span class="ck">return</span> {
+      <span class="cs">"naics_code"</span>: pred,
+      <span class="cs">"confidence"</span>: round(max(probs), <span class="co">3</span>),
+      <span class="cs">"top_3"</span>: get_top_n(clf.classes_, probs, <span class="co">3</span>)
+    }
+      </div>
+      <div class="ml-metric-row">
+        <div class="ml-metric"><div class="ml-metric-val c1">89%</div><div class="ml-metric-lbl">Accuracy</div></div>
+        <div class="ml-metric"><div class="ml-metric-val c2">0.87</div><div class="ml-metric-lbl">F1 Score</div></div>
+        <div class="ml-metric"><div class="ml-metric-val c3">&lt;40ms</div><div class="ml-metric-lbl">Latency (p95)</div></div>
+      </div>
+      <div class="tag-row">
+        <span class="tag-pill tag-blue">Scikit-learn</span>
+        <span class="tag-pill tag-green">TF-IDF</span>
+        <span class="tag-pill tag-orange">FastAPI</span>
+        <span class="tag-pill tag-purple">Batch Endpoint</span>
+      </div>
+    </div>
+
+    <!-- Card 4: API Design Patterns -->
+    <div class="ml-card">
+      <div class="ml-card-header">
+        <div class="ml-card-title">RESTful API Design Patterns</div>
+        <span class="ml-card-type ml-type-api">API DESIGN</span>
+      </div>
+      <div class="ml-card-desc">Applied API design principles covering hypermedia controls, content negotiation, versioning strategies, error handling, and authentication flows. These patterns inform how every model and data service gets exposed to consumers.</div>
+      <div class="ml-api-flow" id="ml-flow">
+        <div class="ml-flow-node"><div class="fl-label">Client</div><div class="fl-detail">JSON / HAL</div></div>
+        <span class="ml-flow-arrow">→</span>
+        <div class="ml-flow-node node-green"><div class="fl-label">Auth</div><div class="fl-detail">JWT / OAuth2</div></div>
+        <span class="ml-flow-arrow">→</span>
+        <div class="ml-flow-node node-orange"><div class="fl-label">Gateway</div><div class="fl-detail">Rate Limit</div></div>
+        <span class="ml-flow-arrow">→</span>
+        <div class="ml-flow-node node-purple"><div class="fl-label">Service</div><div class="fl-detail">ML Inference</div></div>
+      </div>
+      <div class="impact-bars" id="ml-api-bars">
+        <div class="impact-row"><div class="impact-lbl">Versioning (URI)</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent);" data-pct="95"></div></div><div class="impact-pct">95%</div></div>
+        <div class="impact-row"><div class="impact-lbl">Error Handling</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent2);" data-pct="90"></div></div><div class="impact-pct">90%</div></div>
+        <div class="impact-row"><div class="impact-lbl">Auth (OAuth2/JWT)</div><div class="impact-track"><div class="impact-fill" style="background:#a78bfa;" data-pct="88"></div></div><div class="impact-pct">88%</div></div>
+        <div class="impact-row"><div class="impact-lbl">Hypermedia / HATEOAS</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent3);" data-pct="82"></div></div><div class="impact-pct">82%</div></div>
+        <div class="impact-row"><div class="impact-lbl">Content Negotiation</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent);" data-pct="85"></div></div><div class="impact-pct">85%</div></div>
+      </div>
+      <div class="tag-row">
+        <span class="tag-pill tag-blue">REST</span>
+        <span class="tag-pill tag-green">HATEOAS</span>
+        <span class="tag-pill tag-orange">OpenAPI 3.0</span>
+        <span class="tag-pill tag-purple">Swagger</span>
+        <span class="tag-pill tag-blue">Postman</span>
+      </div>
+    </div>
+
+    <!-- Card 5: Full-Width Monitoring Dashboard -->
+    <div class="ml-card ml-card-full" style="position:relative;">
+    
+      <div class="ml-card-header">
+        <div>
+          <div class="ml-card-title">Model Performance Monitor</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:0.1em;margin-top:4px;">REAL-TIME INFERENCE METRICS &middot; API HEALTH &amp; DRIFT DETECTION</div>
+        </div>
+        <span class="ml-card-type ml-type-ml">MONITORING</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:10px;">Inference Volume (7-Day Rolling)</div>
+          <div class="ml-chart-area"><canvas id="chart-ml-inference"></canvas></div>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:10px;">Model Accuracy by Version</div>
+          <div class="ml-chart-area"><canvas id="chart-ml-accuracy"></canvas></div>
+        </div>
+      </div>
+      <div class="ml-metric-row" style="margin-top:16px;">
+        <div class="ml-metric"><div class="ml-metric-val c1">2,847</div><div class="ml-metric-lbl">Daily Predictions</div></div>
+        <div class="ml-metric"><div class="ml-metric-val c2">23ms</div><div class="ml-metric-lbl">Avg Latency</div></div>
+        <div class="ml-metric"><div class="ml-metric-val c3">0.02</div><div class="ml-metric-lbl">Drift Score</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Book Reference -->
+  <div class="ml-book-ref reveal">
+    <div class="ml-book-icon">📘</div>
+    <div class="ml-book-text">
+      Core API architecture patterns based on <strong>Hands-On APIs for AI and Data Science</strong> by Mike Amundsen (O'Reilly). Covers RESTful design, hypermedia workflows, API lifecycle management, and integrating ML models into production-grade services. <em>// completed 2025</em>
+    </div>
+  </div>
+</section>
+
 <!-- PROJECTS -->
 <section id="projects">
   <div class="reveal">
@@ -1201,7 +1678,7 @@
     </div>
   </div>
 </section>
- 
+
 <!-- CREDENTIALS -->
 <section id="credentials">
   <div class="reveal">
@@ -1217,7 +1694,7 @@
     <div class="cert-card"><div class="cert-icon">&#127891;</div><div class="cert-name">BS Economics &amp; Political Science</div><div class="cert-issuer">Florida State University</div><div class="cert-year">NCAA D-I Track &amp; Field</div></div>
   </div>
 </section>
- 
+
 <!-- CONTACT -->
 <section id="contact">
   <div class="reveal">
@@ -1245,17 +1722,16 @@
     </div>
   </div>
 </section>
- 
+
 <footer>
   <p>&#169; 2025 Braxton Canady &mdash; Data &amp; Analytics Portfolio</p>
   <p>Built with HTML / CSS / JS &middot; Chart.js</p>
 </footer>
- 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+<script>
 /* ================================================================
    CORE UTILITIES
 ================================================================ */
-// Custom cursor
 const cursor = document.getElementById('cursor');
 const ring   = document.getElementById('cursorRing');
 let mx = 0, my = 0, rx = 0, ry = 0;
@@ -1267,17 +1743,14 @@ function animCursor() {
   requestAnimationFrame(animCursor);
 }
 animCursor();
- 
+
 // Particle grid background
 (function() {
   const canvas = document.getElementById('bg-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   let W, H, dots = [];
-  function resize() {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
   resize();
   window.addEventListener('resize', resize);
   for (let i = 0; i < 90; i++) {
@@ -1289,19 +1762,14 @@ animCursor();
       d.x += d.vx; d.y += d.vy;
       if (d.x < 0) d.x = W; if (d.x > W) d.x = 0;
       if (d.y < 0) d.y = H; if (d.y > H) d.y = 0;
-      ctx.beginPath();
-      ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(0,200,255,0.5)';
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(0,200,255,0.5)'; ctx.fill();
       dots.forEach((d2,j) => {
         if (j <= i) return;
         const dx = d.x-d2.x, dy = d.y-d2.y, dist = Math.sqrt(dx*dx+dy*dy);
         if (dist < 120) {
-          ctx.beginPath();
-          ctx.moveTo(d.x,d.y); ctx.lineTo(d2.x,d2.y);
-          ctx.strokeStyle = `rgba(0,200,255,${0.12*(1-dist/120)})`;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(d.x,d.y); ctx.lineTo(d2.x,d2.y);
+          ctx.strokeStyle = `rgba(0,200,255,${0.12*(1-dist/120)})`; ctx.lineWidth = 0.5; ctx.stroke();
         }
       });
     });
@@ -1309,15 +1777,15 @@ animCursor();
   }
   drawBg();
 })();
- 
+
 // Intersection observer reveals
 const revealEls = document.querySelectorAll('.reveal');
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
 }, { threshold: 0.1 });
 revealEls.forEach(el => obs.observe(el));
- 
-// Hero stat counter animation
+
+// Hero stat counter
 function runCounter(el, target, suffix, duration) {
   if (!el) return;
   let start = null;
@@ -1332,31 +1800,25 @@ function runCounter(el, target, suffix, duration) {
 }
 document.querySelectorAll('.stat-num[data-target]').forEach(el => {
   const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { runCounter(el, +el.dataset.target, '', 1400); io.unobserve(el); }
-    });
+    entries.forEach(e => { if (e.isIntersecting) { runCounter(el, +el.dataset.target, '', 1400); io.unobserve(el); } });
   }, { threshold: 0.5 });
   io.observe(el);
 });
- 
+
 // Skill bars
 document.querySelectorAll('.skill-bar-fill[data-width]').forEach(el => {
   const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { el.style.width = el.dataset.width + '%'; io.unobserve(el); }
-    });
+    entries.forEach(e => { if (e.isIntersecting) { el.style.width = el.dataset.width + '%'; io.unobserve(el); } });
   }, { threshold: 0.5 });
   io.observe(el);
 });
- 
-// Impact bars (Byte Back demographics)
+
+// Impact bars
 function animateDemoBars() {
-  document.querySelectorAll('.impact-fill[data-pct]').forEach(bar => {
-    bar.style.width = bar.dataset.pct + '%';
-  });
+  document.querySelectorAll('.impact-fill[data-pct]').forEach(bar => { bar.style.width = bar.dataset.pct + '%'; });
 }
 setTimeout(animateDemoBars, 900);
- 
+
 /* ================================================================
    CHART.JS DEFAULTS
 ================================================================ */
@@ -1366,295 +1828,245 @@ const MONO  = "'JetBrains Mono', monospace";
 Chart.defaults.color = MUTED;
 Chart.defaults.font.family = MONO;
 Chart.defaults.font.size = 10;
- 
+
 /* ================================================================
    DSPO CHARTS
 ================================================================ */
-// Bar — Prevention activities by component
 new Chart(document.getElementById('chart-dspo-bar'), {
   type: 'bar',
   data: {
     labels: ['Army','Navy','Air Force','Marines','Space Force','Coast Guard','Guard/Res.'],
-    datasets: [{
-      label: 'Activities',
-      data: [62, 48, 54, 38, 18, 14, 13],
-      backgroundColor: ['rgba(0,200,255,0.75)','rgba(0,255,157,0.75)','rgba(255,107,53,0.75)',
-        'rgba(167,139,250,0.75)','rgba(0,200,255,0.5)','rgba(0,255,157,0.5)','rgba(255,107,53,0.5)'],
-      borderRadius: 3, borderWidth: 0
-    }]
+    datasets: [{ label:'Activities', data:[62,48,54,38,18,14,13],
+      backgroundColor:['rgba(0,200,255,0.75)','rgba(0,255,157,0.75)','rgba(255,107,53,0.75)','rgba(167,139,250,0.75)','rgba(0,200,255,0.5)','rgba(0,255,157,0.5)','rgba(255,107,53,0.5)'],
+      borderRadius:3, borderWidth:0 }]
   },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(5,10,15,0.92)' } },
-    scales: {
-      x: { grid: { color: GRID }, ticks: { color: MUTED, maxRotation: 30 } },
-      y: { grid: { color: GRID }, ticks: { color: MUTED }, beginAtZero: true }
-    }
-  }
+  options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(5,10,15,0.92)'}},
+    scales:{ x:{grid:{color:GRID},ticks:{color:MUTED,maxRotation:30}}, y:{grid:{color:GRID},ticks:{color:MUTED},beginAtZero:true} } }
 });
- 
-// Donut — by category
+
 new Chart(document.getElementById('chart-dspo-donut'), {
-  type: 'doughnut',
-  data: {
-    labels: ['Training','Outreach','Research','Policy','Technology','Other'],
-    datasets: [{
-      data: [28, 22, 18, 16, 10, 6],
-      backgroundColor: ['rgba(0,200,255,0.8)','rgba(0,255,157,0.8)','rgba(255,107,53,0.8)',
-        'rgba(167,139,250,0.8)','rgba(255,220,50,0.8)','rgba(150,150,150,0.6)'],
-      borderColor: 'rgba(5,10,15,0.5)', borderWidth: 2, hoverOffset: 6
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false, cutout: '60%',
-    plugins: {
-      legend: { position: 'right', labels: { color: MUTED, boxWidth: 10, font: { size: 9 } } },
-      tooltip: { backgroundColor: 'rgba(5,10,15,0.92)', callbacks: { label: c => ` ${c.label}: ${c.raw}%` } }
-    }
-  }
+  type:'doughnut',
+  data:{ labels:['Training','Outreach','Research','Policy','Technology','Other'],
+    datasets:[{ data:[28,22,18,16,10,6], backgroundColor:['rgba(0,200,255,0.8)','rgba(0,255,157,0.8)','rgba(255,107,53,0.8)','rgba(167,139,250,0.8)','rgba(255,220,50,0.8)','rgba(150,150,150,0.6)'],
+      borderColor:'rgba(5,10,15,0.5)', borderWidth:2, hoverOffset:6 }] },
+  options:{ responsive:true, maintainAspectRatio:false, cutout:'60%',
+    plugins:{ legend:{position:'right',labels:{color:MUTED,boxWidth:10,font:{size:9}}}, tooltip:{backgroundColor:'rgba(5,10,15,0.92)',callbacks:{label:c=>` ${c.label}: ${c.raw}%`}} } }
 });
- 
-// Radar 1 — SPRIRC
+
 new Chart(document.getElementById('chart-dspo-radar1'), {
-  type: 'radar',
-  data: {
-    labels: ['Individual','Relationship','Community','Societal','Institutional','Response'],
-    datasets: [
-      { label:'FY24', data:[72,65,58,44,80,68], borderColor:'rgba(0,200,255,0.6)', backgroundColor:'rgba(0,200,255,0.08)', pointRadius:3 },
-      { label:'FY25', data:[84,78,69,55,88,79], borderColor:'rgba(0,255,157,0.7)', backgroundColor:'rgba(0,255,157,0.08)', pointRadius:3 }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: true, position: 'top', labels: { color: MUTED, boxWidth: 10, font: { size: 9 } } } },
-    scales: { r: { grid: { color: GRID }, angleLines: { color: GRID }, pointLabels: { color: MUTED, font: { size: 9 } }, ticks: { display: false }, min: 0, max: 100 } }
-  }
+  type:'radar',
+  data:{ labels:['Individual','Relationship','Community','Societal','Institutional','Response'],
+    datasets:[ {label:'FY24',data:[72,65,58,44,80,68],borderColor:'rgba(0,200,255,0.6)',backgroundColor:'rgba(0,200,255,0.08)',pointRadius:3},
+      {label:'FY25',data:[84,78,69,55,88,79],borderColor:'rgba(0,255,157,0.7)',backgroundColor:'rgba(0,255,157,0.08)',pointRadius:3} ] },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:true,position:'top',labels:{color:MUTED,boxWidth:10,font:{size:9}}}},
+    scales:{r:{grid:{color:GRID},angleLines:{color:GRID},pointLabels:{color:MUTED,font:{size:9}},ticks:{display:false},min:0,max:100}} }
 });
- 
-// Radar 2 — Strategic directions
+
 new Chart(document.getElementById('chart-dspo-radar2'), {
-  type: 'radar',
-  data: {
-    labels: ['Access to Care','Crisis Response','Lethal Means','Data Systems','Cultural Change','Research'],
-    datasets: [
-      { label:'Coverage', data:[88,76,61,82,55,70], borderColor:'rgba(255,107,53,0.7)', backgroundColor:'rgba(255,107,53,0.08)', pointRadius:3 },
-      { label:'Target',   data:[90,90,80,90,80,85], borderColor:'rgba(167,139,250,0.4)', backgroundColor:'transparent', borderDash:[4,3], pointRadius:0 }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: true, position: 'top', labels: { color: MUTED, boxWidth: 10, font: { size: 9 } } } },
-    scales: { r: { grid: { color: GRID }, angleLines: { color: GRID }, pointLabels: { color: MUTED, font: { size: 9 } }, ticks: { display: false }, min: 0, max: 100 } }
-  }
+  type:'radar',
+  data:{ labels:['Access to Care','Crisis Response','Lethal Means','Data Systems','Cultural Change','Research'],
+    datasets:[ {label:'Coverage',data:[88,76,61,82,55,70],borderColor:'rgba(255,107,53,0.7)',backgroundColor:'rgba(255,107,53,0.08)',pointRadius:3},
+      {label:'Target',data:[90,90,80,90,80,85],borderColor:'rgba(167,139,250,0.4)',backgroundColor:'transparent',borderDash:[4,3],pointRadius:0} ] },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:true,position:'top',labels:{color:MUTED,boxWidth:10,font:{size:9}}}},
+    scales:{r:{grid:{color:GRID},angleLines:{color:GRID},pointLabels:{color:MUTED,font:{size:9}},ticks:{display:false},min:0,max:100}} }
 });
- 
+
 /* ================================================================
    BYTE BACK CHARTS
 ================================================================ */
-// COVID shade plugin
 const covidPlugin = {
-  id: 'covidShade',
+  id:'covidShade',
   beforeDraw(chart) {
-    const { ctx, chartArea, scales } = chart;
-    if (!chartArea || !scales.x) return;
-    // FY20 = index 2; shade between index 1.5 and 2.5
-    const x0 = scales.x.getPixelForValue(1.5);
-    const x1 = scales.x.getPixelForValue(2.5);
-    ctx.save();
-    ctx.fillStyle = 'rgba(255,60,60,0.07)';
-    ctx.fillRect(x0, chartArea.top, x1 - x0, chartArea.height);
-    ctx.setLineDash([4, 3]);
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = 'rgba(255,80,60,0.3)';
-    [x0, x1].forEach(x => { ctx.beginPath(); ctx.moveTo(x, chartArea.top); ctx.lineTo(x, chartArea.bottom); ctx.stroke(); });
+    const {ctx,chartArea,scales}=chart;
+    if(!chartArea||!scales.x) return;
+    const x0=scales.x.getPixelForValue(1.5), x1=scales.x.getPixelForValue(2.5);
+    ctx.save(); ctx.fillStyle='rgba(255,60,60,0.07)';
+    ctx.fillRect(x0,chartArea.top,x1-x0,chartArea.height);
+    ctx.setLineDash([4,3]); ctx.lineWidth=1; ctx.strokeStyle='rgba(255,80,60,0.3)';
+    [x0,x1].forEach(x=>{ctx.beginPath();ctx.moveTo(x,chartArea.top);ctx.lineTo(x,chartArea.bottom);ctx.stroke();});
     ctx.restore();
   }
 };
- 
+
 new Chart(document.getElementById('chart-byteback'), {
-  type: 'line',
-  plugins: [covidPlugin],
-  data: {
-    labels: ['FY18','FY19','FY20','FY21','FY22','FY23'],
-    datasets: [
-      { label:'Enrolled',  data:[710,780,455,560,820,955], borderColor:'#00c8ff', backgroundColor:'rgba(0,200,255,0.07)', pointRadius:5, tension:0.4, fill:true, borderWidth:2 },
-      { label:'Retained',  data:[590,648,390,480,720,840], borderColor:'#00ff9d', backgroundColor:'rgba(0,255,157,0.05)', pointRadius:5, tension:0.4, fill:true, borderWidth:2 },
-      { label:'Placed',    data:[52, 57, 47, 53, 64, 71],  borderColor:'#ff6b35', backgroundColor:'rgba(255,107,53,0.05)', pointRadius:5, tension:0.4, yAxisID:'y2', borderWidth:2 }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: true, animation: { duration: 1200 },
-    interaction: { mode: 'index', intersect: false },
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        backgroundColor: 'rgba(5,10,15,0.92)', borderColor: 'rgba(0,200,255,0.2)', borderWidth: 1,
-        callbacks: { afterLabel: ctx => ctx.datasetIndex === 2 ? '  +$23K avg salary lift' : null }
-      }
-    },
-    scales: {
-      x: { grid: { color: GRID }, ticks: { color: MUTED } },
-      y: { grid: { color: GRID }, ticks: { color: MUTED }, title: { display: true, text: 'Scholars', color: MUTED } },
-      y2: { position: 'right', grid: { drawOnChartArea: false }, ticks: { color: 'rgba(255,107,53,0.7)' }, title: { display: true, text: 'Placed', color: 'rgba(255,107,53,0.7)' } }
-    }
-  }
+  type:'line', plugins:[covidPlugin],
+  data:{ labels:['FY18','FY19','FY20','FY21','FY22','FY23'],
+    datasets:[
+      {label:'Enrolled',data:[710,780,455,560,820,955],borderColor:'#00c8ff',backgroundColor:'rgba(0,200,255,0.07)',pointRadius:5,tension:0.4,fill:true,borderWidth:2},
+      {label:'Retained',data:[590,648,390,480,720,840],borderColor:'#00ff9d',backgroundColor:'rgba(0,255,157,0.05)',pointRadius:5,tension:0.4,fill:true,borderWidth:2},
+      {label:'Placed',data:[52,57,47,53,64,71],borderColor:'#ff6b35',backgroundColor:'rgba(255,107,53,0.05)',pointRadius:5,tension:0.4,yAxisID:'y2',borderWidth:2}
+    ] },
+  options:{ responsive:true, maintainAspectRatio:true, animation:{duration:1200}, interaction:{mode:'index',intersect:false},
+    plugins:{ legend:{display:false}, tooltip:{backgroundColor:'rgba(5,10,15,0.92)',borderColor:'rgba(0,200,255,0.2)',borderWidth:1,
+      callbacks:{afterLabel:ctx=>ctx.datasetIndex===2?'  +$23K avg salary lift':null}} },
+    scales:{ x:{grid:{color:GRID},ticks:{color:MUTED}}, y:{grid:{color:GRID},ticks:{color:MUTED},title:{display:true,text:'Scholars',color:MUTED}},
+      y2:{position:'right',grid:{drawOnChartArea:false},ticks:{color:'rgba(255,107,53,0.7)'},title:{display:true,text:'Placed',color:'rgba(255,107,53,0.7)'}} } }
 });
- 
-// Funding donut
+
 new Chart(document.getElementById('chart-funding'), {
-  type: 'doughnut',
-  data: {
-    labels: ['Federal & DC Gov', 'Corporate Foundations', 'Private Foundations', 'TD Bank / TD Ready', 'Individual / Other'],
-    datasets: [{
-      data: [340, 480, 620, 180, 95],
-      backgroundColor: ['rgba(0,200,255,0.8)','rgba(0,255,157,0.8)','rgba(255,107,53,0.8)','rgba(167,139,250,0.8)','rgba(255,80,60,0.7)'],
-      borderColor: 'rgba(5,10,15,0.5)', borderWidth: 2, hoverOffset: 8
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false, cutout: '62%',
-    plugins: {
-      legend: { display: false },
-      tooltip: { backgroundColor: 'rgba(5,10,15,0.92)', callbacks: { label: c => ` ${c.label}: $${c.raw}K` } }
-    }
-  }
+  type:'doughnut',
+  data:{ labels:['Federal & DC Gov','Corporate Foundations','Private Foundations','TD Bank / TD Ready','Individual / Other'],
+    datasets:[{ data:[340,480,620,180,95], backgroundColor:['rgba(0,200,255,0.8)','rgba(0,255,157,0.8)','rgba(255,107,53,0.8)','rgba(167,139,250,0.8)','rgba(255,80,60,0.7)'],
+      borderColor:'rgba(5,10,15,0.5)',borderWidth:2,hoverOffset:8 }] },
+  options:{ responsive:true, maintainAspectRatio:false, cutout:'62%', plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(5,10,15,0.92)',callbacks:{label:c=>` ${c.label}: $${c.raw}K`}}} }
 });
- 
-// Cohort completion bar
+
 new Chart(document.getElementById('chart-cohort'), {
-  type: 'bar',
-  data: {
-    labels: ['Computer\nFoundations', 'Office Tech\n/ Admin', 'CompTIA\nA+', 'Network+\n/ Security+'],
-    datasets: [
-      { label: 'Completion %', data: [87, 79, 68, 61], backgroundColor: ['rgba(0,200,255,0.75)','rgba(0,255,157,0.75)','rgba(255,107,53,0.75)','rgba(167,139,250,0.75)'], borderRadius: 4, borderWidth: 0 },
-      { label: 'Course-Pass %', data: [94, 86, 74, 67], backgroundColor: ['rgba(0,200,255,0.25)','rgba(0,255,157,0.25)','rgba(255,107,53,0.25)','rgba(167,139,250,0.25)'], borderRadius: 4, borderWidth: 0 }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: true,
-    plugins: { legend: { display: true, position: 'top', labels: { color: MUTED, boxWidth: 10, font: { size: 9 } } } },
-    scales: {
-      x: { grid: { color: GRID }, ticks: { color: MUTED, maxRotation: 0 } },
-      y: { grid: { color: GRID }, ticks: { color: MUTED }, min: 50, max: 100, title: { display: true, text: 'Rate (%)', color: MUTED } }
-    }
-  }
+  type:'bar',
+  data:{ labels:['Computer\nFoundations','Office Tech\n/ Admin','CompTIA\nA+','Network+\n/ Security+'],
+    datasets:[
+      {label:'Completion %',data:[87,79,68,61],backgroundColor:['rgba(0,200,255,0.75)','rgba(0,255,157,0.75)','rgba(255,107,53,0.75)','rgba(167,139,250,0.75)'],borderRadius:4,borderWidth:0},
+      {label:'Course-Pass %',data:[94,86,74,67],backgroundColor:['rgba(0,200,255,0.25)','rgba(0,255,157,0.25)','rgba(255,107,53,0.25)','rgba(167,139,250,0.25)'],borderRadius:4,borderWidth:0}
+    ] },
+  options:{ responsive:true, maintainAspectRatio:true,
+    plugins:{legend:{display:true,position:'top',labels:{color:MUTED,boxWidth:10,font:{size:9}}}},
+    scales:{ x:{grid:{color:GRID},ticks:{color:MUTED,maxRotation:0}}, y:{grid:{color:GRID},ticks:{color:MUTED},min:50,max:100,title:{display:true,text:'Rate (%)',color:MUTED}} } }
 });
- 
-// Branch bar (horizontal)
+
 new Chart(document.getElementById('chart-branch'), {
-  type: 'bar',
-  data: {
-    labels: ['Army','Navy','Air Force','Marines','Space Force','Coast Guard','Natl Guard'],
-    datasets: [{
-      label: 'Referrals',
-      data: [312, 278, 244, 198, 87, 63, 142],
-      backgroundColor: ['rgba(0,200,255,0.75)','rgba(0,255,157,0.75)','rgba(255,107,53,0.75)',
-        'rgba(167,139,250,0.75)','rgba(0,200,255,0.5)','rgba(0,255,157,0.5)','rgba(255,220,50,0.6)'],
-      borderRadius: 4, borderWidth: 0
-    }]
-  },
-  options: {
-    indexAxis: 'y', responsive: true, maintainAspectRatio: true,
-    plugins: { legend: { display: false } },
-    scales: { x: { grid: { color: GRID }, ticks: { color: MUTED } }, y: { grid: { color: GRID }, ticks: { color: MUTED } } }
-  }
+  type:'bar',
+  data:{ labels:['Army','Navy','Air Force','Marines','Space Force','Coast Guard','Natl Guard'],
+    datasets:[{ label:'Referrals', data:[312,278,244,198,87,63,142],
+      backgroundColor:['rgba(0,200,255,0.75)','rgba(0,255,157,0.75)','rgba(255,107,53,0.75)','rgba(167,139,250,0.75)','rgba(0,200,255,0.5)','rgba(0,255,157,0.5)','rgba(255,220,50,0.6)'],
+      borderRadius:4, borderWidth:0 }] },
+  options:{ indexAxis:'y', responsive:true, maintainAspectRatio:true, plugins:{legend:{display:false}},
+    scales:{ x:{grid:{color:GRID},ticks:{color:MUTED}}, y:{grid:{color:GRID},ticks:{color:MUTED}} } }
 });
- 
+
 /* ================================================================
    SIGNATURE AVIATION CHARTS
 ================================================================ */
-// Helper: donut ring
-function makeRing(id, pct, color) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  new Chart(el, {
-    type: 'doughnut',
-    data: {
-      datasets: [{
-        data: [pct, 100 - pct],
-        backgroundColor: [color, 'rgba(255,255,255,0.05)'],
-        borderWidth: 0, hoverOffset: 0
-      }]
-    },
-    options: {
-      responsive: false, cutout: '78%', animation: { duration: 1400 },
-      plugins: { legend: { display: false }, tooltip: { enabled: false } }
-    }
-  });
+function makeRing(id,pct,color){
+  const el=document.getElementById(id); if(!el)return;
+  new Chart(el,{type:'doughnut',data:{datasets:[{data:[pct,100-pct],backgroundColor:[color,'rgba(255,255,255,0.05)'],borderWidth:0,hoverOffset:0}]},
+    options:{responsive:false,cutout:'78%',animation:{duration:1400},plugins:{legend:{display:false},tooltip:{enabled:false}}}});
 }
-makeRing('ring-faa', 99.7, '#60b8ff');
-makeRing('ring-qt',  94.2, '#00ff9d');
-makeRing('ring-inc', 100,  '#00ff9d');
- 
-// Aircraft category mix donut
-new Chart(document.getElementById('chart-acmix'), {
-  type: 'doughnut',
-  data: {
-    labels: ['Private / HNWI','Executive Charter','Government / Military','Corporate Fleet','Medical / Medevac'],
-    datasets: [{
-      data: [52, 22, 14, 8, 4],
-      backgroundColor: ['rgba(167,139,250,0.8)','rgba(255,107,53,0.8)','rgba(0,255,157,0.8)','rgba(0,200,255,0.8)','rgba(255,80,60,0.7)'],
-      borderColor: 'rgba(5,10,15,0.5)', borderWidth: 2, hoverOffset: 6
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false, cutout: '58%',
-    plugins: {
-      legend: { position: 'right', labels: { color: MUTED, boxWidth: 10, font: { size: 9 } } },
-      tooltip: { backgroundColor: 'rgba(5,10,15,0.92)', callbacks: { label: c => ` ${c.label}: ${c.raw}%` } }
-    }
-  }
+makeRing('ring-faa',99.7,'#60b8ff');
+makeRing('ring-qt',94.2,'#00ff9d');
+makeRing('ring-inc',100,'#00ff9d');
+
+new Chart(document.getElementById('chart-acmix'),{
+  type:'doughnut',
+  data:{labels:['Private / HNWI','Executive Charter','Government / Military','Corporate Fleet','Medical / Medevac'],
+    datasets:[{data:[52,22,14,8,4],backgroundColor:['rgba(167,139,250,0.8)','rgba(255,107,53,0.8)','rgba(0,255,157,0.8)','rgba(0,200,255,0.8)','rgba(255,80,60,0.7)'],
+      borderColor:'rgba(5,10,15,0.5)',borderWidth:2,hoverOffset:6}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:'58%',
+    plugins:{legend:{position:'right',labels:{color:MUTED,boxWidth:10,font:{size:9}}},tooltip:{backgroundColor:'rgba(5,10,15,0.92)',callbacks:{label:c=>` ${c.label}: ${c.raw}%`}}}}
 });
- 
-// Monthly movements stacked bar
-const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-new Chart(document.getElementById('chart-sig-movements'), {
-  type: 'bar',
-  data: {
-    labels: months,
-    datasets: [
-      { label:'Gov / Military',    data:[310,295,325,340,355,370,360,375,345,360,390,380], backgroundColor:'rgba(167,139,250,0.7)', stack:'a', borderRadius:2 },
-      { label:'Executive Charter', data:[85, 78, 90, 88, 92, 96, 94, 91, 87, 90, 105,98],  backgroundColor:'rgba(255,107,53,0.7)',  stack:'a', borderRadius:2 },
-      { label:'Corporate / Other', data:[55, 50, 58, 60, 62, 68, 65, 64, 60, 62, 72, 68],  backgroundColor:'rgba(0,255,157,0.6)',  stack:'a', borderRadius:2 },
-      { label:'Private / HNWI',    data:[30, 28, 32, 35, 38, 42, 40, 38, 34, 36, 45, 42],  backgroundColor:'rgba(0,200,255,0.6)',  stack:'a', borderRadius:2 }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: true,
-    plugins: { legend: { display: true, position: 'top', labels: { color: MUTED, boxWidth: 10, font: { size: 9 } } } },
-    scales: {
-      x: { stacked: true, grid: { color: GRID }, ticks: { color: MUTED } },
-      y: { stacked: true, grid: { color: GRID }, ticks: { color: MUTED }, title: { display: true, text: 'Movements', color: MUTED } }
-    }
-  }
+
+const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+new Chart(document.getElementById('chart-sig-movements'),{
+  type:'bar',
+  data:{labels:months,
+    datasets:[
+      {label:'Gov / Military',data:[310,295,325,340,355,370,360,375,345,360,390,380],backgroundColor:'rgba(167,139,250,0.7)',stack:'a',borderRadius:2},
+      {label:'Executive Charter',data:[85,78,90,88,92,96,94,91,87,90,105,98],backgroundColor:'rgba(255,107,53,0.7)',stack:'a',borderRadius:2},
+      {label:'Corporate / Other',data:[55,50,58,60,62,68,65,64,60,62,72,68],backgroundColor:'rgba(0,255,157,0.6)',stack:'a',borderRadius:2},
+      {label:'Private / HNWI',data:[30,28,32,35,38,42,40,38,34,36,45,42],backgroundColor:'rgba(0,200,255,0.6)',stack:'a',borderRadius:2}
+    ]},
+  options:{responsive:true,maintainAspectRatio:true,
+    plugins:{legend:{display:true,position:'top',labels:{color:MUTED,boxWidth:10,font:{size:9}}}},
+    scales:{x:{stacked:true,grid:{color:GRID},ticks:{color:MUTED}},y:{stacked:true,grid:{color:GRID},ticks:{color:MUTED},title:{display:true,text:'Movements',color:MUTED}}}}
 });
- 
-// FAA compliance timeline
-new Chart(document.getElementById('chart-sig-compliance'), {
-  type: 'line',
-  data: {
-    labels: months,
-    datasets: [
-      { label:'FAA Compliance (%)', data:[99.8,99.7,99.9,100,99.8,99.6,99.9,100,99.7,99.8,99.5,99.9],
-        borderColor:'#60b8ff', backgroundColor:'rgba(96,184,255,0.07)', fill:true, tension:0.4, pointRadius:4, borderWidth:2, yAxisID:'y' },
-      { label:'LADD Requests',      data:[12,14,11,16,18,15,17,19,14,16,21,18],
-        borderColor:'#a78bfa', backgroundColor:'rgba(167,139,250,0.05)', fill:true, tension:0.4, pointRadius:4, borderWidth:2, yAxisID:'y2' }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: true,
-    interaction: { mode: 'index', intersect: false },
-    plugins: {
-      legend: { display: true, position: 'top', labels: { color: MUTED, boxWidth: 10, font: { size: 9 } } },
-      tooltip: { backgroundColor: 'rgba(5,10,15,0.92)' }
-    },
-    scales: {
-      x:  { grid: { color: GRID }, ticks: { color: MUTED } },
-      y:  { grid: { color: GRID }, ticks: { color: MUTED }, min: 99, max: 100.2, title: { display: true, text: 'Compliance (%)', color: MUTED } },
-      y2: { position: 'right', grid: { drawOnChartArea: false }, ticks: { color: 'rgba(167,139,250,0.7)' }, title: { display: true, text: 'LADD Requests', color: 'rgba(167,139,250,0.7)' } }
-    }
-  }
+
+new Chart(document.getElementById('chart-sig-compliance'),{
+  type:'line',
+  data:{labels:months,
+    datasets:[
+      {label:'FAA Compliance (%)',data:[99.8,99.7,99.9,100,99.8,99.6,99.9,100,99.7,99.8,99.5,99.9],borderColor:'#60b8ff',backgroundColor:'rgba(96,184,255,0.07)',fill:true,tension:0.4,pointRadius:4,borderWidth:2,yAxisID:'y'},
+      {label:'LADD Requests',data:[12,14,11,16,18,15,17,19,14,16,21,18],borderColor:'#a78bfa',backgroundColor:'rgba(167,139,250,0.05)',fill:true,tension:0.4,pointRadius:4,borderWidth:2,yAxisID:'y2'}
+    ]},
+  options:{responsive:true,maintainAspectRatio:true,interaction:{mode:'index',intersect:false},
+    plugins:{legend:{display:true,position:'top',labels:{color:MUTED,boxWidth:10,font:{size:9}}},tooltip:{backgroundColor:'rgba(5,10,15,0.92)'}},
+    scales:{x:{grid:{color:GRID},ticks:{color:MUTED}},y:{grid:{color:GRID},ticks:{color:MUTED},min:99,max:100.2,title:{display:true,text:'Compliance (%)',color:MUTED}},
+      y2:{position:'right',grid:{drawOnChartArea:false},ticks:{color:'rgba(167,139,250,0.7)'},title:{display:true,text:'LADD Requests',color:'rgba(167,139,250,0.7)'}}}}
 });
+
+/* ================================================================
+   ML & API SECTION — ANIMATIONS + CHARTS
+================================================================ */
+(function() {
+  const tooltipStyle = {
+    backgroundColor: 'rgba(10,18,32,0.95)',
+    borderColor: 'rgba(0,200,255,0.2)',
+    borderWidth: 1,
+    titleFont: { family: MONO, size: 10 },
+    bodyFont: { family: MONO, size: 10 },
+    titleColor: '#00c8ff',
+    bodyColor: '#e8f0fe',
+    padding: 10,
+  };
+
+  /* ── ML Scroll Animations: single observer for all animated containers ── */
+  const mlAnimTargets = document.querySelectorAll('.ml-arch-strip, .ml-projects-grid, .ml-endpoints');
+  const mlObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('anim-active');
+        mlObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  mlAnimTargets.forEach(el => mlObs.observe(el));
+
+  /* ── ML impact bars animate on scroll ── */
+  const mlImpObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.impact-fill[data-pct]').forEach(b => { b.style.width = b.dataset.pct + '%'; });
+        mlImpObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('#ml-api .ml-card').forEach(c => mlImpObs.observe(c));
+
+  /* ── 6. Charts ── */
+  const ctxInf = document.getElementById('chart-ml-inference');
+  if (ctxInf) {
+    new Chart(ctxInf, {
+      type:'line',
+      data:{
+        labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+        datasets:[
+          {label:'Predictions',data:[2340,2780,3150,2890,3420,1860,2847],borderColor:'#00c8ff',backgroundColor:'rgba(0,200,255,0.08)',fill:true,tension:0.35,pointRadius:4,pointBackgroundColor:'#00c8ff',pointBorderColor:'#050a0f',pointBorderWidth:2,borderWidth:2},
+          {label:'Errors',data:[12,8,15,6,11,4,9],borderColor:'#ff6b35',backgroundColor:'rgba(255,107,53,0.05)',fill:false,tension:0.35,pointRadius:3,pointBackgroundColor:'#ff6b35',borderWidth:1.5,borderDash:[4,4]}
+        ]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:tooltipStyle},
+        scales:{
+          x:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#6b8cae',font:{family:MONO,size:9}}},
+          y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#6b8cae',font:{family:MONO,size:9}}}
+        }
+      }
+    });
+  }
+
+  const ctxAcc = document.getElementById('chart-ml-accuracy');
+  if (ctxAcc) {
+    new Chart(ctxAcc, {
+      type:'bar',
+      data:{
+        labels:['v1.0','v1.2','v1.5','v2.0','v2.1'],
+        datasets:[{
+          label:'Accuracy',data:[0.82,0.85,0.87,0.89,0.91],
+          backgroundColor:['rgba(0,200,255,0.25)','rgba(0,200,255,0.35)','rgba(0,200,255,0.45)','rgba(0,200,255,0.6)','rgba(0,255,157,0.6)'],
+          borderColor:['rgba(0,200,255,0.5)','rgba(0,200,255,0.6)','rgba(0,200,255,0.7)','rgba(0,200,255,0.9)','rgba(0,255,157,0.9)'],
+          borderWidth:1, borderRadius:2
+        }]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        plugins:{legend:{display:false},tooltip:tooltipStyle},
+        scales:{
+          x:{grid:{display:false},ticks:{color:'#6b8cae',font:{family:MONO,size:9}}},
+          y:{min:0.75,max:0.95,grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#6b8cae',font:{family:MONO,size:9},callback:v=>(v*100).toFixed(0)+'%'}}
+        }
+      }
+    });
+  }
+})();
 </script>
 </body>
 </html>
