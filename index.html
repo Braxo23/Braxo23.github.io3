@@ -1,42 +1,65 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Braxton Canady — Data & Analytics Portfolio</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 :root {
   --bg:#050a0f;--bg2:#0a1220;--bg3:#0f1d2e;
   --accent:#00c8ff;--accent2:#00ff9d;--accent3:#ff6b35;
   --text:#e8f0fe;--muted:#6b8cae;
-  --border:rgba(0,200,255,0.15);--card:rgba(10,18,32,0.8);--glow:rgba(0,200,255,0.3);
+  --border:rgba(0,200,255,0.12);--card:rgba(10,18,32,0.8);--glow:rgba(0,200,255,0.3);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;cursor:none;}
+body.preloader-active{overflow:hidden;}
+
+/* grain overlay */
+body::after{content:'';position:fixed;inset:0;z-index:9490;pointer-events:none;opacity:.02;mix-blend-mode:overlay;
+  background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+/* ── PRELOADER ── */
+#preloader{position:fixed;inset:0;z-index:10000;background:#050a0f;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.preloader-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,.03) 1px,transparent 1px);background-size:50px 50px;opacity:0;pointer-events:none;}
+.preloader-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,transparent 30%,rgba(5,10,15,.9) 100%);pointer-events:none;}
+#preloader-scene{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;transform-origin:50% 50%;}
+.p-particle{position:absolute;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);white-space:nowrap;pointer-events:none;will-change:transform;text-shadow:0 0 6px rgba(0,200,255,.4);}
+.p-particle.dot{width:4px;height:4px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent);font-size:0;}
+.p-particle.dot.green{background:var(--accent2);box-shadow:0 0 6px var(--accent2);}
+.p-particle.dot.orange{background:var(--accent3);box-shadow:0 0 6px var(--accent3);}
+.p-particle.hex{color:rgba(0,200,255,.5);font-size:9px;}
+.p-particle.code{color:var(--accent2);font-size:9px;}
+.p-particle.bi{color:var(--accent3);font-size:9px;}
+#dome-svg{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;overflow:visible;}
+#dome-svg line{stroke:var(--accent);stroke-width:.8;opacity:0;}
+.preloader-label{position:absolute;bottom:12%;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.3em;color:var(--muted);opacity:0;text-transform:uppercase;}
+.preloader-label .pl-cursor{color:var(--accent);animation:cursorBlink 1s step-end infinite;}
 
 /* ── CURSOR ── */
-.cursor{width:8px;height:8px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform .1s;box-shadow:0 0 12px var(--accent),0 0 24px var(--accent);}
-.cursor-ring{width:32px;height:32px;border:1px solid rgba(0,200,255,.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transition:transform .15s,width .2s,height .2s;}
-#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.4;}
+.cursor{width:8px;height:8px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transition:transform .1s;box-shadow:0 0 14px var(--accent),0 0 28px rgba(0,200,255,.4);}
+.cursor-ring{width:32px;height:32px;border:1px solid rgba(0,200,255,.4);border-radius:50%;position:fixed;pointer-events:none;z-index:9997;transition:transform .15s,width .2s,height .2s;}
+#bg-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.35;}
 
 /* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:rgba(5,10,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:20px 60px;background:rgba(5,10,15,.8);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid transparent;border-image:linear-gradient(90deg,transparent,rgba(0,200,255,.15),transparent) 1;}
 .nav-logo{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent);letter-spacing:.1em;}
 .nav-logo span{color:var(--muted);}
 .nav-links{display:flex;gap:36px;}
-.nav-links a{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:.15em;text-transform:uppercase;transition:color .2s;position:relative;}
-.nav-links a::before{content:'// ';color:var(--accent);opacity:0;transition:opacity .2s;}
-.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent);transition:width .25s ease;}
+.nav-links a{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:.15em;text-transform:uppercase;transition:color .25s;position:relative;}
+.nav-links a::before{content:'// ';color:var(--accent);opacity:0;transition:opacity .25s;}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s ease;}
 .nav-links a:hover{color:var(--accent);}
 .nav-links a:hover::before{opacity:1;}
 .nav-links a:hover::after{width:100%;}
 
 section{position:relative;z-index:1;padding:120px 60px;max-width:1400px;margin:0 auto;}
 .section-tag{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:12px;}
-.section-tag::after{content:'';height:1px;width:60px;background:var(--accent);opacity:.5;}
+.section-tag::after{content:'';height:1px;width:60px;background:linear-gradient(90deg,var(--accent),transparent);opacity:.6;}
 
 /* ── HERO ── */
 #hero{min-height:100vh;display:flex;align-items:center;padding-top:100px;}
@@ -45,20 +68,20 @@ section{position:relative;z-index:1;padding:120px 60px;max-width:1400px;margin:0
 .status-dot{width:6px;height:6px;background:var(--accent2);border-radius:50%;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,255,157,.4);}50%{opacity:.7;box-shadow:0 0 0 6px rgba(0,255,157,0);}}
 h1{font-family:'Syne',sans-serif;font-size:clamp(48px,5vw,80px);font-weight:800;line-height:.95;letter-spacing:-.02em;margin-bottom:24px;}
-h1 .name-accent{color:var(--accent);}
+h1 .name-accent{color:var(--accent);text-shadow:0 0 40px rgba(0,200,255,.15);}
 h1 .name-dim{color:var(--muted);font-weight:400;}
 .hero-title-line{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);margin-bottom:32px;display:flex;gap:8px;flex-wrap:wrap;}
-.hero-title-line .badge{background:rgba(0,200,255,.08);border:1px solid var(--border);padding:4px 12px;color:var(--accent);border-radius:2px;font-size:10px;letter-spacing:.1em;transition:all .2s;}
-.hero-title-line .badge:hover{background:rgba(0,200,255,.15);border-color:var(--accent);transform:translateY(-2px);}
+.hero-title-line .badge{background:rgba(0,200,255,.06);border:1px solid var(--border);padding:4px 12px;color:var(--accent);border-radius:2px;font-size:10px;letter-spacing:.1em;transition:all .25s;}
+.hero-title-line .badge:hover{background:rgba(0,200,255,.15);border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,200,255,.1);}
 .hero-desc{font-size:16px;color:var(--muted);line-height:1.8;max-width:520px;margin-bottom:48px;}
 .hero-ctas{display:flex;gap:16px;flex-wrap:wrap;}
-.btn-primary{background:var(--accent);color:var(--bg);padding:14px 32px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;text-decoration:none;display:inline-block;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));transition:all .2s;}
+.btn-primary{background:var(--accent);color:var(--bg);padding:14px 32px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;text-decoration:none;display:inline-block;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));transition:all .25s;}
 .btn-primary:hover{background:var(--accent2);box-shadow:0 0 30px rgba(0,255,157,.4);transform:translateY(-2px);}
-.btn-ghost{border:1px solid var(--border);color:var(--accent);padding:14px 32px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:all .2s;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));}
+.btn-ghost{border:1px solid var(--border);color:var(--accent);padding:14px 32px;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:all .25s;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));}
 .btn-ghost:hover{border-color:var(--accent);background:rgba(0,200,255,.08);box-shadow:0 0 20px rgba(0,200,255,.15);transform:translateY(-2px);}
 .hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);border:1px solid var(--border);position:relative;}
 .hero-stats::before{content:'ANALYST_PROFILE.json';position:absolute;top:-28px;left:0;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;}
-.stat-card{background:var(--bg2);padding:32px 28px;position:relative;overflow:hidden;transition:background .2s;}
+.stat-card{background:var(--bg2);padding:32px 28px;position:relative;overflow:hidden;transition:background .25s;}
 .stat-card:hover{background:var(--bg3);}
 .stat-card::after{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--accent);opacity:.6;}
 .stat-card:nth-child(2)::after{background:var(--accent2);}
@@ -70,40 +93,38 @@ h1 .name-dim{color:var(--muted);font-weight:400;}
 .stat-card:nth-child(3) .stat-num{color:var(--accent3);}
 .stat-card:nth-child(4) .stat-num{color:#a78bfa;}
 .stat-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;}
-
-/* ── H2 ANIMATED UNDERLINE ── */
 h2{font-family:'Syne',sans-serif;font-size:clamp(36px,4vw,56px);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-bottom:60px;}
-h2 em{color:var(--accent);font-style:normal;position:relative;}
+h2 em{color:var(--accent);font-style:normal;position:relative;text-shadow:0 0 30px rgba(0,200,255,.12);}
 h2 em::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .9s cubic-bezier(.23,1,.32,1) .25s;}
 .reveal.visible h2 em::after{width:100%;}
 
 /* ── SKILLS ── */
 #skills{padding-top:0;}
 .skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);border:1px solid var(--border);margin-bottom:60px;}
-.skill-group{background:var(--bg2);padding:32px;transition:background .2s;}
+.skill-group{background:var(--bg2);padding:32px;transition:background .25s;}
 .skill-group:hover{background:var(--bg3);}
 .skill-group-title{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:.2em;text-transform:uppercase;margin-bottom:24px;display:flex;align-items:center;gap:8px;}
 .skill-group-title::before{content:'';width:8px;height:8px;border:1px solid var(--accent);transform:rotate(45deg);display:inline-block;flex-shrink:0;}
 .skill-bar-wrap{margin-bottom:16px;}
 .skill-bar-label{display:flex;justify-content:space-between;margin-bottom:6px;font-size:12px;color:var(--text);}
 .skill-bar-label span{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);}
-.skill-bar-track{height:3px;background:rgba(255,255,255,.05);position:relative;overflow:hidden;}
-.skill-bar-fill{height:100%;background:var(--accent);width:0;transition:width 1.2s cubic-bezier(.23,1,.32,1);position:relative;}
-.skill-bar-fill::after{content:'';position:absolute;right:0;top:0;width:3px;height:100%;background:white;box-shadow:0 0 6px var(--accent);}
-.skill-group:nth-child(2) .skill-bar-fill{background:var(--accent2);}
-.skill-group:nth-child(2) .skill-bar-fill::after{box-shadow:0 0 6px var(--accent2);}
-.skill-group:nth-child(3) .skill-bar-fill{background:#a78bfa;}
-.skill-group:nth-child(3) .skill-bar-fill::after{box-shadow:0 0 6px #a78bfa;}
+.skill-bar-track{height:3px;background:rgba(255,255,255,.04);position:relative;overflow:hidden;}
+.skill-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),rgba(0,200,255,.7));width:0;transition:width 1.2s cubic-bezier(.23,1,.32,1);position:relative;}
+.skill-bar-fill::after{content:'';position:absolute;right:0;top:0;width:3px;height:100%;background:white;box-shadow:0 0 8px var(--accent);}
+.skill-group:nth-child(2) .skill-bar-fill{background:linear-gradient(90deg,var(--accent2),rgba(0,255,157,.6));}
+.skill-group:nth-child(2) .skill-bar-fill::after{box-shadow:0 0 8px var(--accent2);}
+.skill-group:nth-child(3) .skill-bar-fill{background:linear-gradient(90deg,#a78bfa,rgba(167,139,250,.6));}
+.skill-group:nth-child(3) .skill-bar-fill::after{box-shadow:0 0 8px #a78bfa;}
 .tools-section{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);border:1px solid var(--border);}
 .tool-category{background:var(--bg2);padding:24px;}
 .tool-cat-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;margin-bottom:16px;}
 .tool-chips{display:flex;flex-wrap:wrap;gap:8px;}
-.chip{font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 10px;border:1px solid rgba(0,200,255,.2);color:var(--accent);background:rgba(0,200,255,.05);white-space:nowrap;transition:all .2s;}
-.chip:hover{background:rgba(0,200,255,.15);border-color:var(--accent);box-shadow:0 0 12px rgba(0,200,255,.2);transform:translateY(-1px);}
-.chip.green{border-color:rgba(0,255,157,.2);color:var(--accent2);background:rgba(0,255,157,.05);}
-.chip.green:hover{background:rgba(0,255,157,.15);border-color:var(--accent2);}
-.chip.orange{border-color:rgba(255,107,53,.2);color:var(--accent3);background:rgba(255,107,53,.05);}
-.chip.purple{border-color:rgba(167,139,250,.2);color:#a78bfa;background:rgba(167,139,250,.05);}
+.chip{font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 10px;border:1px solid rgba(0,200,255,.15);color:var(--accent);background:rgba(0,200,255,.04);white-space:nowrap;transition:all .25s;}
+.chip:hover{background:rgba(0,200,255,.12);border-color:var(--accent);box-shadow:0 0 14px rgba(0,200,255,.15);transform:translateY(-1px);}
+.chip.green{border-color:rgba(0,255,157,.15);color:var(--accent2);background:rgba(0,255,157,.04);}
+.chip.green:hover{background:rgba(0,255,157,.12);border-color:var(--accent2);}
+.chip.orange{border-color:rgba(255,107,53,.15);color:var(--accent3);background:rgba(255,107,53,.04);}
+.chip.purple{border-color:rgba(167,139,250,.15);color:#a78bfa;background:rgba(167,139,250,.04);}
 
 /* ── TIMELINE ── */
 .timeline{position:relative;}
@@ -121,26 +142,23 @@ h2 em::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:2px;
 .tl-bullets{list-style:none;display:flex;flex-direction:column;gap:10px;}
 .tl-bullets li{font-size:14px;color:rgba(232,240,254,.75);line-height:1.6;padding-left:20px;position:relative;}
 .tl-bullets li::before{content:'▸';position:absolute;left:0;color:var(--accent);font-size:10px;top:3px;}
-
 .portfolio-intro{font-size:15px;color:var(--muted);line-height:1.7;max-width:680px;margin-bottom:32px;}
 
-/* ── EMPLOYER TABS ── */
+/* ── TABS ── */
 .employer-tabs{display:flex;gap:2px;background:var(--border);border:1px solid var(--border);margin-bottom:2px;}
-.tab-btn{flex:1;background:var(--bg2);border:none;padding:20px 24px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);transition:all .2s;position:relative;overflow:hidden;}
-.tab-btn::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--accent);transition:width .35s cubic-bezier(.23,1,.32,1);}
-.tab-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,200,255,.04),transparent);transition:left .4s ease;}
+.tab-btn{flex:1;background:var(--bg2);border:none;padding:20px 24px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);transition:all .25s;position:relative;overflow:hidden;}
+.tab-btn::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .35s cubic-bezier(.23,1,.32,1);}
 .tab-btn:hover{background:var(--bg3);color:var(--text);}
-.tab-btn:hover::before{left:100%;}
 .tab-btn.active{color:var(--accent);background:var(--bg3);}
 .tab-btn.active::after{width:100%;}
 .tab-icon{font-size:15px;}
 .tab-panel{display:block;}
 .tab-panel.hidden{display:none;}
 
-/* ── DSPO DASHBOARD ── */
+/* ── DSPO ── */
 .dspo-full{grid-column:1 / -1;padding:0;overflow:hidden;gap:0;}
 .dspo-header{background:linear-gradient(135deg,#1b3d7a 0%,#0f2650 55%,#091b3a 100%);padding:16px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(0,200,255,.25);}
-.dspo-header-title{font-size:1.05rem;font-weight:700;color:#e8f0fe;letter-spacing:.01em;}
+.dspo-header-title{font-size:1.05rem;font-weight:700;color:#e8f0fe;}
 .dspo-header-sub{font-size:.68rem;color:rgba(180,210,255,.6);margin-top:4px;font-family:'JetBrains Mono',monospace;}
 .dspo-header-badge{font-size:.64rem;color:rgba(0,200,255,.85);font-family:'JetBrains Mono',monospace;border:1px solid rgba(0,200,255,.3);padding:5px 11px;border-radius:4px;white-space:nowrap;background:rgba(0,200,255,.06);}
 .dspo-kpi-row{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid rgba(0,200,255,.1);}
@@ -155,38 +173,34 @@ h2 em::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:2px;
 
 /* ── DASHBOARD CARDS ── */
 .dashboard-lab{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:var(--border);border:1px solid var(--border);margin-top:2px;margin-bottom:2px;}
-.dash-card{background:var(--bg2);padding:28px;min-height:340px;display:flex;flex-direction:column;gap:12px;transition:background .2s,transform .25s ease,box-shadow .25s ease;}
-.dash-card:hover{background:var(--bg3);transform:translateY(-3px);box-shadow:0 10px 40px rgba(0,200,255,.07);}
+.dash-card{background:var(--bg2);padding:28px;min-height:340px;display:flex;flex-direction:column;gap:12px;transition:background .25s,transform .3s ease,box-shadow .3s ease;}
+.dash-card:hover{background:var(--bg3);transform:translateY(-3px);box-shadow:0 12px 48px rgba(0,200,255,.06);}
 .dash-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;}
 .dash-meta{font-family:'JetBrains Mono',monospace;color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase;}
 .kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px;}
-.kpi{border:1px solid var(--border);background:rgba(0,200,255,.04);padding:10px;transition:border-color .2s,box-shadow .2s;}
-.kpi:hover{border-color:rgba(0,200,255,.3);box-shadow:0 0 16px rgba(0,200,255,.08);}
-.kpi b{display:block;font-size:18px;color:var(--accent);font-family:'Syne',sans-serif;}
+.kpi{border:1px solid var(--border);background:rgba(0,200,255,.03);padding:10px;transition:border-color .25s,box-shadow .25s;}
+.kpi:hover{border-color:rgba(0,200,255,.3);box-shadow:0 0 20px rgba(0,200,255,.06);}
+.kpi b{display:block;font-size:clamp(15px,1.8vw,20px);color:var(--accent);font-family:'Syne',sans-serif;}
 .kpi span{font-size:9px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;}
-.kpi.green b{color:var(--accent2);}
-.kpi.orange b{color:var(--accent3);}
+.kpi.green b{color:var(--accent2);}.kpi.orange b{color:var(--accent3);}
+.kpi-sub{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);margin-top:3px;letter-spacing:.04em;}
 .dash-chart-area{flex:1;position:relative;min-height:160px;}
 .dash-chart-area canvas{width:100%!important;height:100%!important;}
 .dash-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:4px;}
-.dash-legend-item{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.05em;}
+.dash-legend-item{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);}
 .dash-legend-dot{width:8px;height:8px;border-radius:1px;}
-
-/* ── STAGGER for dashboard cards ── */
 .dashboard-lab .dash-card{opacity:0;transform:translateY(20px);}
-.dashboard-lab.visible .dash-card{opacity:1;transform:translateY(0);transition:opacity .55s ease,transform .55s cubic-bezier(.23,1,.32,1),background .2s,box-shadow .25s;}
+.dashboard-lab.visible .dash-card{opacity:1;transform:translateY(0);transition:opacity .55s ease,transform .55s cubic-bezier(.23,1,.32,1),background .25s,box-shadow .3s;}
 .dashboard-lab.visible .dash-card:nth-child(1){transition-delay:.08s;}
 .dashboard-lab.visible .dash-card:nth-child(2){transition-delay:.2s;}
 .dashboard-lab.visible .dash-card:nth-child(3){transition-delay:.32s;}
 
-/* ── BYTE BACK ENHANCED ── */
-.kpi-sub{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);margin-top:3px;letter-spacing:.04em;}
-.kpi b{font-size:clamp(15px,1.8vw,20px);}
+/* ── BYTE BACK / IMPACT / FUNDING ── */
 .covid-zone-label{position:absolute;top:6px;left:50%;transform:translateX(-50%);background:rgba(255,80,60,.1);border:1px solid rgba(255,80,60,.35);border-radius:3px;padding:2px 9px;font-family:'JetBrains Mono',monospace;font-size:9px;color:#ff6060;letter-spacing:.1em;pointer-events:none;white-space:nowrap;z-index:2;}
 .impact-bars{display:flex;flex-direction:column;gap:9px;margin-top:10px;}
 .impact-row{display:flex;align-items:center;gap:8px;}
 .impact-lbl{width:126px;flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.04em;}
-.impact-track{flex:1;height:5px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
+.impact-track{flex:1;height:5px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden;}
 .impact-fill{height:100%;border-radius:2px;width:0;transition:width 1.4s cubic-bezier(.22,1,.36,1);}
 .impact-pct{width:32px;text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--text);}
 .covid-alert{margin-top:12px;padding:10px 12px;background:rgba(255,80,60,.06);border:1px solid rgba(255,80,60,.22);border-radius:4px;}
@@ -199,18 +213,17 @@ h2 em::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:2px;
 .fund-table td:last-child{text-align:right;color:var(--text);font-weight:600;}
 .fund-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle;}
 .tag-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
-.tag-pill{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;padding:3px 9px;border-radius:3px;font-weight:700;transition:transform .15s,box-shadow .15s;}
+.tag-pill{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.08em;padding:3px 9px;border-radius:3px;font-weight:700;transition:transform .2s,box-shadow .2s;}
 .tag-pill:hover{transform:translateY(-1px);}
-.tag-blue{background:rgba(0,200,255,.1);color:var(--accent);border:1px solid rgba(0,200,255,.25);}
-.tag-blue:hover{box-shadow:0 0 10px rgba(0,200,255,.2);}
-.tag-green{background:rgba(0,255,157,.08);color:var(--accent2);border:1px solid rgba(0,255,157,.2);}
-.tag-orange{background:rgba(255,107,53,.1);color:var(--accent3);border:1px solid rgba(255,107,53,.25);}
-.tag-purple{background:rgba(167,139,250,.08);color:#a78bfa;border:1px solid rgba(167,139,250,.22);}
-.tag-red{background:rgba(255,80,60,.1);color:#ff6060;border:1px solid rgba(255,80,60,.25);}
+.tag-blue{background:rgba(0,200,255,.08);color:var(--accent);border:1px solid rgba(0,200,255,.2);}
+.tag-green{background:rgba(0,255,157,.06);color:var(--accent2);border:1px solid rgba(0,255,157,.18);}
+.tag-orange{background:rgba(255,107,53,.08);color:var(--accent3);border:1px solid rgba(255,107,53,.2);}
+.tag-purple{background:rgba(167,139,250,.06);color:#a78bfa;border:1px solid rgba(167,139,250,.18);}
+.tag-red{background:rgba(255,80,60,.08);color:#ff6060;border:1px solid rgba(255,80,60,.2);}
 
-/* ── SIGNATURE AVIATION ── */
+/* ── SIGNATURE ── */
 .sig-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);margin-bottom:2px;}
-.sig-kpi{background:var(--bg2);padding:20px 18px;position:relative;overflow:hidden;transition:background .2s;}
+.sig-kpi{background:var(--bg2);padding:20px 18px;position:relative;overflow:hidden;transition:background .25s;}
 .sig-kpi:hover{background:var(--bg3);}
 .sig-kpi::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:#60b8ff;opacity:.5;}
 .sig-kpi:nth-child(2)::before{background:var(--accent2);}
@@ -222,17 +235,13 @@ h2 em::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:2px;
 .sig-kpi:nth-child(4) .sig-kpi-val{color:var(--accent3);}
 .sig-kpi-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:6px;}
 .sig-kpi-delta{font-family:'JetBrains Mono',monospace;font-size:9px;margin-top:4px;}
-.delta-up{color:var(--accent2);}
-.delta-nt{color:var(--muted);}
+.delta-up{color:var(--accent2);}.delta-nt{color:var(--muted);}
 .ticker-wrap{background:rgba(0,0,0,.35);border:1px solid rgba(96,184,255,.18);border-radius:4px;padding:10px 14px;margin-top:12px;}
 .ticker-head{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;}
 .ticker-row{display:grid;grid-template-columns:120px 1fr 1fr auto;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);font-family:'JetBrains Mono',monospace;font-size:10px;align-items:center;}
 .ticker-row:last-child{border-bottom:none;}
 .ticker-tail{color:#60b8ff;font-weight:600;}
-.t-ok{color:var(--accent2);}
-.t-gov{color:#c880ff;}
-.t-warn{color:var(--accent3);}
-.t-muted{color:var(--muted);}
+.t-ok{color:var(--accent2);}.t-gov{color:#c880ff;}.t-warn{color:var(--accent3);}.t-muted{color:var(--muted);}
 .ring-flex{display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;margin:14px 0;}
 .ring-item{text-align:center;}
 .ring-canvas-wrap{width:90px;height:90px;position:relative;}
@@ -251,15 +260,13 @@ h2 em::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:2px;
 .mini-stat .ml{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);margin-top:3px;letter-spacing:.06em;}
 .mini-stat .md{font-size:10px;color:var(--muted);margin-top:2px;}
 
-/* ── PROJECTS ── */
+/* ── PROJECTS / CREDS / CONTACT / FOOTER ── */
 .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);border:1px solid var(--border);}
 .projects-grid .dash-card{min-height:auto;}
 .project-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:12px;color:var(--text);}
 .project-desc{font-size:13px;color:var(--muted);line-height:1.7;}
-
-/* ── CREDENTIALS ── */
 .certs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);border:1px solid var(--border);}
-.cert-card{background:var(--bg2);padding:28px 24px;position:relative;overflow:hidden;transition:background .2s,transform .25s ease,box-shadow .25s ease;opacity:0;transform:translateY(16px);}
+.cert-card{background:var(--bg2);padding:28px 24px;position:relative;overflow:hidden;transition:background .25s,transform .3s,box-shadow .3s;opacity:0;transform:translateY(16px);}
 .certs-grid.visible .cert-card{opacity:1;transform:translateY(0);}
 .certs-grid.visible .cert-card:nth-child(1){transition:opacity .5s ease .05s,transform .5s cubic-bezier(.23,1,.32,1) .05s,background .2s;}
 .certs-grid.visible .cert-card:nth-child(2){transition:opacity .5s ease .13s,transform .5s cubic-bezier(.23,1,.32,1) .13s,background .2s;}
@@ -267,49 +274,41 @@ h2 em::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:2px;
 .certs-grid.visible .cert-card:nth-child(4){transition:opacity .5s ease .29s,transform .5s cubic-bezier(.23,1,.32,1) .29s,background .2s;}
 .certs-grid.visible .cert-card:nth-child(5){transition:opacity .5s ease .37s,transform .5s cubic-bezier(.23,1,.32,1) .37s,background .2s;}
 .certs-grid.visible .cert-card:nth-child(6){transition:opacity .5s ease .45s,transform .5s cubic-bezier(.23,1,.32,1) .45s,background .2s;}
-.cert-card:hover{background:var(--bg3);transform:translateY(-3px)!important;box-shadow:0 8px 32px rgba(0,200,255,.08);}
+.cert-card:hover{background:var(--bg3);transform:translateY(-3px)!important;box-shadow:0 8px 32px rgba(0,200,255,.06);}
 .cert-icon{font-size:24px;margin-bottom:12px;}
 .cert-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;}
 .cert-issuer{font-size:12px;color:var(--muted);margin-bottom:6px;}
 .cert-year{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:.1em;}
-.cert-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--accent),transparent);opacity:.4;}
-
-/* ── CONTACT ── */
+.cert-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,var(--accent),transparent);opacity:.3;}
 #contact{padding-bottom:80px;}
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);border:1px solid var(--border);}
 .contact-left{background:var(--bg2);padding:60px;}
 .contact-right{background:var(--bg3);padding:60px;display:flex;flex-direction:column;gap:32px;}
 .contact-heading{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;margin-bottom:16px;}
 .contact-desc{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:32px;}
-.contact-link{display:flex;align-items:center;gap:16px;padding:20px 24px;border:1px solid var(--border);text-decoration:none;transition:all .2s;background:rgba(0,200,255,.03);}
-.contact-link:hover{border-color:var(--accent);background:rgba(0,200,255,.08);box-shadow:0 0 20px rgba(0,200,255,.1);transform:translateX(4px);}
+.contact-link{display:flex;align-items:center;gap:16px;padding:20px 24px;border:1px solid var(--border);text-decoration:none;transition:all .25s;background:rgba(0,200,255,.02);}
+.contact-link:hover{border-color:var(--accent);background:rgba(0,200,255,.06);box-shadow:0 0 24px rgba(0,200,255,.08);transform:translateX(4px);}
 .contact-link-icon{width:40px;height:40px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
 .contact-link-text{flex:1;}
 .contact-link-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;margin-bottom:4px;}
 .contact-link-value{font-size:14px;color:var(--accent);}
 footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:32px 60px;display:flex;justify-content:space-between;align-items:center;}
 footer p{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;}
-
-/* ── REVEAL ── */
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s cubic-bezier(.23,1,.32,1);}
 .reveal.visible{opacity:1;transform:translateY(0);}
 
-/* ── ML & API ── */
+/* ── ML ── */
 .ml-section-intro{font-size:15px;color:var(--muted);line-height:1.7;max-width:700px;margin-bottom:48px;}
 .ml-arch-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;background:var(--border);border:1px solid var(--border);margin-bottom:2px;}
-.ml-arch-node{background:var(--bg2);padding:22px 14px;text-align:center;position:relative;overflow:hidden;opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease,box-shadow .4s ease;}
+.ml-arch-node{background:var(--bg2);padding:22px 14px;text-align:center;position:relative;overflow:hidden;opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;}
 .ml-arch-strip.anim-active .ml-arch-node{opacity:1;transform:translateY(0);}
 .ml-arch-strip.anim-active .ml-arch-node:nth-child(1){transition-delay:0s;}
 .ml-arch-strip.anim-active .ml-arch-node:nth-child(2){transition-delay:.15s;}
 .ml-arch-strip.anim-active .ml-arch-node:nth-child(3){transition-delay:.3s;}
 .ml-arch-strip.anim-active .ml-arch-node:nth-child(4){transition-delay:.45s;}
 .ml-arch-strip.anim-active .ml-arch-node:nth-child(5){transition-delay:.6s;}
-.ml-arch-node::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent 0%,rgba(0,200,255,.06) 40%,rgba(0,200,255,.12) 50%,rgba(0,200,255,.06) 60%,transparent 100%);z-index:0;}
+.ml-arch-node::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(0,200,255,.06),rgba(0,200,255,.12),rgba(0,200,255,.06),transparent);z-index:0;}
 .ml-arch-strip.anim-active .ml-arch-node::before{animation:nodeSweep 2.5s ease-in-out infinite;}
-.ml-arch-strip.anim-active .ml-arch-node:nth-child(2)::before{animation-delay:.3s;}
-.ml-arch-strip.anim-active .ml-arch-node:nth-child(3)::before{animation-delay:.6s;}
-.ml-arch-strip.anim-active .ml-arch-node:nth-child(4)::before{animation-delay:.9s;}
-.ml-arch-strip.anim-active .ml-arch-node:nth-child(5)::before{animation-delay:1.2s;}
 @keyframes nodeSweep{0%{left:-100%;}50%{left:100%;}100%{left:100%;}}
 .ml-arch-node::after{content:'\2192';position:absolute;right:-7px;top:50%;transform:translateY(-50%);font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent);opacity:0;z-index:2;transition:opacity .3s ease;}
 .ml-arch-strip.anim-active .ml-arch-node::after{opacity:.5;}
@@ -325,7 +324,7 @@ footer p{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted
 .ml-projects-grid.anim-active .ml-card:nth-child(3){transition-delay:.25s;}
 .ml-projects-grid.anim-active .ml-card:nth-child(4){transition-delay:.35s;}
 .ml-projects-grid.anim-active .ml-card:nth-child(5){transition-delay:.45s;}
-.ml-card:hover{background:var(--bg3);box-shadow:0 0 40px rgba(0,200,255,.06);}
+.ml-card:hover{background:var(--bg3);box-shadow:0 0 40px rgba(0,200,255,.05);}
 .ml-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s ease;}
 .ml-card:hover::after{width:100%;}
 .ml-card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
@@ -336,14 +335,11 @@ footer p{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted
 .ml-type-nlp{color:#a78bfa;background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);}
 .ml-card-title{font-family:'Syne',sans-serif;font-size:19px;font-weight:700;color:var(--text);line-height:1.2;}
 .ml-card-desc{font-size:13px;color:var(--muted);line-height:1.7;}
-.ml-code-block{background:rgba(0,0,0,.45);border:1px solid rgba(0,200,255,.12);border-radius:4px;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.7;color:var(--muted);overflow-x:auto;position:relative;}
+.ml-code-block{background:rgba(0,0,0,.45);border:1px solid rgba(0,200,255,.1);border-radius:4px;padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.7;color:var(--muted);overflow-x:auto;position:relative;}
 .ml-code-block::before{content:attr(data-lang);position:absolute;top:6px;right:10px;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:rgba(107,140,174,.5);}
 .ml-code-block::after{content:'█';color:var(--accent);animation:cursorBlink 1s step-end infinite;font-size:11px;}
 @keyframes cursorBlink{0%,100%{opacity:1;}50%{opacity:0;}}
-.ml-code-block .ck{color:var(--accent);}
-.ml-code-block .cs{color:var(--accent2);}
-.ml-code-block .co{color:var(--accent3);}
-.ml-code-block .cp{color:#a78bfa;}
+.ml-code-block .ck{color:var(--accent);}.ml-code-block .cs{color:var(--accent2);}.ml-code-block .co{color:var(--accent3);}.ml-code-block .cp{color:#a78bfa;}
 .ml-endpoints{display:flex;flex-direction:column;gap:6px;}
 .ml-endpoint{display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.04);border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:10px;opacity:0;transform:translateX(-12px);transition:opacity .4s ease,transform .4s ease,background .2s,border-color .2s;}
 .ml-endpoints.anim-active .ml-endpoint{opacity:1;transform:translateX(0);}
@@ -351,773 +347,183 @@ footer p{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted
 .ml-endpoints.anim-active .ml-endpoint:nth-child(2){transition-delay:.2s;}
 .ml-endpoints.anim-active .ml-endpoint:nth-child(3){transition-delay:.3s;}
 .ml-endpoints.anim-active .ml-endpoint:nth-child(4){transition-delay:.4s;}
-.ml-endpoint:hover{background:rgba(0,200,255,.04);border-color:rgba(0,200,255,.15);}
+.ml-endpoint:hover{background:rgba(0,200,255,.04);border-color:rgba(0,200,255,.12);}
 .ml-method{padding:2px 8px;border-radius:2px;font-size:9px;font-weight:700;letter-spacing:.06em;flex-shrink:0;min-width:42px;text-align:center;}
 .ml-method-get{background:rgba(0,200,255,.15);color:var(--accent);}
 .ml-method-post{background:rgba(0,255,157,.15);color:var(--accent2);}
-.ml-route{color:var(--text);}
-.ml-route-desc{color:var(--muted);margin-left:auto;font-size:9px;}
+.ml-route{color:var(--text);}.ml-route-desc{color:var(--muted);margin-left:auto;font-size:9px;}
 .ml-metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .ml-metric{border:1px solid var(--border);background:rgba(0,200,255,.03);padding:12px 10px;text-align:center;transition:border-color .3s,box-shadow .3s;}
-.ml-metric:hover{border-color:rgba(0,200,255,.35);box-shadow:0 0 16px rgba(0,200,255,.08);}
+.ml-metric:hover{border-color:rgba(0,200,255,.3);box-shadow:0 0 20px rgba(0,200,255,.06);}
 .ml-metric-val{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;line-height:1;}
-.ml-metric-val.c1{color:var(--accent);}
-.ml-metric-val.c2{color:var(--accent2);}
-.ml-metric-val.c3{color:var(--accent3);}
-.ml-metric-val.c4{color:#a78bfa;}
+.ml-metric-val.c1{color:var(--accent);}.ml-metric-val.c2{color:var(--accent2);}.ml-metric-val.c3{color:var(--accent3);}.ml-metric-val.c4{color:#a78bfa;}
 .ml-metric-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:4px;}
 .ml-api-flow{display:flex;align-items:center;gap:0;justify-content:center;flex-wrap:wrap;padding:8px 0;}
-.ml-flow-node{background:rgba(0,200,255,.06);border:1px solid rgba(0,200,255,.2);padding:10px 16px;text-align:center;min-width:110px;position:relative;overflow:hidden;transition:border-color .4s,box-shadow .4s;}
+.ml-flow-node{background:rgba(0,200,255,.06);border:1px solid rgba(0,200,255,.15);padding:10px 16px;text-align:center;min-width:110px;transition:border-color .4s,box-shadow .4s;}
 .ml-flow-node .fl-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:.1em;text-transform:uppercase;}
 .ml-flow-node .fl-detail{font-size:10px;color:var(--muted);margin-top:3px;}
-.ml-flow-arrow{font-family:'JetBrains Mono',monospace;font-size:16px;color:rgba(0,200,255,.4);padding:0 6px;flex-shrink:0;animation:arrowPulse 2s ease-in-out infinite;}
+.ml-flow-arrow{font-family:'JetBrains Mono',monospace;font-size:16px;color:rgba(0,200,255,.4);padding:0 6px;animation:arrowPulse 2s ease-in-out infinite;}
 @keyframes arrowPulse{0%,100%{opacity:.4;transform:translateX(0);}50%{opacity:1;transform:translateX(3px);}}
-.ml-flow-node.node-green{border-color:rgba(0,255,157,.25);background:rgba(0,255,157,.05);}
+.ml-flow-node.node-green{border-color:rgba(0,255,157,.2);background:rgba(0,255,157,.04);}
 .ml-flow-node.node-green .fl-label{color:var(--accent2);}
-.ml-flow-node.node-orange{border-color:rgba(255,107,53,.25);background:rgba(255,107,53,.05);}
+.ml-flow-node.node-orange{border-color:rgba(255,107,53,.2);background:rgba(255,107,53,.04);}
 .ml-flow-node.node-orange .fl-label{color:var(--accent3);}
-.ml-flow-node.node-purple{border-color:rgba(167,139,250,.25);background:rgba(167,139,250,.05);}
+.ml-flow-node.node-purple{border-color:rgba(167,139,250,.2);background:rgba(167,139,250,.04);}
 .ml-flow-node.node-purple .fl-label{color:#a78bfa;}
-.ml-flow-node:hover{box-shadow:0 0 20px rgba(0,200,255,.12);border-color:rgba(0,200,255,.5);}
+.ml-flow-node:hover{box-shadow:0 0 20px rgba(0,200,255,.1);}
 .ml-card-full{grid-column:1 / -1;}
-.ml-card-full::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);animation:monitorScan 3s linear infinite;opacity:.6;z-index:2;}
+.ml-card-full::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);animation:monitorScan 3s linear infinite;opacity:.5;z-index:2;}
 @keyframes monitorScan{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
 .ml-chart-area{flex:1;position:relative;min-height:140px;}
 .ml-chart-area canvas{width:100%!important;height:100%!important;}
-.ml-book-ref{display:flex;align-items:center;gap:14px;padding:16px 20px;background:rgba(0,200,255,.03);border:1px solid var(--border);margin-top:8px;transition:border-color .3s,transform .2s;}
-.ml-book-ref:hover{border-color:rgba(0,200,255,.3);transform:translateX(4px);}
+.ml-book-ref{display:flex;align-items:center;gap:14px;padding:16px 20px;background:rgba(0,200,255,.03);border:1px solid var(--border);margin-top:8px;transition:border-color .3s,transform .25s;}
+.ml-book-ref:hover{border-color:rgba(0,200,255,.25);transform:translateX(4px);}
 .ml-book-icon{font-size:28px;flex-shrink:0;}
 .ml-book-text{font-size:12px;color:var(--muted);line-height:1.6;}
 .ml-book-text strong{color:var(--text);}
 .ml-book-text em{color:var(--accent);font-style:normal;font-family:'JetBrains Mono',monospace;font-size:10px;}
-
-/* ── SECTION LABEL SLIDE ── */
 .section-tag{opacity:0;transform:translateX(-12px);transition:opacity .5s ease,transform .5s ease;}
 .reveal.visible .section-tag{opacity:1;transform:translateX(0);transition-delay:.1s;}
 
 @media(max-width:900px){
-  nav{padding:16px 24px;}
-  .nav-links{display:none;}
-  section{padding:80px 24px;}
-  .hero-inner{grid-template-columns:1fr;}
-  .skills-grid{grid-template-columns:1fr;}
-  .tools-section{grid-template-columns:1fr 1fr;}
-  .dashboard-lab{grid-template-columns:1fr;}
-  .sig-kpi-grid{grid-template-columns:1fr 1fr;}
-  .dspo-kpi-row{grid-template-columns:repeat(3,1fr);}
-  .dspo-chart-grid{grid-template-columns:1fr;}
-  .projects-grid{grid-template-columns:1fr;}
-  .certs-grid{grid-template-columns:1fr 1fr;}
-  .contact-grid{grid-template-columns:1fr;}
+  nav{padding:16px 24px;}.nav-links{display:none;}section{padding:80px 24px;}
+  .hero-inner{grid-template-columns:1fr;}.skills-grid{grid-template-columns:1fr;}
+  .tools-section{grid-template-columns:1fr 1fr;}.dashboard-lab{grid-template-columns:1fr;}
+  .sig-kpi-grid{grid-template-columns:1fr 1fr;}.dspo-kpi-row{grid-template-columns:repeat(3,1fr);}
+  .dspo-chart-grid{grid-template-columns:1fr;}.projects-grid{grid-template-columns:1fr;}
+  .certs-grid{grid-template-columns:1fr 1fr;}.contact-grid{grid-template-columns:1fr;}
   footer{flex-direction:column;gap:12px;padding:24px;text-align:center;}
-  body{cursor:auto;}
-  .cursor,.cursor-ring{display:none;}
+  body{cursor:auto;}.cursor,.cursor-ring{display:none;}
   .ticker-row{grid-template-columns:90px 1fr auto;}
-  .ml-projects-grid{grid-template-columns:1fr;}
-  .ml-arch-strip{grid-template-columns:1fr;}
-  .ml-arch-node::after{display:none;}
-  .ml-metric-row{grid-template-columns:1fr 1fr;}
-  .ml-api-flow{flex-direction:column;}
-  .ml-flow-arrow{transform:rotate(90deg);}
-  .ml-card-full{grid-column:1;}
-  .employer-tabs{flex-direction:column;}
+  .ml-projects-grid{grid-template-columns:1fr;}.ml-arch-strip{grid-template-columns:1fr;}
+  .ml-arch-node::after{display:none;}.ml-metric-row{grid-template-columns:1fr 1fr;}
+  .ml-api-flow{flex-direction:column;}.ml-flow-arrow{transform:rotate(90deg);}
+  .ml-card-full{grid-column:1;}.employer-tabs{flex-direction:column;}
 }
 </style>
 </head>
-<body>
+<body class="preloader-active">
+<div id="preloader"><div class="preloader-grid" id="preloaderGrid"></div><div class="preloader-vignette"></div><div id="preloader-scene"><svg id="dome-svg" width="400" height="300" viewBox="-200 -200 400 300"></svg><div id="particles-container"></div></div><div class="preloader-label" id="preloaderLabel">TRANSFORMING RAW DATA INTO INSIGHT <span class="pl-cursor">█</span></div></div>
+<div class="cursor" id="cursor"></div><div class="cursor-ring" id="cursorRing"></div><canvas id="bg-canvas"></canvas>
+<nav><div class="nav-logo">braxton<span>.canady</span></div><div class="nav-links"><a href="#skills">Skills</a><a href="#experience">Experience</a><a href="#dashboards">Dashboards</a><a href="#ml-api">ML &amp; APIs</a><a href="#projects">Projects</a><a href="#credentials">Credentials</a><a href="#contact">Contact</a></div></nav>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-<canvas id="bg-canvas"></canvas>
+<section id="hero"><div class="hero-inner"><div class="hero-left"><div class="hero-status"><div class="status-dot"></div>Open to opportunities</div><h1><span class="name-accent">Braxton</span><br>Canady<span class="name-dim">.</span></h1><div class="hero-title-line"><span class="badge">DATA ANALYTICS</span><span class="badge">BI / DASHBOARDS</span><span class="badge">AI / ML</span><span class="badge">OPERATIONS RESEARCH</span></div><p class="hero-desc">Senior Business Analyst and Operations Research Systems Analyst with 6+ years of experience turning complex federal and nonprofit data into decisions that move the needle. I build dashboards, pipelines, and models that leadership actually uses.</p><div class="hero-ctas"><a href="#dashboards" class="btn-primary">View Dashboards</a><a href="#contact" class="btn-ghost">Get in Touch</a></div></div><div class="hero-stats"><div class="stat-card"><div class="stat-num" data-target="6">6</div><div class="stat-label">Years of Experience</div></div><div class="stat-card"><div class="stat-num" data-target="25">25</div><div class="stat-label">Dashboards Delivered</div></div><div class="stat-card"><div class="stat-num" data-target="8">8</div><div class="stat-label">Certifications</div></div><div class="stat-card"><div class="stat-num" data-target="4">4</div><div class="stat-label">Federal Agencies</div></div></div></div></section>
 
-<nav>
-  <div class="nav-logo">braxton<span>.canady</span></div>
-  <div class="nav-links">
-    <a href="#skills">Skills</a>
-    <a href="#experience">Experience</a>
-    <a href="#dashboards">Dashboards</a>
-    <a href="#ml-api">ML &amp; APIs</a>
-    <a href="#projects">Projects</a>
-    <a href="#credentials">Credentials</a>
-    <a href="#contact">Contact</a>
-  </div>
-</nav>
+<section id="skills"><div class="reveal"><div class="section-tag">Capabilities</div><h2>Tools I <em>Work With</em></h2></div>
+<div class="skills-grid reveal"><div class="skill-group"><div class="skill-group-title">Data &amp; Analytics</div><div class="skill-bar-wrap"><div class="skill-bar-label">SQL / T-SQL <span>95%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="95"></div></div></div><div class="skill-bar-wrap"><div class="skill-bar-label">Python (Pandas, Scikit-learn) <span>88%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="88"></div></div></div><div class="skill-bar-wrap"><div class="skill-bar-label">Excel / Advanced Modeling <span>92%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="92"></div></div></div><div class="skill-bar-wrap"><div class="skill-bar-label">ETL Pipeline Design <span>85%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div></div></div><div class="skill-group"><div class="skill-group-title">Visualization &amp; BI</div><div class="skill-bar-wrap"><div class="skill-bar-label">Power BI <span>93%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="93"></div></div></div><div class="skill-bar-wrap"><div class="skill-bar-label">Tableau <span>87%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="87"></div></div></div><div class="skill-bar-wrap"><div class="skill-bar-label">Databricks / Unity Catalog <span>80%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div></div><div class="skill-bar-wrap"><div class="skill-bar-label">DAX / M Query <span>84%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="84"></div></div></div></div><div class="skill-group"><div class="skill-group-title">Strategy &amp; Ops</div><div class="skill-bar-wrap"><div class="skill-bar-label">Federal Proposal Support <span>90%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div></div><div class="skill-bar-wrap"><div class="skill-bar-label">Lean Six Sigma <span>85%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div></div><div class="skill-bar-wrap"><div class="skill-bar-label">Salesforce / HubSpot CRM <span>82%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="82"></div></div></div><div class="skill-bar-wrap"><div class="skill-bar-label">Project Management (PMP) <span>88%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="88"></div></div></div></div></div>
+<div class="tools-section reveal"><div class="tool-category"><div class="tool-cat-label">Languages</div><div class="tool-chips"><span class="chip">SQL</span><span class="chip">Python</span><span class="chip">DAX</span><span class="chip">M Query</span><span class="chip">R</span><span class="chip">HTML/CSS</span></div></div><div class="tool-category"><div class="tool-cat-label">Platforms</div><div class="tool-chips"><span class="chip green">Power BI</span><span class="chip green">Tableau</span><span class="chip green">Databricks</span><span class="chip green">Salesforce</span><span class="chip green">HubSpot</span></div></div><div class="tool-category"><div class="tool-cat-label">Data Engineering</div><div class="tool-chips"><span class="chip orange">SSIS</span><span class="chip orange">Azure Data Factory</span><span class="chip orange">Unity Catalog</span><span class="chip orange">API Integrations</span></div></div><div class="tool-category"><div class="tool-cat-label">Methods</div><div class="tool-chips"><span class="chip purple">Lean Six Sigma</span><span class="chip purple">Agile / Scrum</span><span class="chip purple">Regression</span><span class="chip purple">NLP</span><span class="chip purple">Time Series</span></div></div></div></section>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-inner">
-    <div class="hero-left">
-      <div class="hero-status"><div class="status-dot"></div>Open to opportunities</div>
-      <h1><span class="name-accent">Braxton</span><br>Canady<span class="name-dim">.</span></h1>
-      <div class="hero-title-line">
-        <span class="badge">DATA ANALYTICS</span>
-        <span class="badge">BI / DASHBOARDS</span>
-        <span class="badge">AI / ML</span>
-        <span class="badge">OPERATIONS RESEARCH</span>
-      </div>
-      <p class="hero-desc">Senior Business Analyst and Operations Research Systems Analyst with 6+ years of experience turning complex federal and nonprofit data into decisions that move the needle. I build dashboards, pipelines, and models that leadership actually uses.</p>
-      <div class="hero-ctas">
-        <a href="#dashboards" class="btn-primary">View Dashboards</a>
-        <a href="#contact" class="btn-ghost">Get in Touch</a>
-      </div>
-    </div>
-    <div class="hero-stats">
-      <div class="stat-card"><div class="stat-num" data-target="6">6</div><div class="stat-label">Years of Experience</div></div>
-      <div class="stat-card"><div class="stat-num" data-target="25">25</div><div class="stat-label">Dashboards Delivered</div></div>
-      <div class="stat-card"><div class="stat-num" data-target="8">8</div><div class="stat-label">Certifications</div></div>
-      <div class="stat-card"><div class="stat-num" data-target="4">4</div><div class="stat-label">Federal Agencies</div></div>
-    </div>
-  </div>
-</section>
+<section id="experience"><div class="reveal"><div class="section-tag">Career</div><h2>Where I've <em>Delivered</em></h2></div>
+<div class="timeline reveal"><div class="tl-item"><div class="tl-date">2025 &mdash; PRESENT</div><div class="tl-role">Senior Business Analyst Consultant</div><div class="tl-org">AP3SI (SDVOSB Federal Contractor)</div><ul class="tl-bullets"><li>Lead technical volume development for multi-million dollar federal proposals including VA PDM FARM and NIST acquisitions</li><li>Conduct capability gap analyses against PWS requirements to inform teaming and subcontracting strategy</li><li>Develop WBS structures, personnel qualification matrices, and compliance documentation for competitive bids</li><li>Drive business development using GovWin IQ, USASpending.gov, and SAM.gov to identify and qualify pipeline opportunities</li></ul></div><div class="tl-item"><div class="tl-date">2023 &mdash; 2025</div><div class="tl-role">Sr. Operations Research Systems Analyst</div><div class="tl-org">Department of Defense, Defense Suicide Prevention Office (DSPO)</div><ul class="tl-bullets"><li>Built and maintained Power BI dashboards tracking suicide prevention program metrics across all DoD service branches</li><li>Designed ETL pipelines to integrate data from disparate military health and readiness systems</li><li>Developed predictive models to identify at-risk populations using behavioral health indicators and demographic data</li><li>Authored governance frameworks for data quality, access controls, and reporting standards across DSPO workstreams</li><li>Provided analytical support for congressional reporting requirements and senior leadership briefings</li></ul></div><div class="tl-item"><div class="tl-date">2021 &mdash; 2023</div><div class="tl-role">Data &amp; Operations Analyst</div><div class="tl-org">Byte Back Inc.</div><ul class="tl-bullets"><li>Designed Salesforce and HubSpot reporting architecture to track scholar enrollment, retention, and completion rates</li><li>Built dashboards that surfaced dropout risk factors, enabling proactive intervention by program staff</li><li>Automated data collection and reporting workflows, reducing manual effort by 40+ hours per month</li><li>Analyzed program outcomes to support grant applications and donor reporting, contributing to sustained funding</li></ul></div><div class="tl-item"><div class="tl-date">2019 &mdash; 2021</div><div class="tl-role">Budget &amp; Policy Analyst</div><div class="tl-org">City of Tallahassee</div><ul class="tl-bullets"><li>Managed departmental budget analyses totaling $25M+ across multiple city programs</li><li>Created financial models and forecasting tools in Excel used for annual budget planning cycles</li><li>Prepared policy briefs and data summaries for city commissioners and executive leadership</li></ul></div></div></section>
 
-<!-- SKILLS -->
-<section id="skills">
-  <div class="reveal">
-    <div class="section-tag">Capabilities</div>
-    <h2>Tools I <em>Work With</em></h2>
-  </div>
-  <div class="skills-grid reveal">
-    <div class="skill-group">
-      <div class="skill-group-title">Data &amp; Analytics</div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label">SQL / T-SQL <span>95%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="95"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label">Python (Pandas, Scikit-learn) <span>88%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="88"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label">Excel / Advanced Modeling <span>92%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="92"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label">ETL Pipeline Design <span>85%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div></div>
-    </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Visualization &amp; BI</div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label">Power BI <span>93%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="93"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label">Tableau <span>87%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="87"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label">Databricks / Unity Catalog <span>80%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="80"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label">DAX / M Query <span>84%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="84"></div></div></div>
-    </div>
-    <div class="skill-group">
-      <div class="skill-group-title">Strategy &amp; Ops</div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label">Federal Proposal Support <span>90%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="90"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label">Lean Six Sigma <span>85%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="85"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label">Salesforce / HubSpot CRM <span>82%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="82"></div></div></div>
-      <div class="skill-bar-wrap"><div class="skill-bar-label">Project Management (PMP) <span>88%</span></div><div class="skill-bar-track"><div class="skill-bar-fill" data-width="88"></div></div></div>
-    </div>
-  </div>
-  <div class="tools-section reveal">
-    <div class="tool-category"><div class="tool-cat-label">Languages</div><div class="tool-chips"><span class="chip">SQL</span><span class="chip">Python</span><span class="chip">DAX</span><span class="chip">M Query</span><span class="chip">R</span><span class="chip">HTML/CSS</span></div></div>
-    <div class="tool-category"><div class="tool-cat-label">Platforms</div><div class="tool-chips"><span class="chip green">Power BI</span><span class="chip green">Tableau</span><span class="chip green">Databricks</span><span class="chip green">Salesforce</span><span class="chip green">HubSpot</span></div></div>
-    <div class="tool-category"><div class="tool-cat-label">Data Engineering</div><div class="tool-chips"><span class="chip orange">SSIS</span><span class="chip orange">Azure Data Factory</span><span class="chip orange">Unity Catalog</span><span class="chip orange">API Integrations</span></div></div>
-    <div class="tool-category"><div class="tool-cat-label">Methods</div><div class="tool-chips"><span class="chip purple">Lean Six Sigma</span><span class="chip purple">Agile / Scrum</span><span class="chip purple">Regression</span><span class="chip purple">NLP</span><span class="chip purple">Time Series</span></div></div>
-  </div>
-</section>
+<section id="dashboards"><div class="reveal"><div class="section-tag">Dashboard Lab</div><h2>Data in <em>Action</em></h2><p class="portfolio-intro">Interactive dashboard samples built with representative data to demonstrate analytical approach and visualization design. These reflect the types of insights I produce for federal and nonprofit stakeholders.</p></div>
+<div class="employer-tabs reveal"><button class="tab-btn active" data-tab="dspo"><span class="tab-icon">🛡</span><span>DoD / DSPO</span></button><button class="tab-btn" data-tab="byteback"><span class="tab-icon">📊</span><span>Byte Back Inc.</span></button><button class="tab-btn" data-tab="signature"><span class="tab-icon">✈</span><span>Signature Aviation</span></button></div>
+<div class="tab-panel active" id="tab-dspo"><div class="dashboard-lab reveal" style="grid-template-columns:1fr;"><div class="dash-card dspo-full"><div class="dspo-header"><div><div class="dspo-header-title">Department of Defense &mdash; Suicide Prevention Dashboard</div><div class="dspo-header-sub">Strategic Overview &middot; Defense Suicide Prevention Office (DSPO) &middot; FY2025</div></div><div class="dspo-header-badge">Last Update: Jul 15, 2025</div></div><div class="dspo-kpi-row"><div class="dspo-kpi"><span>247</span><label>Total Activities</label></div><div class="dspo-kpi"><span>78%</span><label>Validated by Leads</label></div><div class="dspo-kpi"><span>62%</span><label>Ongoing Initiatives</label></div><div class="dspo-kpi"><span>94%</span><label>Serving Active Forces</label></div><div class="dspo-kpi"><span>43</span><label>Unique Stakeholders</label></div></div><div class="dspo-chart-grid"><div class="dspo-chart-panel"><div class="dspo-panel-title">Prevention Activities by Component</div><div class="dash-chart-area"><canvas id="chart-dspo-bar"></canvas></div></div><div class="dspo-chart-panel"><div class="dspo-panel-title">Activities by Category</div><div class="dash-chart-area"><canvas id="chart-dspo-donut"></canvas></div></div><div class="dspo-chart-panel"><div class="dspo-panel-title">SPRIRC Priority Alignment</div><div class="dash-chart-area"><canvas id="chart-dspo-radar1"></canvas></div></div><div class="dspo-chart-panel"><div class="dspo-panel-title">Strategic Direction Coverage</div><div class="dash-chart-area"><canvas id="chart-dspo-radar2"></canvas></div></div></div></div></div><div class="dashboard-lab reveal"><div class="dash-card"><div class="dash-meta">DSPO / Service Branch View</div><div class="dash-title">Referrals by Branch (FY25 Q1&ndash;Q3)</div><div class="dash-chart-area"><canvas id="chart-branch"></canvas></div></div><div class="dash-card"><div class="dash-meta">DSPO &middot; Program Highlights</div><div class="dash-title">FY25 Program Summary</div><div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;"><div style="padding:14px;background:rgba(0,200,255,.04);border:1px solid rgba(0,200,255,.1);border-radius:4px;"><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;">Coverage</div><div style="font-size:13px;color:var(--muted);line-height:1.7;">247 prevention activities tracked across all DoD service branches. 94% directly serving active-duty forces with validated lead oversight.</div></div><div style="padding:14px;background:rgba(0,255,157,.04);border:1px solid rgba(0,255,157,.1);border-radius:4px;"><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--accent2);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;">Toolset</div><div style="font-size:13px;color:var(--muted);line-height:1.7;">Power BI dashboards fed by custom ETL pipelines across 5+ military health and readiness systems. Congressional reporting-ready.</div></div><div style="padding:14px;background:rgba(167,139,250,.04);border:1px solid rgba(167,139,250,.1);border-radius:4px;"><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#a78bfa;letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;">Stakeholders</div><div style="font-size:13px;color:var(--muted);line-height:1.7;">43 unique stakeholders engaged across service branches. Predictive models identify at-risk populations using behavioral health indicators.</div></div></div><div class="tag-row"><span class="tag-pill tag-blue">Power BI</span><span class="tag-pill tag-orange">Python ETL</span><span class="tag-pill tag-green">SQL Server</span><span class="tag-pill tag-purple">Predictive Models</span></div></div></div></div>
+<div class="tab-panel hidden" id="tab-byteback"><div class="dashboard-lab reveal"><div class="dash-card" style="position:relative;"><div class="dash-meta">Byte Back Inc. &middot; Washington DC &amp; Baltimore</div><div class="dash-title">Scholar Enrollment &amp; Retention (FY18&ndash;FY23)</div><div class="kpi-row"><div class="kpi"><b>955</b><span>Scholars Enrolled (FY23)</span><div class="kpi-sub">&#9650; +110% vs FY20 low</div></div><div class="kpi green"><b>88%</b><span>Avg Retention Rate</span><div class="kpi-sub">FY21&ndash;FY23 recovery</div></div><div class="kpi orange"><b>74%</b><span>Job Placement Rate</span><div class="kpi-sub">+$23K avg salary lift</div></div></div><div class="dash-legend"><div class="dash-legend-item"><div class="dash-legend-dot" style="background:var(--accent)"></div>Enrolled</div><div class="dash-legend-item"><div class="dash-legend-dot" style="background:var(--accent2)"></div>Retained</div><div class="dash-legend-item"><div class="dash-legend-dot" style="background:var(--accent3)"></div>Placed</div><div class="dash-legend-item"><div class="dash-legend-dot" style="background:#ff6060;opacity:.6;"></div>COVID Impact</div></div><div class="dash-chart-area" style="position:relative;"><div class="covid-zone-label">&#9888;&#xFE0E; COVID-19 DISRUPTION &mdash; FY20</div><canvas id="chart-byteback"></canvas></div><div style="margin-top:14px;"><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;">Scholar Demographics</div><div class="impact-bars"><div class="impact-row"><div class="impact-lbl">Women</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent);" data-pct="67"></div></div><div class="impact-pct">67%</div></div><div class="impact-row"><div class="impact-lbl">People of Color</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent2);" data-pct="96"></div></div><div class="impact-pct">96%</div></div><div class="impact-row"><div class="impact-lbl">No College Degree</div><div class="impact-track"><div class="impact-fill" style="background:#a78bfa;" data-pct="83"></div></div><div class="impact-pct">83%</div></div><div class="impact-row"><div class="impact-lbl">Gov't Benefits Users</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent3);" data-pct="80"></div></div><div class="impact-pct">80%</div></div></div></div></div><div class="dash-card"><div class="dash-meta">Byte Back Inc. &middot; Funding &amp; Donor Profile</div><div class="dash-title">Revenue Breakdown &amp; Key Funders (FY20&ndash;FY23)</div><div class="dash-chart-area" style="max-height:180px;"><canvas id="chart-funding"></canvas></div><table class="fund-table"><tr><td><span class="fund-dot" style="background:#00c8ff;"></span>Federal &amp; DC Gov Grants</td><td>$340K</td></tr><tr><td><span class="fund-dot" style="background:#00ff9d;"></span>Corporate Foundations</td><td>$480K</td></tr><tr><td><span class="fund-dot" style="background:#ff6b35;"></span>Private Foundations</td><td>$620K</td></tr><tr><td><span class="fund-dot" style="background:#a78bfa;"></span>TD Bank / TD Ready Challenge</td><td>$180K</td></tr><tr><td><span class="fund-dot" style="background:#ff6060;"></span>Individual / Other</td><td>$95K</td></tr></table><div style="margin-top:12px;"><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;">Notable Funders</div><div class="tag-row"><span class="tag-pill tag-blue">Citi Foundation</span><span class="tag-pill tag-blue">Wells Fargo Fdn</span><span class="tag-pill tag-blue">Bank of America</span><span class="tag-pill tag-green">DC OSSE</span><span class="tag-pill tag-green">DC BETA ($2.4M Fed)</span><span class="tag-pill tag-orange">Comcast NBCUniversal</span><span class="tag-pill tag-purple">TD Ready ($1M)</span><span class="tag-pill tag-blue">J.W. Marriott Fdn</span><span class="tag-pill tag-blue">Kapor Center</span></div></div><div class="covid-alert"><div class="covid-alert-head">&#9888; FY20 COVID IMPACT ON FUNDING &amp; PLACEMENTS</div><p>Closure of 20+ community sites forced a rapid pivot to virtual delivery. Grad placements dropped from <strong>57 (FY19)</strong> to <strong>47 (FY20)</strong>, a <strong>17.5% decline</strong>. Several corporate event-based donor engagements were cancelled, compressing revenue by an estimated 22%.</p></div></div></div><div class="dashboard-lab reveal" style="grid-template-columns:1fr;"><div class="dash-card" style="min-height:auto;"><div class="dash-meta">Byte Back &middot; Cohort Analysis</div><div class="dash-title">Completion Rates by Program Track</div><div class="dash-chart-area" style="min-height:200px;"><canvas id="chart-cohort"></canvas></div><div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);line-height:1.7;"><span style="color:var(--accent);">&#9670;</span> <strong style="color:var(--text);">Computer Foundations</strong> &mdash; 94% course-pass; digital literacy pathway<br><span style="color:var(--accent2);">&#9670;</span> <strong style="color:var(--text);">Office Tech / Admin</strong> &mdash; MS 365, Excel, QuickBooks; direct living-wage placement<br><span style="color:var(--accent3);">&#9670;</span> <strong style="color:var(--text);">CompTIA A+</strong> &mdash; primary IT workforce cert; avg 8 months to completion<br><span style="color:#a78bfa;">&#9670;</span> <strong style="color:var(--text);">Network+ / Security+</strong> &mdash; highest post-placement salary outcomes</div></div></div></div>
+<div class="tab-panel hidden" id="tab-signature"><div class="sig-kpi-grid reveal" style="border:1px solid var(--border);margin-top:2px;"><div class="sig-kpi"><span class="sig-kpi-val">4,380</span><div class="sig-kpi-lbl">Annual Aircraft Movements</div><div class="sig-kpi-delta delta-up">&#9650; +12% YoY</div></div><div class="sig-kpi"><span class="sig-kpi-val">94%</span><div class="sig-kpi-lbl">On-Time QuickTurn&reg;</div><div class="sig-kpi-delta delta-up">&#9650; vs 91% baseline</div></div><div class="sig-kpi"><span class="sig-kpi-val">23%</span><div class="sig-kpi-lbl">Gov / Military Share</div><div class="sig-kpi-delta delta-nt">Priority Handling Tier</div></div><div class="sig-kpi"><span class="sig-kpi-val">99.7%</span><div class="sig-kpi-lbl">FAA Compliance Score</div><div class="sig-kpi-delta delta-up">Zero audit flags</div></div></div><div class="dashboard-lab reveal"><div class="dash-card"><div class="dash-meta">Signature Aviation &middot; Live Operations</div><div class="dash-title">Aircraft Movement &amp; Ops Overview</div><div class="tag-row" style="margin-bottom:4px;"><span class="tag-pill tag-green">LADD Compliant</span><span class="tag-pill tag-blue">Part 91 / Part 135</span><span class="tag-pill tag-blue">SWIM Data Feed</span><span class="tag-pill tag-orange">Executive Charter</span><span class="tag-pill tag-red">VVIP Protocols</span></div><div class="ticker-wrap"><div class="ticker-head">&#9656; Movement Log &mdash; Sample Ops Window</div><div class="ticker-row"><span class="ticker-tail">N872EX</span><span class="t-muted">Gulfstream G650</span><span class="t-muted">JFK &#8594; TEB</span><span class="t-ok">CLEARED</span></div><div class="ticker-row"><span class="ticker-tail">09-0016</span><span class="t-muted">C-40C (CODEL Transport)</span><span class="t-muted">KBWI &#8594; KDCA</span><span class="t-gov">GOV PRIORITY</span></div><div class="ticker-row"><span class="ticker-tail">N441XJ</span><span class="t-muted">Citation Latitude</span><span class="t-muted">KBWI &#8594; KDAL</span><span class="t-ok">CLEARED</span></div><div class="ticker-row"><span class="ticker-tail">N190MA</span><span class="t-muted">Global 6000</span><span class="t-muted">KPBI &#8594; KTEB</span><span class="t-warn">FUEL DELAY +14m</span></div><div class="ticker-row"><span class="ticker-tail">84-0025</span><span class="t-muted">C-32A Exec Transport</span><span class="t-muted">KADW &#8594; KDOV</span><span class="t-gov">GOV PRIORITY</span></div><div class="ticker-row"><span class="ticker-tail">N558MT</span><span class="t-muted">Phenom 300</span><span class="t-muted">KMIA &#8594; KIAD</span><span class="t-ok">CLEARED</span></div></div><div class="mini-stat-row"><div class="mini-stat"><div class="mv">November</div><div class="ml">Peak Movement Month</div><div class="md">Holiday + political travel surge</div></div><div class="mini-stat"><div class="mv" style="color:var(--accent2);">23 min</div><div class="ml">Avg Turnaround Time</div><div class="md">vs 45 min commercial baseline</div></div></div></div><div class="dash-card"><div class="dash-meta">Signature Aviation &middot; Regulatory</div><div class="dash-title">FAA Compliance &amp; Safety Metrics</div><div class="ring-flex"><div class="ring-item"><div class="ring-canvas-wrap"><canvas id="ring-faa"></canvas><div class="ring-inner-label"><div class="rv">99.7%</div><div class="rs">FAA Reg</div></div></div><div class="ring-caption">Compliance</div></div><div class="ring-item"><div class="ring-canvas-wrap"><canvas id="ring-qt"></canvas><div class="ring-inner-label"><div class="rv" style="color:var(--accent2);">94.2%</div><div class="rs">QuickTurn</div></div></div><div class="ring-caption">On-Time Rate</div></div><div class="ring-item"><div class="ring-canvas-wrap"><canvas id="ring-inc"></canvas><div class="ring-inner-label"><div class="rv" style="color:var(--accent2);">0</div><div class="rs">Incidents</div></div></div><div class="ring-caption">Safety Record</div></div></div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;">Aircraft Category Mix (Annual)</div><div class="dash-chart-area" style="max-height:160px;min-height:130px;"><canvas id="chart-acmix"></canvas></div><div class="sig-notes"><div class="sig-note">&#11042; <strong>LADD Program</strong> &mdash; processed aircraft data privacy filter requests for HNWI &amp; gov clients</div><div class="sig-note">&#11042; <strong>Part 91/135 Verification</strong> &mdash; confirmed compliance on all departures; zero regulatory flags</div><div class="sig-note">&#11042; <strong>SWIM Data Feed</strong> &mdash; cross-referenced FAA real-time tracking against internal movement logs</div></div></div></div><div class="dashboard-lab reveal"><div class="dash-card"><div class="dash-meta">Signature Aviation &middot; Operations Timeline</div><div class="dash-title">Monthly Aircraft Movements by Category</div><div class="dash-chart-area"><canvas id="chart-sig-movements"></canvas></div></div><div class="dash-card"><div class="dash-meta">Signature Aviation &middot; FAA Compliance</div><div class="dash-title">Regulatory Score &amp; LADD Requests (Monthly)</div><div class="dash-chart-area"><canvas id="chart-sig-compliance"></canvas></div><div class="sig-notes" style="margin-top:8px;"><div class="sig-note">&#11042; <strong>Zero audit flags</strong> across full operational period</div><div class="sig-note">&#11042; <strong>VVIP protocols</strong> coordinated for executive &amp; government passengers at ramp level</div></div></div></div></div></section>
 
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="reveal">
-    <div class="section-tag">Career</div>
-    <h2>Where I've <em>Delivered</em></h2>
-  </div>
-  <div class="timeline reveal">
-    <div class="tl-item">
-      <div class="tl-date">2025 &mdash; PRESENT</div>
-      <div class="tl-role">Senior Business Analyst Consultant</div>
-      <div class="tl-org">AP3SI (SDVOSB Federal Contractor)</div>
-      <ul class="tl-bullets">
-        <li>Lead technical volume development for multi-million dollar federal proposals including VA PDM FARM and NIST acquisitions</li>
-        <li>Conduct capability gap analyses against PWS requirements to inform teaming and subcontracting strategy</li>
-        <li>Develop WBS structures, personnel qualification matrices, and compliance documentation for competitive bids</li>
-        <li>Drive business development using GovWin IQ, USASpending.gov, and SAM.gov to identify and qualify pipeline opportunities</li>
-      </ul>
-    </div>
-    <div class="tl-item">
-      <div class="tl-date">2023 &mdash; 2025</div>
-      <div class="tl-role">Sr. Operations Research Systems Analyst</div>
-      <div class="tl-org">Department of Defense, Defense Suicide Prevention Office (DSPO)</div>
-      <ul class="tl-bullets">
-        <li>Built and maintained Power BI dashboards tracking suicide prevention program metrics across all DoD service branches</li>
-        <li>Designed ETL pipelines to integrate data from disparate military health and readiness systems</li>
-        <li>Developed predictive models to identify at-risk populations using behavioral health indicators and demographic data</li>
-        <li>Authored governance frameworks for data quality, access controls, and reporting standards across DSPO workstreams</li>
-        <li>Provided analytical support for congressional reporting requirements and senior leadership briefings</li>
-      </ul>
-    </div>
-    <div class="tl-item">
-      <div class="tl-date">2021 &mdash; 2023</div>
-      <div class="tl-role">Data &amp; Operations Analyst</div>
-      <div class="tl-org">Byte Back Inc.</div>
-      <ul class="tl-bullets">
-        <li>Designed Salesforce and HubSpot reporting architecture to track scholar enrollment, retention, and completion rates</li>
-        <li>Built dashboards that surfaced dropout risk factors, enabling proactive intervention by program staff</li>
-        <li>Automated data collection and reporting workflows, reducing manual effort by 40+ hours per month</li>
-        <li>Analyzed program outcomes to support grant applications and donor reporting, contributing to sustained funding</li>
-      </ul>
-    </div>
-    <div class="tl-item">
-      <div class="tl-date">2019 &mdash; 2021</div>
-      <div class="tl-role">Budget &amp; Policy Analyst</div>
-      <div class="tl-org">City of Tallahassee</div>
-      <ul class="tl-bullets">
-        <li>Managed departmental budget analyses totaling $25M+ across multiple city programs</li>
-        <li>Created financial models and forecasting tools in Excel used for annual budget planning cycles</li>
-        <li>Prepared policy briefs and data summaries for city commissioners and executive leadership</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════ DASHBOARDS ════════════════════ -->
-<section id="dashboards">
-  <div class="reveal">
-    <div class="section-tag">Dashboard Lab</div>
-    <h2>Data in <em>Action</em></h2>
-    <p class="portfolio-intro">Interactive dashboard samples built with representative data to demonstrate analytical approach and visualization design. These reflect the types of insights I produce for federal and nonprofit stakeholders.</p>
-  </div>
-
-  <!-- EMPLOYER TABS -->
-  <div class="employer-tabs reveal">
-    <button class="tab-btn active" data-tab="dspo">
-      <span class="tab-icon">🛡</span>
-      <span>DoD / DSPO</span>
-    </button>
-    <button class="tab-btn" data-tab="byteback">
-      <span class="tab-icon">📊</span>
-      <span>Byte Back Inc.</span>
-    </button>
-    <button class="tab-btn" data-tab="signature">
-      <span class="tab-icon">✈</span>
-      <span>Signature Aviation</span>
-    </button>
-  </div>
-
-  <!-- ══ DSPO TAB ══ -->
-  <div class="tab-panel active" id="tab-dspo">
-    <div class="dashboard-lab reveal" style="grid-template-columns:1fr;">
-      <div class="dash-card dspo-full">
-        <div class="dspo-header">
-          <div>
-            <div class="dspo-header-title">Department of Defense &mdash; Suicide Prevention Dashboard</div>
-            <div class="dspo-header-sub">Strategic Overview &middot; Defense Suicide Prevention Office (DSPO) &middot; FY2025</div>
-          </div>
-          <div class="dspo-header-badge">Last Update: Jul 15, 2025</div>
-        </div>
-        <div class="dspo-kpi-row">
-          <div class="dspo-kpi"><span>247</span><label>Total Activities</label></div>
-          <div class="dspo-kpi"><span>78%</span><label>Validated by Leads</label></div>
-          <div class="dspo-kpi"><span>62%</span><label>Ongoing Initiatives</label></div>
-          <div class="dspo-kpi"><span>94%</span><label>Serving Active Forces</label></div>
-          <div class="dspo-kpi"><span>43</span><label>Unique Stakeholders</label></div>
-        </div>
-        <div class="dspo-chart-grid">
-          <div class="dspo-chart-panel"><div class="dspo-panel-title">Prevention Activities by Component</div><div class="dash-chart-area"><canvas id="chart-dspo-bar"></canvas></div></div>
-          <div class="dspo-chart-panel"><div class="dspo-panel-title">Activities by Category</div><div class="dash-chart-area"><canvas id="chart-dspo-donut"></canvas></div></div>
-          <div class="dspo-chart-panel"><div class="dspo-panel-title">SPRIRC Priority Alignment</div><div class="dash-chart-area"><canvas id="chart-dspo-radar1"></canvas></div></div>
-          <div class="dspo-chart-panel"><div class="dspo-panel-title">Strategic Direction Coverage</div><div class="dash-chart-area"><canvas id="chart-dspo-radar2"></canvas></div></div>
-        </div>
-      </div>
-    </div>
-    <div class="dashboard-lab reveal">
-      <div class="dash-card">
-        <div class="dash-meta">DSPO / Service Branch View</div>
-        <div class="dash-title">Referrals by Branch (FY25 Q1&ndash;Q3)</div>
-        <div class="dash-chart-area"><canvas id="chart-branch"></canvas></div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-meta">DSPO &middot; Program Highlights</div>
-        <div class="dash-title">FY25 Program Summary</div>
-        <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
-          <div style="padding:14px;background:rgba(0,200,255,.04);border:1px solid rgba(0,200,255,.12);border-radius:4px;">
-            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;">Coverage</div>
-            <div style="font-size:13px;color:var(--muted);line-height:1.7;">247 prevention activities tracked across all DoD service branches. 94% directly serving active-duty forces with validated lead oversight.</div>
-          </div>
-          <div style="padding:14px;background:rgba(0,255,157,.04);border:1px solid rgba(0,255,157,.12);border-radius:4px;">
-            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--accent2);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;">Toolset</div>
-            <div style="font-size:13px;color:var(--muted);line-height:1.7;">Power BI dashboards fed by custom ETL pipelines across 5+ military health and readiness systems. Congressional reporting-ready.</div>
-          </div>
-          <div style="padding:14px;background:rgba(167,139,250,.04);border:1px solid rgba(167,139,250,.12);border-radius:4px;">
-            <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#a78bfa;letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;">Stakeholders</div>
-            <div style="font-size:13px;color:var(--muted);line-height:1.7;">43 unique stakeholders engaged across service branches. Predictive models identify at-risk populations using behavioral health indicators.</div>
-          </div>
-        </div>
-        <div class="tag-row">
-          <span class="tag-pill tag-blue">Power BI</span>
-          <span class="tag-pill tag-orange">Python ETL</span>
-          <span class="tag-pill tag-green">SQL Server</span>
-          <span class="tag-pill tag-purple">Predictive Models</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ BYTE BACK TAB ══ -->
-  <div class="tab-panel hidden" id="tab-byteback">
-    <div class="dashboard-lab reveal">
-      <div class="dash-card" style="position:relative;">
-        <div class="dash-meta">Byte Back Inc. &middot; Washington DC &amp; Baltimore</div>
-        <div class="dash-title">Scholar Enrollment &amp; Retention (FY18&ndash;FY23)</div>
-        <div class="kpi-row">
-          <div class="kpi"><b>955</b><span>Scholars Enrolled (FY23)</span><div class="kpi-sub">&#9650; +110% vs FY20 low</div></div>
-          <div class="kpi green"><b>88%</b><span>Avg Retention Rate</span><div class="kpi-sub">FY21&ndash;FY23 recovery</div></div>
-          <div class="kpi orange"><b>74%</b><span>Job Placement Rate</span><div class="kpi-sub">+$23K avg salary lift</div></div>
-        </div>
-        <div class="dash-legend">
-          <div class="dash-legend-item"><div class="dash-legend-dot" style="background:var(--accent)"></div>Enrolled</div>
-          <div class="dash-legend-item"><div class="dash-legend-dot" style="background:var(--accent2)"></div>Retained</div>
-          <div class="dash-legend-item"><div class="dash-legend-dot" style="background:var(--accent3)"></div>Placed</div>
-          <div class="dash-legend-item"><div class="dash-legend-dot" style="background:#ff6060;opacity:.6;"></div>COVID Impact</div>
-        </div>
-        <div class="dash-chart-area" style="position:relative;">
-          <div class="covid-zone-label">&#9888;&#xFE0E; COVID-19 DISRUPTION &mdash; FY20</div>
-          <canvas id="chart-byteback"></canvas>
-        </div>
-        <div style="margin-top:14px;">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;">Scholar Demographics</div>
-          <div class="impact-bars">
-            <div class="impact-row"><div class="impact-lbl">Women</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent);" data-pct="67"></div></div><div class="impact-pct">67%</div></div>
-            <div class="impact-row"><div class="impact-lbl">People of Color</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent2);" data-pct="96"></div></div><div class="impact-pct">96%</div></div>
-            <div class="impact-row"><div class="impact-lbl">No College Degree</div><div class="impact-track"><div class="impact-fill" style="background:#a78bfa;" data-pct="83"></div></div><div class="impact-pct">83%</div></div>
-            <div class="impact-row"><div class="impact-lbl">Gov't Benefits Users</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent3);" data-pct="80"></div></div><div class="impact-pct">80%</div></div>
-          </div>
-        </div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-meta">Byte Back Inc. &middot; Funding &amp; Donor Profile</div>
-        <div class="dash-title">Revenue Breakdown &amp; Key Funders (FY20&ndash;FY23)</div>
-        <div class="dash-chart-area" style="max-height:180px;"><canvas id="chart-funding"></canvas></div>
-        <table class="fund-table">
-          <tr><td><span class="fund-dot" style="background:#00c8ff;"></span>Federal &amp; DC Gov Grants</td><td>$340K</td></tr>
-          <tr><td><span class="fund-dot" style="background:#00ff9d;"></span>Corporate Foundations</td><td>$480K</td></tr>
-          <tr><td><span class="fund-dot" style="background:#ff6b35;"></span>Private Foundations</td><td>$620K</td></tr>
-          <tr><td><span class="fund-dot" style="background:#a78bfa;"></span>TD Bank / TD Ready Challenge</td><td>$180K</td></tr>
-          <tr><td><span class="fund-dot" style="background:#ff6060;"></span>Individual / Other</td><td>$95K</td></tr>
-        </table>
-        <div style="margin-top:12px;">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;">Notable Funders</div>
-          <div class="tag-row">
-            <span class="tag-pill tag-blue">Citi Foundation</span><span class="tag-pill tag-blue">Wells Fargo Fdn</span>
-            <span class="tag-pill tag-blue">Bank of America</span><span class="tag-pill tag-green">DC OSSE</span>
-            <span class="tag-pill tag-green">DC BETA ($2.4M Fed)</span><span class="tag-pill tag-orange">Comcast NBCUniversal</span>
-            <span class="tag-pill tag-purple">TD Ready ($1M)</span><span class="tag-pill tag-blue">J.W. Marriott Fdn</span>
-            <span class="tag-pill tag-blue">Kapor Center</span>
-          </div>
-        </div>
-        <div class="covid-alert">
-          <div class="covid-alert-head">&#9888; FY20 COVID IMPACT ON FUNDING &amp; PLACEMENTS</div>
-          <p>Closure of 20+ community sites forced a rapid pivot to virtual delivery. Grad placements dropped from <strong>57 (FY19)</strong> to <strong>47 (FY20)</strong>, a <strong>17.5% decline</strong>. Several corporate event-based donor engagements were cancelled, compressing revenue by an estimated 22%.</p>
-        </div>
-      </div>
-    </div>
-    <div class="dashboard-lab reveal" style="grid-template-columns:1fr;">
-      <div class="dash-card" style="min-height:auto;">
-        <div class="dash-meta">Byte Back &middot; Cohort Analysis</div>
-        <div class="dash-title">Completion Rates by Program Track</div>
-        <div class="dash-chart-area" style="min-height:200px;"><canvas id="chart-cohort"></canvas></div>
-        <div style="margin-top:10px;display:flex;flex-direction:column;gap:5px;">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);line-height:1.7;">
-            <span style="color:var(--accent);">&#9670;</span> <strong style="color:var(--text);">Computer Foundations</strong> &mdash; 94% course-pass; digital literacy pathway into higher tracks<br>
-            <span style="color:var(--accent2);">&#9670;</span> <strong style="color:var(--text);">Office Tech / Admin</strong> &mdash; MS 365, Excel, QuickBooks; direct living-wage placement<br>
-            <span style="color:var(--accent3);">&#9670;</span> <strong style="color:var(--text);">CompTIA A+</strong> &mdash; primary IT workforce cert; avg 8 months to completion<br>
-            <span style="color:#a78bfa;">&#9670;</span> <strong style="color:var(--text);">Network+ / Security+</strong> &mdash; highest post-placement salary outcomes
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ SIGNATURE AVIATION TAB ══ -->
-  <div class="tab-panel hidden" id="tab-signature">
-    <div class="sig-kpi-grid reveal" style="border:1px solid var(--border);margin-top:2px;">
-      <div class="sig-kpi"><span class="sig-kpi-val">4,380</span><div class="sig-kpi-lbl">Annual Aircraft Movements</div><div class="sig-kpi-delta delta-up">&#9650; +12% YoY</div></div>
-      <div class="sig-kpi"><span class="sig-kpi-val">94%</span><div class="sig-kpi-lbl">On-Time QuickTurn&reg;</div><div class="sig-kpi-delta delta-up">&#9650; vs 91% baseline</div></div>
-      <div class="sig-kpi"><span class="sig-kpi-val">23%</span><div class="sig-kpi-lbl">Gov / Military Share</div><div class="sig-kpi-delta delta-nt">Priority Handling Tier</div></div>
-      <div class="sig-kpi"><span class="sig-kpi-val">99.7%</span><div class="sig-kpi-lbl">FAA Compliance Score</div><div class="sig-kpi-delta delta-up">Zero audit flags</div></div>
-    </div>
-    <div class="dashboard-lab reveal">
-      <div class="dash-card">
-        <div class="dash-meta">Signature Aviation &middot; Live Operations</div>
-        <div class="dash-title">Aircraft Movement &amp; Ops Overview</div>
-        <div class="tag-row" style="margin-bottom:4px;">
-          <span class="tag-pill tag-green">LADD Compliant</span><span class="tag-pill tag-blue">Part 91 / Part 135</span>
-          <span class="tag-pill tag-blue">SWIM Data Feed</span><span class="tag-pill tag-orange">Executive Charter</span>
-          <span class="tag-pill tag-red">VVIP Protocols</span>
-        </div>
-        <div class="ticker-wrap">
-          <div class="ticker-head">&#9656; Movement Log &mdash; Sample Ops Window</div>
-          <div class="ticker-row"><span class="ticker-tail">N872EX</span><span class="t-muted">Gulfstream G650</span><span class="t-muted">JFK &#8594; TEB</span><span class="t-ok">CLEARED</span></div>
-          <div class="ticker-row"><span class="ticker-tail">09-0016</span><span class="t-muted">C-40C (CODEL Transport)</span><span class="t-muted">KBWI &#8594; KDCA</span><span class="t-gov">GOV PRIORITY</span></div>
-          <div class="ticker-row"><span class="ticker-tail">N441XJ</span><span class="t-muted">Citation Latitude</span><span class="t-muted">KBWI &#8594; KDAL</span><span class="t-ok">CLEARED</span></div>
-          <div class="ticker-row"><span class="ticker-tail">N190MA</span><span class="t-muted">Global 6000</span><span class="t-muted">KPBI &#8594; KTEB</span><span class="t-warn">FUEL DELAY +14m</span></div>
-          <div class="ticker-row"><span class="ticker-tail">84-0025</span><span class="t-muted">C-32A Exec Transport</span><span class="t-muted">KADW &#8594; KDOV</span><span class="t-gov">GOV PRIORITY</span></div>
-          <div class="ticker-row"><span class="ticker-tail">N558MT</span><span class="t-muted">Phenom 300</span><span class="t-muted">KMIA &#8594; KIAD</span><span class="t-ok">CLEARED</span></div>
-        </div>
-        <div class="mini-stat-row">
-          <div class="mini-stat"><div class="mv">November</div><div class="ml">Peak Movement Month</div><div class="md">Holiday + political travel surge</div></div>
-          <div class="mini-stat"><div class="mv" style="color:var(--accent2);">23 min</div><div class="ml">Avg Turnaround Time</div><div class="md">vs 45 min commercial baseline</div></div>
-        </div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-meta">Signature Aviation &middot; Regulatory</div>
-        <div class="dash-title">FAA Compliance &amp; Safety Metrics</div>
-        <div class="ring-flex">
-          <div class="ring-item"><div class="ring-canvas-wrap"><canvas id="ring-faa"></canvas><div class="ring-inner-label"><div class="rv">99.7%</div><div class="rs">FAA Reg</div></div></div><div class="ring-caption">Compliance</div></div>
-          <div class="ring-item"><div class="ring-canvas-wrap"><canvas id="ring-qt"></canvas><div class="ring-inner-label"><div class="rv" style="color:var(--accent2);">94.2%</div><div class="rs">QuickTurn</div></div></div><div class="ring-caption">On-Time Rate</div></div>
-          <div class="ring-item"><div class="ring-canvas-wrap"><canvas id="ring-inc"></canvas><div class="ring-inner-label"><div class="rv" style="color:var(--accent2);">0</div><div class="rs">Incidents</div></div></div><div class="ring-caption">Safety Record</div></div>
-        </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;">Aircraft Category Mix (Annual)</div>
-        <div class="dash-chart-area" style="max-height:160px;min-height:130px;"><canvas id="chart-acmix"></canvas></div>
-        <div class="sig-notes">
-          <div class="sig-note">&#11042; <strong>LADD Program</strong> &mdash; processed aircraft data privacy filter requests for HNWI &amp; gov clients</div>
-          <div class="sig-note">&#11042; <strong>Part 91/135 Verification</strong> &mdash; confirmed compliance on all departures; zero regulatory flags</div>
-          <div class="sig-note">&#11042; <strong>SWIM Data Feed</strong> &mdash; cross-referenced FAA real-time tracking against internal movement logs</div>
-        </div>
-      </div>
-    </div>
-    <div class="dashboard-lab reveal">
-      <div class="dash-card">
-        <div class="dash-meta">Signature Aviation &middot; Operations Timeline</div>
-        <div class="dash-title">Monthly Aircraft Movements by Category</div>
-        <div class="dash-chart-area"><canvas id="chart-sig-movements"></canvas></div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-meta">Signature Aviation &middot; FAA Compliance</div>
-        <div class="dash-title">Regulatory Score &amp; LADD Requests (Monthly)</div>
-        <div class="dash-chart-area"><canvas id="chart-sig-compliance"></canvas></div>
-        <div class="sig-notes" style="margin-top:8px;">
-          <div class="sig-note">&#11042; <strong>Zero audit flags</strong> across full operational period</div>
-          <div class="sig-note">&#11042; <strong>VVIP protocols</strong> coordinated for executive &amp; government passengers at ramp level</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ML & API -->
-<section id="ml-api">
-  <div class="reveal">
-    <div class="section-tag">Applied Intelligence</div>
-    <h2>ML &amp; <em>API Engineering</em></h2>
-    <p class="ml-section-intro">End-to-end machine learning and API development skills, from model training and evaluation through RESTful deployment and monitoring. Built on principles from <strong>Hands-On APIs for AI and Data Science</strong> (Ryan Day, O'Reilly) and applied across federal analytics and nonprofit program evaluation.</p>
-  </div>
-  <div class="ml-arch-strip reveal" id="ml-pipeline">
-    <div class="ml-arch-node"><span class="ml-arch-icon">⬡</span><div class="ml-arch-label">Ingest</div><div class="ml-arch-desc">REST/GraphQL pulls from federal open data APIs</div></div>
-    <div class="ml-arch-node"><span class="ml-arch-icon">⚙</span><div class="ml-arch-label">Transform</div><div class="ml-arch-desc">Pandas, feature engineering, schema validation</div></div>
-    <div class="ml-arch-node"><span class="ml-arch-icon">◈</span><div class="ml-arch-label">Train</div><div class="ml-arch-desc">Scikit-learn, XGBoost, hyperparameter tuning</div></div>
-    <div class="ml-arch-node"><span class="ml-arch-icon">⟁</span><div class="ml-arch-label">Serve</div><div class="ml-arch-desc">FastAPI endpoints with versioning &amp; auth</div></div>
-    <div class="ml-arch-node"><span class="ml-arch-icon">◉</span><div class="ml-arch-label">Monitor</div><div class="ml-arch-desc">Drift detection, logging, health checks</div></div>
-  </div>
-  <div class="ml-projects-grid reveal" id="ml-cards-grid">
-    <div class="ml-card">
-      <div class="ml-card-header"><div class="ml-card-title">Attrition Risk Prediction API</div><span class="ml-card-type ml-type-ml">ML + API</span></div>
-      <div class="ml-card-desc">Gradient-boosted classifier trained on workforce indicators (tenure, engagement scores, role transitions) and served via versioned REST endpoints. Designed for integration with HR dashboards and early-intervention workflows.</div>
-      <div class="ml-metric-row">
-        <div class="ml-metric"><div class="ml-metric-val c1">0.91</div><div class="ml-metric-lbl">AUC-ROC</div></div>
-        <div class="ml-metric"><div class="ml-metric-val c2">87%</div><div class="ml-metric-lbl">Precision</div></div>
-        <div class="ml-metric"><div class="ml-metric-val c3">84%</div><div class="ml-metric-lbl">Recall</div></div>
-      </div>
-      <div class="ml-code-block" data-lang="python">
-<span class="ck">@app.post</span>(<span class="cs">"/v1/predict/attrition"</span>)
+<section id="ml-api"><div class="reveal"><div class="section-tag">Applied Intelligence</div><h2>ML &amp; <em>API Engineering</em></h2><p class="ml-section-intro">End-to-end machine learning and API development skills, from model training and evaluation through RESTful deployment and monitoring. Built on principles from <strong>Hands-On APIs for AI and Data Science</strong> (Ryan Day, O'Reilly) and applied across federal analytics and nonprofit program evaluation.</p></div>
+<div class="ml-arch-strip reveal"><div class="ml-arch-node"><span class="ml-arch-icon">⬡</span><div class="ml-arch-label">Ingest</div><div class="ml-arch-desc">REST/GraphQL pulls from federal open data APIs</div></div><div class="ml-arch-node"><span class="ml-arch-icon">⚙</span><div class="ml-arch-label">Transform</div><div class="ml-arch-desc">Pandas, feature engineering, schema validation</div></div><div class="ml-arch-node"><span class="ml-arch-icon">◈</span><div class="ml-arch-label">Train</div><div class="ml-arch-desc">Scikit-learn, XGBoost, hyperparameter tuning</div></div><div class="ml-arch-node"><span class="ml-arch-icon">⟁</span><div class="ml-arch-label">Serve</div><div class="ml-arch-desc">FastAPI endpoints with versioning &amp; auth</div></div><div class="ml-arch-node"><span class="ml-arch-icon">◉</span><div class="ml-arch-label">Monitor</div><div class="ml-arch-desc">Drift detection, logging, health checks</div></div></div>
+<div class="ml-projects-grid reveal"><div class="ml-card"><div class="ml-card-header"><div class="ml-card-title">Attrition Risk Prediction API</div><span class="ml-card-type ml-type-ml">ML + API</span></div><div class="ml-card-desc">Gradient-boosted classifier trained on workforce indicators and served via versioned REST endpoints. Designed for integration with HR dashboards and early-intervention workflows.</div><div class="ml-metric-row"><div class="ml-metric"><div class="ml-metric-val c1">0.91</div><div class="ml-metric-lbl">AUC-ROC</div></div><div class="ml-metric"><div class="ml-metric-val c2">87%</div><div class="ml-metric-lbl">Precision</div></div><div class="ml-metric"><div class="ml-metric-val c3">84%</div><div class="ml-metric-lbl">Recall</div></div></div><div class="ml-code-block" data-lang="python"><span class="ck">@app.post</span>(<span class="cs">"/v1/predict/attrition"</span>)
 <span class="ck">async def</span> predict(payload: <span class="cp">EmployeeFeatures</span>):
     features = preprocess(payload)
     prob = model.predict_proba(features)[<span class="co">0</span>][<span class="co">1</span>]
-    <span class="ck">return</span> {<span class="cs">"risk_score"</span>: round(prob, <span class="co">3</span>),
-            <span class="cs">"threshold"</span>: <span class="co">0.65</span>,
-            <span class="cs">"model_version"</span>: <span class="cs">"v2.1.0"</span>}
-      </div>
-      <div class="tag-row"><span class="tag-pill tag-blue">FastAPI</span><span class="tag-pill tag-green">XGBoost</span><span class="tag-pill tag-orange">Pydantic</span><span class="tag-pill tag-purple">Docker</span></div>
-    </div>
-    <div class="ml-card">
-      <div class="ml-card-header"><div class="ml-card-title">Federal Open Data API Pipeline</div><span class="ml-card-type ml-type-pipeline">PIPELINE</span></div>
-      <div class="ml-card-desc">Automated ETL pipeline consuming REST APIs from USASpending.gov, Census Bureau, and Bureau of Labor Statistics. Handles pagination, rate limiting, retry logic, and schema evolution across agencies with different API conventions.</div>
-      <div class="ml-endpoints" id="ml-ep-list">
-        <div class="ml-endpoint"><span class="ml-method ml-method-get">GET</span><span class="ml-route">/api/v2/search/spending_by_award</span><span class="ml-route-desc">USASpending</span></div>
-        <div class="ml-endpoint"><span class="ml-method ml-method-get">GET</span><span class="ml-route">/data/{year}/acs/acs5</span><span class="ml-route-desc">Census ACS</span></div>
-        <div class="ml-endpoint"><span class="ml-method ml-method-post">POST</span><span class="ml-route">/publicAPI/v2/timeseries/data/</span><span class="ml-route-desc">BLS Stats</span></div>
-        <div class="ml-endpoint"><span class="ml-method ml-method-get">GET</span><span class="ml-route">/api/opportunities/v2/search</span><span class="ml-route-desc">SAM.gov</span></div>
-      </div>
-      <div class="ml-metric-row" style="margin-top:10px;">
-        <div class="ml-metric"><div class="ml-metric-val c1">4</div><div class="ml-metric-lbl">API Sources</div></div>
-        <div class="ml-metric"><div class="ml-metric-val c2">18K+</div><div class="ml-metric-lbl">Records / Run</div></div>
-        <div class="ml-metric"><div class="ml-metric-val c4">99.2%</div><div class="ml-metric-lbl">Uptime</div></div>
-      </div>
-      <div class="tag-row"><span class="tag-pill tag-blue">Requests</span><span class="tag-pill tag-green">Pandas</span><span class="tag-pill tag-orange">Rate Limiting</span><span class="tag-pill tag-purple">JSON Schema</span><span class="tag-pill tag-blue">OAuth2</span></div>
-    </div>
-    <div class="ml-card">
-      <div class="ml-card-header"><div class="ml-card-title">Document Classification API</div><span class="ml-card-type ml-type-nlp">NLP</span></div>
-      <div class="ml-card-desc">TF-IDF and logistic regression pipeline classifying federal contract documents by NAICS domain. Exposes a prediction endpoint with confidence scores and supports batch processing for bulk procurement analysis.</div>
-      <div class="ml-code-block" data-lang="python">
-<span class="ck">@app.post</span>(<span class="cs">"/v1/classify"</span>)
+    <span class="ck">return</span> {<span class="cs">"risk_score"</span>: round(prob, <span class="co">3</span>)}</div><div class="tag-row"><span class="tag-pill tag-blue">FastAPI</span><span class="tag-pill tag-green">XGBoost</span><span class="tag-pill tag-orange">Pydantic</span><span class="tag-pill tag-purple">Docker</span></div></div>
+<div class="ml-card"><div class="ml-card-header"><div class="ml-card-title">Federal Open Data API Pipeline</div><span class="ml-card-type ml-type-pipeline">PIPELINE</span></div><div class="ml-card-desc">Automated ETL pipeline consuming REST APIs from USASpending.gov, Census Bureau, and Bureau of Labor Statistics. Handles pagination, rate limiting, and retry logic.</div><div class="ml-endpoints"><div class="ml-endpoint"><span class="ml-method ml-method-get">GET</span><span class="ml-route">/api/v2/search/spending_by_award</span><span class="ml-route-desc">USASpending</span></div><div class="ml-endpoint"><span class="ml-method ml-method-get">GET</span><span class="ml-route">/data/{year}/acs/acs5</span><span class="ml-route-desc">Census ACS</span></div><div class="ml-endpoint"><span class="ml-method ml-method-post">POST</span><span class="ml-route">/publicAPI/v2/timeseries/data/</span><span class="ml-route-desc">BLS Stats</span></div><div class="ml-endpoint"><span class="ml-method ml-method-get">GET</span><span class="ml-route">/api/opportunities/v2/search</span><span class="ml-route-desc">SAM.gov</span></div></div><div class="ml-metric-row" style="margin-top:10px;"><div class="ml-metric"><div class="ml-metric-val c1">4</div><div class="ml-metric-lbl">API Sources</div></div><div class="ml-metric"><div class="ml-metric-val c2">18K+</div><div class="ml-metric-lbl">Records / Run</div></div><div class="ml-metric"><div class="ml-metric-val c4">99.2%</div><div class="ml-metric-lbl">Uptime</div></div></div><div class="tag-row"><span class="tag-pill tag-blue">Requests</span><span class="tag-pill tag-green">Pandas</span><span class="tag-pill tag-orange">Rate Limiting</span><span class="tag-pill tag-purple">JSON Schema</span></div></div>
+<div class="ml-card"><div class="ml-card-header"><div class="ml-card-title">Document Classification API</div><span class="ml-card-type ml-type-nlp">NLP</span></div><div class="ml-card-desc">TF-IDF and logistic regression pipeline classifying federal contract documents by NAICS domain with batch processing support.</div><div class="ml-code-block" data-lang="python"><span class="ck">@app.post</span>(<span class="cs">"/v1/classify"</span>)
 <span class="ck">async def</span> classify_doc(doc: <span class="cp">DocumentInput</span>):
     vec = tfidf.transform([doc.text])
     pred = clf.predict(vec)[<span class="co">0</span>]
-    probs = clf.predict_proba(vec)[<span class="co">0</span>]
-    <span class="ck">return</span> {
-      <span class="cs">"naics_code"</span>: pred,
-      <span class="cs">"confidence"</span>: round(max(probs), <span class="co">3</span>),
-      <span class="cs">"top_3"</span>: get_top_n(clf.classes_, probs, <span class="co">3</span>)
-    }
-      </div>
-      <div class="ml-metric-row">
-        <div class="ml-metric"><div class="ml-metric-val c1">89%</div><div class="ml-metric-lbl">Accuracy</div></div>
-        <div class="ml-metric"><div class="ml-metric-val c2">0.87</div><div class="ml-metric-lbl">F1 Score</div></div>
-        <div class="ml-metric"><div class="ml-metric-val c3">&lt;40ms</div><div class="ml-metric-lbl">Latency (p95)</div></div>
-      </div>
-      <div class="tag-row"><span class="tag-pill tag-blue">Scikit-learn</span><span class="tag-pill tag-green">TF-IDF</span><span class="tag-pill tag-orange">FastAPI</span><span class="tag-pill tag-purple">Batch Endpoint</span></div>
-    </div>
-    <div class="ml-card">
-      <div class="ml-card-header"><div class="ml-card-title">RESTful API Design Patterns</div><span class="ml-card-type ml-type-api">API DESIGN</span></div>
-      <div class="ml-card-desc">Applied API design principles covering hypermedia controls, content negotiation, versioning strategies, error handling, and authentication flows. These patterns inform how every model and data service gets exposed to consumers.</div>
-      <div class="ml-api-flow">
-        <div class="ml-flow-node"><div class="fl-label">Client</div><div class="fl-detail">JSON / HAL</div></div>
-        <span class="ml-flow-arrow">→</span>
-        <div class="ml-flow-node node-green"><div class="fl-label">Auth</div><div class="fl-detail">JWT / OAuth2</div></div>
-        <span class="ml-flow-arrow">→</span>
-        <div class="ml-flow-node node-orange"><div class="fl-label">Gateway</div><div class="fl-detail">Rate Limit</div></div>
-        <span class="ml-flow-arrow">→</span>
-        <div class="ml-flow-node node-purple"><div class="fl-label">Service</div><div class="fl-detail">ML Inference</div></div>
-      </div>
-      <div class="impact-bars" id="ml-api-bars">
-        <div class="impact-row"><div class="impact-lbl">Versioning (URI)</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent);" data-pct="95"></div></div><div class="impact-pct">95%</div></div>
-        <div class="impact-row"><div class="impact-lbl">Error Handling</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent2);" data-pct="90"></div></div><div class="impact-pct">90%</div></div>
-        <div class="impact-row"><div class="impact-lbl">Auth (OAuth2/JWT)</div><div class="impact-track"><div class="impact-fill" style="background:#a78bfa;" data-pct="88"></div></div><div class="impact-pct">88%</div></div>
-        <div class="impact-row"><div class="impact-lbl">Hypermedia / HATEOAS</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent3);" data-pct="82"></div></div><div class="impact-pct">82%</div></div>
-        <div class="impact-row"><div class="impact-lbl">Content Negotiation</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent);" data-pct="85"></div></div><div class="impact-pct">85%</div></div>
-      </div>
-      <div class="tag-row"><span class="tag-pill tag-blue">REST</span><span class="tag-pill tag-green">HATEOAS</span><span class="tag-pill tag-orange">OpenAPI 3.0</span><span class="tag-pill tag-purple">Swagger</span><span class="tag-pill tag-blue">Postman</span></div>
-    </div>
-    <div class="ml-card ml-card-full" style="position:relative;">
-      <div class="ml-card-header">
-        <div>
-          <div class="ml-card-title">Model Performance Monitor</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;margin-top:4px;">REAL-TIME INFERENCE METRICS &middot; API HEALTH &amp; DRIFT DETECTION</div>
-        </div>
-        <span class="ml-card-type ml-type-ml">MONITORING</span>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-        <div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px;">Inference Volume (7-Day Rolling)</div>
-          <div class="ml-chart-area"><canvas id="chart-ml-inference"></canvas></div>
-        </div>
-        <div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px;">Model Accuracy by Version</div>
-          <div class="ml-chart-area"><canvas id="chart-ml-accuracy"></canvas></div>
-        </div>
-      </div>
-      <div class="ml-metric-row" style="margin-top:16px;">
-        <div class="ml-metric"><div class="ml-metric-val c1">2,847</div><div class="ml-metric-lbl">Daily Predictions</div></div>
-        <div class="ml-metric"><div class="ml-metric-val c2">23ms</div><div class="ml-metric-lbl">Avg Latency</div></div>
-        <div class="ml-metric"><div class="ml-metric-val c3">0.02</div><div class="ml-metric-lbl">Drift Score</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="ml-book-ref reveal">
-    <div class="ml-book-icon">📘</div>
-    <div class="ml-book-text">
-      Core API architecture patterns based on <strong>Hands-On APIs for AI and Data Science</strong> by Ryan Day (O'Reilly). Covers RESTful design, hypermedia workflows, API lifecycle management, and integrating ML models into production-grade services. <em>// completed 2025</em>
-    </div>
-  </div>
-</section>
+    <span class="ck">return</span> {<span class="cs">"naics_code"</span>: pred,
+      <span class="cs">"confidence"</span>: round(max(clf.predict_proba(vec)[<span class="co">0</span>]), <span class="co">3</span>)}</div><div class="ml-metric-row"><div class="ml-metric"><div class="ml-metric-val c1">89%</div><div class="ml-metric-lbl">Accuracy</div></div><div class="ml-metric"><div class="ml-metric-val c2">0.87</div><div class="ml-metric-lbl">F1 Score</div></div><div class="ml-metric"><div class="ml-metric-val c3">&lt;40ms</div><div class="ml-metric-lbl">Latency (p95)</div></div></div><div class="tag-row"><span class="tag-pill tag-blue">Scikit-learn</span><span class="tag-pill tag-green">TF-IDF</span><span class="tag-pill tag-orange">FastAPI</span><span class="tag-pill tag-purple">Batch Endpoint</span></div></div>
+<div class="ml-card"><div class="ml-card-header"><div class="ml-card-title">RESTful API Design Patterns</div><span class="ml-card-type ml-type-api">API DESIGN</span></div><div class="ml-card-desc">Applied API design principles covering hypermedia controls, content negotiation, versioning strategies, error handling, and authentication flows.</div><div class="ml-api-flow"><div class="ml-flow-node"><div class="fl-label">Client</div><div class="fl-detail">JSON / HAL</div></div><span class="ml-flow-arrow">→</span><div class="ml-flow-node node-green"><div class="fl-label">Auth</div><div class="fl-detail">JWT / OAuth2</div></div><span class="ml-flow-arrow">→</span><div class="ml-flow-node node-orange"><div class="fl-label">Gateway</div><div class="fl-detail">Rate Limit</div></div><span class="ml-flow-arrow">→</span><div class="ml-flow-node node-purple"><div class="fl-label">Service</div><div class="fl-detail">ML Inference</div></div></div><div class="impact-bars"><div class="impact-row"><div class="impact-lbl">Versioning (URI)</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent);" data-pct="95"></div></div><div class="impact-pct">95%</div></div><div class="impact-row"><div class="impact-lbl">Error Handling</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent2);" data-pct="90"></div></div><div class="impact-pct">90%</div></div><div class="impact-row"><div class="impact-lbl">Auth (OAuth2/JWT)</div><div class="impact-track"><div class="impact-fill" style="background:#a78bfa;" data-pct="88"></div></div><div class="impact-pct">88%</div></div><div class="impact-row"><div class="impact-lbl">Hypermedia / HATEOAS</div><div class="impact-track"><div class="impact-fill" style="background:var(--accent3);" data-pct="82"></div></div><div class="impact-pct">82%</div></div></div><div class="tag-row"><span class="tag-pill tag-blue">REST</span><span class="tag-pill tag-green">HATEOAS</span><span class="tag-pill tag-orange">OpenAPI 3.0</span><span class="tag-pill tag-purple">Swagger</span></div></div>
+<div class="ml-card ml-card-full" style="position:relative;"><div class="ml-card-header"><div><div class="ml-card-title">Model Performance Monitor</div><div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.1em;margin-top:4px;">REAL-TIME INFERENCE METRICS &middot; API HEALTH &amp; DRIFT DETECTION</div></div><span class="ml-card-type ml-type-ml">MONITORING</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;"><div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px;">Inference Volume (7-Day)</div><div class="ml-chart-area"><canvas id="chart-ml-inference"></canvas></div></div><div><div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px;">Model Accuracy by Version</div><div class="ml-chart-area"><canvas id="chart-ml-accuracy"></canvas></div></div></div><div class="ml-metric-row" style="margin-top:16px;"><div class="ml-metric"><div class="ml-metric-val c1">2,847</div><div class="ml-metric-lbl">Daily Predictions</div></div><div class="ml-metric"><div class="ml-metric-val c2">23ms</div><div class="ml-metric-lbl">Avg Latency</div></div><div class="ml-metric"><div class="ml-metric-val c3">0.02</div><div class="ml-metric-lbl">Drift Score</div></div></div></div></div>
+<div class="ml-book-ref reveal"><div class="ml-book-icon">📘</div><div class="ml-book-text">Core API architecture patterns based on <strong>Hands-On APIs for AI and Data Science</strong> by Ryan Day (O'Reilly). Covers RESTful design, hypermedia workflows, API lifecycle management, and integrating ML models into production-grade services. <em>// completed 2025</em></div></div></section>
 
-<!-- PROJECTS -->
-<section id="projects">
-  <div class="reveal">
-    <div class="section-tag">Work Samples</div>
-    <h2>Selected <em>Work</em></h2>
-  </div>
-  <div class="projects-grid reveal">
-    <div class="dash-card">
-      <div class="project-title">DoD DSPO Prevention Dashboard</div>
-      <div class="project-desc">Power BI dashboard suite tracking 247 suicide prevention activities across all DoD service branches. Integrated data from 5+ military health systems via custom ETL pipeline. Used by senior leadership for congressional reporting.</div>
-      <div class="tag-row" style="margin-top:10px;"><span class="tag-pill tag-blue">Power BI</span><span class="tag-pill tag-orange">Python ETL</span><span class="tag-pill tag-green">SQL Server</span></div>
-    </div>
-    <div class="dash-card">
-      <div class="project-title">Byte Back Scholar Retention Engine</div>
-      <div class="project-desc">Built Salesforce + HubSpot reporting architecture tracking 1,000+ scholars across DC and Baltimore. Surfaced dropout risk signals, enabling proactive outreach that contributed to post-COVID retention recovery from 455 to 955 enrolled.</div>
-      <div class="tag-row" style="margin-top:10px;"><span class="tag-pill tag-green">Salesforce</span><span class="tag-pill tag-blue">HubSpot</span><span class="tag-pill tag-purple">Tableau</span></div>
-    </div>
-    <div class="dash-card">
-      <div class="project-title">Federal Technical Volume Development</div>
-      <div class="project-desc">Led technical volume writing for multiple federal competitive acquisitions across VA, NIST, and CMS-adjacent contracts. Deliverables include capability gap analyses, WBS structures, personnel qualification matrices, teaming strategies, and OCI documentation — all scoped to PWS requirements.</div>
-      <div class="tag-row" style="margin-top:10px;"><span class="tag-pill tag-orange">Federal Proposals</span><span class="tag-pill tag-blue">Gap Analysis</span><span class="tag-pill tag-purple">WBS Design</span><span class="tag-pill tag-green">Compliance Docs</span></div>
-    </div>
-  </div>
-</section>
+<section id="projects"><div class="reveal"><div class="section-tag">Work Samples</div><h2>Selected <em>Work</em></h2></div><div class="projects-grid reveal"><div class="dash-card"><div class="project-title">DoD DSPO Prevention Dashboard</div><div class="project-desc">Power BI dashboard suite tracking 247 suicide prevention activities across all DoD service branches. Integrated data from 5+ military health systems via custom ETL pipeline. Used by senior leadership for congressional reporting.</div><div class="tag-row" style="margin-top:10px;"><span class="tag-pill tag-blue">Power BI</span><span class="tag-pill tag-orange">Python ETL</span><span class="tag-pill tag-green">SQL Server</span></div></div><div class="dash-card"><div class="project-title">Byte Back Scholar Retention Engine</div><div class="project-desc">Built Salesforce + HubSpot reporting architecture tracking 1,000+ scholars across DC and Baltimore. Surfaced dropout risk signals, enabling proactive outreach that contributed to post-COVID retention recovery from 455 to 955 enrolled.</div><div class="tag-row" style="margin-top:10px;"><span class="tag-pill tag-green">Salesforce</span><span class="tag-pill tag-blue">HubSpot</span><span class="tag-pill tag-purple">Tableau</span></div></div><div class="dash-card"><div class="project-title">Federal Technical Volume Development</div><div class="project-desc">Led technical volume writing for multiple federal competitive acquisitions across VA, NIST, and CMS-adjacent contracts. Deliverables include capability gap analyses, WBS structures, personnel qualification matrices, teaming strategies, and OCI documentation.</div><div class="tag-row" style="margin-top:10px;"><span class="tag-pill tag-orange">Federal Proposals</span><span class="tag-pill tag-blue">Gap Analysis</span><span class="tag-pill tag-purple">WBS Design</span><span class="tag-pill tag-green">Compliance Docs</span></div></div></div></section>
 
-<!-- CREDENTIALS -->
-<section id="credentials">
-  <div class="reveal">
-    <div class="section-tag">Certifications</div>
-    <h2>Credentials &amp; <em>Education</em></h2>
-  </div>
-  <div class="certs-grid reveal">
-    <div class="cert-card"><div class="cert-icon">&#127775;</div><div class="cert-name">Project Management Professional (PMP)</div><div class="cert-issuer">Project Management Institute</div><div class="cert-year">ACTIVE</div></div>
-    <div class="cert-card"><div class="cert-icon">&#128200;</div><div class="cert-name">Certified Analytics Professional (CAP)</div><div class="cert-issuer">INFORMS</div><div class="cert-year">ACTIVE</div></div>
-    <div class="cert-card"><div class="cert-icon">&#128202;</div><div class="cert-name">Data Management Professional (CDMP)</div><div class="cert-issuer">DAMA International</div><div class="cert-year">ACTIVE</div></div>
-    <div class="cert-card"><div class="cert-icon">&#9881;&#65039;</div><div class="cert-name">Lean Six Sigma Green Belt</div><div class="cert-issuer">ASQ</div><div class="cert-year">ACTIVE</div></div>
-    <div class="cert-card"><div class="cert-icon">&#129302;</div><div class="cert-name">IBM Data Science Professional</div><div class="cert-issuer">IBM / Coursera</div><div class="cert-year">2022</div></div>
-    <div class="cert-card"><div class="cert-icon">&#127891;</div><div class="cert-name">BS Economics &amp; Political Science</div><div class="cert-issuer">Florida State University</div><div class="cert-year">NCAA D-I Track &amp; Field</div></div>
-  </div>
-</section>
+<section id="credentials"><div class="reveal"><div class="section-tag">Certifications</div><h2>Credentials &amp; <em>Education</em></h2></div><div class="certs-grid reveal"><div class="cert-card"><div class="cert-icon">&#127775;</div><div class="cert-name">Project Management Professional (PMP)</div><div class="cert-issuer">Project Management Institute</div><div class="cert-year">ACTIVE</div></div><div class="cert-card"><div class="cert-icon">&#128200;</div><div class="cert-name">Certified Analytics Professional (CAP)</div><div class="cert-issuer">INFORMS</div><div class="cert-year">ACTIVE</div></div><div class="cert-card"><div class="cert-icon">&#128202;</div><div class="cert-name">Data Management Professional (CDMP)</div><div class="cert-issuer">DAMA International</div><div class="cert-year">ACTIVE</div></div><div class="cert-card"><div class="cert-icon">&#9881;&#65039;</div><div class="cert-name">Lean Six Sigma Green Belt</div><div class="cert-issuer">ASQ</div><div class="cert-year">ACTIVE</div></div><div class="cert-card"><div class="cert-icon">&#129302;</div><div class="cert-name">IBM Data Science Professional</div><div class="cert-issuer">IBM / Coursera</div><div class="cert-year">2022</div></div><div class="cert-card"><div class="cert-icon">&#127891;</div><div class="cert-name">BS Economics &amp; Political Science</div><div class="cert-issuer">Florida State University</div><div class="cert-year">NCAA D-I Track &amp; Field</div></div></div></section>
 
-<!-- CONTACT -->
-<section id="contact">
-  <div class="reveal">
-    <div class="section-tag">Connect</div>
-  </div>
-  <div class="contact-grid reveal">
-    <div class="contact-left">
-      <div class="contact-heading">Let's Build Something.</div>
-      <p class="contact-desc">Open to all analyst, data science, and federal consulting roles. Based in MD. Available for on-site, remote, hybrid, and travel-required engagements.</p>
-      <a href="mailto:braxton.canady@outlook.com" class="btn-primary">Send a Message</a>
-    </div>
-    <div class="contact-right">
-      <a href="https://www.linkedin.com/in/braxtonc2023/" class="contact-link" target="_blank">
-        <div class="contact-link-icon">in</div>
-        <div class="contact-link-text"><div class="contact-link-label">LinkedIn</div><div class="contact-link-value">linkedin.com/in/braxtonc2023</div></div>
-      </a>
-      <a href="https://github.com/braxo23" class="contact-link" target="_blank">
-        <div class="contact-link-icon">&#9679;</div>
-        <div class="contact-link-text"><div class="contact-link-label">GitHub</div><div class="contact-link-value">github.com/braxo23</div></div>
-      </a>
-      <a href="mailto:braxton.canady@outlook.com" class="contact-link">
-        <div class="contact-link-icon">@</div>
-        <div class="contact-link-text"><div class="contact-link-label">Email</div><div class="contact-link-value">braxton.canady@outlook.com</div></div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <p>&#169; 2025 Braxton Canady &mdash; Data &amp; Analytics Portfolio</p>
-  <p>Built with HTML / CSS / JS &middot; Chart.js</p>
-</footer>
-
+<section id="contact"><div class="reveal"><div class="section-tag">Connect</div></div><div class="contact-grid reveal"><div class="contact-left"><div class="contact-heading">Let's Build Something.</div><p class="contact-desc">Open to all analyst, data science, and federal consulting roles. Based in MD. Available for on-site, remote, hybrid, and travel-required engagements.</p><a href="mailto:braxton.canady@outlook.com" class="btn-primary">Send a Message</a></div><div class="contact-right"><a href="https://www.linkedin.com/in/braxtonc2023/" class="contact-link" target="_blank"><div class="contact-link-icon">in</div><div class="contact-link-text"><div class="contact-link-label">LinkedIn</div><div class="contact-link-value">linkedin.com/in/braxtonc2023</div></div></a><a href="https://github.com/braxo23" class="contact-link" target="_blank"><div class="contact-link-icon">&#9679;</div><div class="contact-link-text"><div class="contact-link-label">GitHub</div><div class="contact-link-value">github.com/braxo23</div></div></a><a href="mailto:braxton.canady@outlook.com" class="contact-link"><div class="contact-link-icon">@</div><div class="contact-link-text"><div class="contact-link-label">Email</div><div class="contact-link-value">braxton.canady@outlook.com</div></div></a></div></div></section>
+<footer><p>&copy; 2025 Braxton Canady &mdash; Data &amp; Analytics Portfolio</p><p>Built with HTML / CSS / JS &middot; Chart.js &middot; GSAP</p></footer>
 <script>
-/* ── CURSOR ── */
-const cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-(function animC(){
-  if(cursor){cursor.style.left=mx-4+'px';cursor.style.top=my-4+'px';}
-  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
-  if(ring){ring.style.left=rx-16+'px';ring.style.top=ry-16+'px';}
-  requestAnimationFrame(animC);
+/* ── GSAP PRELOADER ── */
+(function(){
+  if(typeof gsap==='undefined'){document.getElementById('preloader').remove();document.body.classList.remove('preloader-active');return;}
+  var container=document.getElementById('particles-container'),scene=document.getElementById('preloader-scene'),grid=document.getElementById('preloaderGrid'),label=document.getElementById('preloaderLabel'),svgEl=document.getElementById('dome-svg'),svgNS='http://www.w3.org/2000/svg';
+  var textData=[{t:'SELECT',c:'code'},{t:'.predict()',c:'code'},{t:'pd.merge()',c:'code'},{t:'sklearn',c:'code'},{t:'import',c:'code'},{t:'DataFrame',c:'code'},{t:'model.fit()',c:'code'},{t:'async',c:'code'},{t:'pipeline',c:'code'},{t:'0x1F',c:'hex'},{t:'0xA3',c:'hex'},{t:'0xFF',c:'hex'},{t:'0xBE',c:'hex'},{t:'0x7D',c:'hex'},{t:'DAX',c:'bi'},{t:'MEASURE',c:'bi'},{t:'CALCULATE',c:'bi'},{t:'Power BI',c:'bi'},{t:'SQL',c:'code'},{t:'Python',c:'code'},{t:'ETL',c:'code'},{t:'REST',c:'code'},{t:'JSON',c:'code'},{t:'API',c:'code'},{t:'JOIN',c:'code'},{t:'WHERE',c:'code'},{t:'GROUP BY',c:'code'},{t:'GET',c:'bi'},{t:'POST',c:'bi'},{t:'INDEX',c:'code'}];
+  var TOTAL=60,dotCount=TOTAL-textData.length;
+  function getDomeTargets(n){var pos=[],R=130;pos.push({x:0,y:-R});[{y:-110,count:3},{y:-85,count:5},{y:-55,count:7},{y:-25,count:9},{y:5,count:11}].forEach(function(l){var mx=Math.sqrt(Math.max(0,R*R-l.y*l.y))||R;for(var i=0;i<l.count;i++)pos.push({x:-mx+(mx*2)*(i/(l.count-1)),y:l.y});});for(var i=0;i<12;i++)pos.push({x:-R+R*2*(i/11),y:25});var base=pos.length;while(pos.length<n){var a=pos[Math.floor(Math.random()*base)],b=pos[Math.floor(Math.random()*base)];pos.push({x:(a.x+b.x)/2+(Math.random()-.5)*12,y:(a.y+b.y)/2+(Math.random()-.5)*12});}return pos.slice(0,n);}
+  var targets=getDomeTargets(TOTAL),cx=window.innerWidth/2,cy=window.innerHeight/2,particles=[];
+  textData.forEach(function(d){var el=document.createElement('span');el.className='p-particle '+d.c;el.textContent=d.t;container.appendChild(el);particles.push(el);});
+  for(var di=0;di<dotCount;di++){var el=document.createElement('span');el.className='p-particle '+['dot','dot green','dot orange'][Math.floor(Math.random()*3)];container.appendChild(el);particles.push(el);}
+  particles.forEach(function(el){gsap.set(el,{x:cx+(Math.random()-.5)*window.innerWidth*1.2,y:cy+(Math.random()-.5)*window.innerHeight*1.2,opacity:0,scale:.4+Math.random()*.6,rotation:Math.random()*360});});
+  var thresh=55,drawn={};targets.forEach(function(a,i){targets.forEach(function(b,j){if(j<=i)return;var k=i+'-'+j;if(drawn[k])return;var d=Math.sqrt((a.x-b.x)*(a.x-b.x)+(a.y-b.y)*(a.y-b.y));if(d<thresh&&d>5){drawn[k]=1;var ln=document.createElementNS(svgNS,'line');ln.setAttribute('x1',a.x);ln.setAttribute('y1',a.y);ln.setAttribute('x2',b.x);ln.setAttribute('y2',b.y);ln.setAttribute('stroke-dasharray',d);ln.setAttribute('stroke-dashoffset',d);svgEl.appendChild(ln);}});});
+  var domeLines=svgEl.querySelectorAll('line'),tl=gsap.timeline({delay:.2});
+  tl.to(label,{opacity:.6,duration:.4,ease:'power2.out'},0);
+  tl.to(particles,{opacity:function(){return .3+Math.random()*.4;},scale:1,rotation:0,duration:.5,stagger:.008,ease:'power2.out'},0);
+  tl.to(particles,{duration:1.6,x:function(i){return cx+targets[i].x;},y:function(i){return cy+targets[i].y;},opacity:1,scale:1,ease:'power4.inOut',stagger:.012},.6);
+  tl.to(grid,{opacity:.4,duration:1,ease:'power2.inOut'},1.2);
+  tl.to(domeLines,{opacity:.5,strokeDashoffset:0,duration:.6,stagger:.008,ease:'power2.inOut'},2.0);
+  tl.to(scene,{scale:5,duration:1,ease:'power4.inOut'},2.8);
+  tl.to(grid,{opacity:.8,scale:1.5,duration:1,ease:'power4.inOut'},2.8);
+  tl.to(particles,{opacity:0,duration:.6,ease:'power2.in'},3.0);
+  tl.to(domeLines,{opacity:0,duration:.5,ease:'power2.in'},3.0);
+  tl.to(label,{opacity:0,duration:.3,ease:'power2.in'},2.8);
+  tl.to('#preloader',{opacity:0,duration:.8,ease:'power2.in'},3.3);
+  tl.call(function(){document.getElementById('preloader').remove();document.body.classList.remove('preloader-active');},null,4.2);
+  setTimeout(function(){var p=document.getElementById('preloader');if(p){p.remove();document.body.classList.remove('preloader-active');}},7000);
 })();
+
+/* ── CURSOR ── */
+var cursor=document.getElementById('cursor'),ring=document.getElementById('cursorRing'),mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;});
+(function animC(){if(cursor){cursor.style.left=mx-4+'px';cursor.style.top=my-4+'px';}rx+=(mx-rx)*.12;ry+=(my-ry)*.12;if(ring){ring.style.left=rx-16+'px';ring.style.top=ry-16+'px';}requestAnimationFrame(animC);})();
 
 /* ── PARTICLE BG ── */
-(function(){
-  const c=document.getElementById('bg-canvas');if(!c)return;
-  const ctx=c.getContext('2d');let W,H,dots=[];
-  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
-  resize();window.addEventListener('resize',resize);
-  for(let i=0;i<90;i++)dots.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5});
-  (function draw(){
-    ctx.clearRect(0,0,W,H);
-    dots.forEach((d,i)=>{
-      d.x+=d.vx;d.y+=d.vy;
-      if(d.x<0)d.x=W;if(d.x>W)d.x=0;if(d.y<0)d.y=H;if(d.y>H)d.y=0;
-      ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);ctx.fillStyle='rgba(0,200,255,.5)';ctx.fill();
-      dots.forEach((d2,j)=>{
-        if(j<=i)return;
-        const dx=d.x-d2.x,dy=d.y-d2.y,dist=Math.sqrt(dx*dx+dy*dy);
-        if(dist<120){ctx.beginPath();ctx.moveTo(d.x,d.y);ctx.lineTo(d2.x,d2.y);ctx.strokeStyle=`rgba(0,200,255,${.12*(1-dist/120)})`;ctx.lineWidth=.5;ctx.stroke();}
-      });
-    });
-    requestAnimationFrame(draw);
-  })();
-})();
+(function(){var c=document.getElementById('bg-canvas');if(!c)return;var ctx=c.getContext('2d'),W,H,dots=[];function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}resize();window.addEventListener('resize',resize);for(var i=0;i<90;i++)dots.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*1.5+.5});(function draw(){ctx.clearRect(0,0,W,H);dots.forEach(function(d,i){d.x+=d.vx;d.y+=d.vy;if(d.x<0)d.x=W;if(d.x>W)d.x=0;if(d.y<0)d.y=H;if(d.y>H)d.y=0;ctx.beginPath();ctx.arc(d.x,d.y,d.r,0,Math.PI*2);ctx.fillStyle='rgba(0,200,255,.45)';ctx.fill();dots.forEach(function(d2,j){if(j<=i)return;var dx=d.x-d2.x,dy=d.y-d2.y,dist=Math.sqrt(dx*dx+dy*dy);if(dist<120){ctx.beginPath();ctx.moveTo(d.x,d.y);ctx.lineTo(d2.x,d2.y);ctx.strokeStyle='rgba(0,200,255,'+(.1*(1-dist/120))+')';ctx.lineWidth=.5;ctx.stroke();}});});requestAnimationFrame(draw);})();})();
 
-/* ── INTERSECTION OBSERVER (reveal) ── */
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
-},{threshold:.1});
-document.querySelectorAll('.reveal,.timeline,.certs-grid,.dashboard-lab').forEach(el=>obs.observe(el));
+/* ── OBSERVERS ── */
+var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');if(e.target.classList.contains('ml-arch-strip')||e.target.classList.contains('ml-projects-grid')||e.target.classList.contains('ml-endpoints'))e.target.classList.add('anim-active');obs.unobserve(e.target);}});},{threshold:.08});
+document.querySelectorAll('.reveal,.timeline,.certs-grid,.dashboard-lab,.ml-arch-strip,.ml-projects-grid,.ml-endpoints').forEach(function(el){obs.observe(el);});
+document.querySelectorAll('.stat-num[data-target]').forEach(function(el){var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){var s=null;(function step(ts){if(!s)s=ts;var p=Math.min((ts-s)/1400,1),ease=1-Math.pow(1-p,3);el.textContent=Math.round(+el.dataset.target*ease);if(p<1)requestAnimationFrame(step);})(performance.now());io.unobserve(el);}});},{threshold:.5});io.observe(el);});
+document.querySelectorAll('.skill-bar-fill[data-width]').forEach(function(el){var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){el.style.width=el.dataset.width+'%';io.unobserve(el);}});},{threshold:.5});io.observe(el);});
+var impObs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.querySelectorAll('.impact-fill[data-pct]').forEach(function(b){b.style.width=b.dataset.pct+'%';});impObs.unobserve(e.target);}});},{threshold:.2});
+document.querySelectorAll('.dash-card,.ml-card').forEach(function(c){impObs.observe(c);});
 
-/* ── HERO COUNTERS ── */
-document.querySelectorAll('.stat-num[data-target]').forEach(el=>{
-  const io=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{if(e.isIntersecting){
-      let s=null;
-      (function step(ts){
-        if(!s)s=ts;const p=Math.min((ts-s)/1400,1),ease=1-Math.pow(1-p,3);
-        el.textContent=Math.round(+el.dataset.target*ease);if(p<1)requestAnimationFrame(step);
-      })(performance.now());
-      io.unobserve(el);
-    }});
-  },{threshold:.5});
-  io.observe(el);
-});
-
-/* ── SKILL BARS ── */
-document.querySelectorAll('.skill-bar-fill[data-width]').forEach(el=>{
-  const io=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{if(e.isIntersecting){el.style.width=el.dataset.width+'%';io.unobserve(el);}});
-  },{threshold:.5});
-  io.observe(el);
-});
-
-/* ── IMPACT BARS ── */
-const impObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){
-    e.target.querySelectorAll('.impact-fill[data-pct]').forEach(b=>{b.style.width=b.dataset.pct+'%';});
-    impObs.unobserve(e.target);
-  }});
-},{threshold:.2});
-document.querySelectorAll('.dash-card,.ml-card').forEach(c=>impObs.observe(c));
-
-/* ── ML SCROLL ANIMATIONS ── */
-const mlObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('anim-active');mlObs.unobserve(e.target);}});
-},{threshold:.15});
-document.querySelectorAll('.ml-arch-strip,.ml-projects-grid,.ml-endpoints').forEach(el=>mlObs.observe(el));
-
-/* ── CHART.JS DEFAULTS ── */
-const GRID='rgba(255,255,255,.06)',MUTED='rgba(107,140,174,.8)',MONO="'JetBrains Mono',monospace";
+/* ── CHART.JS ── */
+var GRID='rgba(255,255,255,.05)',MUTED='rgba(107,140,174,.8)',MONO="'JetBrains Mono',monospace";
 Chart.defaults.color=MUTED;Chart.defaults.font.family=MONO;Chart.defaults.font.size=10;
-
-/* ── DSPO CHARTS ── */
-new Chart(document.getElementById('chart-dspo-bar'),{type:'bar',data:{labels:['Army','Navy','Air Force','Marines','Space Force','Coast Guard','Guard/Res.'],datasets:[{label:'Activities',data:[62,48,54,38,18,14,13],backgroundColor:['rgba(0,200,255,.75)','rgba(0,255,157,.75)','rgba(255,107,53,.75)','rgba(167,139,250,.75)','rgba(0,200,255,.5)','rgba(0,255,157,.5)','rgba(255,107,53,.5)'],borderRadius:3,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:GRID},ticks:{color:MUTED,maxRotation:30}},y:{grid:{color:GRID},ticks:{color:MUTED},beginAtZero:true}}}});
-new Chart(document.getElementById('chart-dspo-donut'),{type:'doughnut',data:{labels:['Training','Outreach','Research','Policy','Technology','Other'],datasets:[{data:[28,22,18,16,10,6],backgroundColor:['rgba(0,200,255,.8)','rgba(0,255,157,.8)','rgba(255,107,53,.8)','rgba(167,139,250,.8)','rgba(255,220,50,.8)','rgba(150,150,150,.6)'],borderColor:'rgba(5,10,15,.5)',borderWidth:2,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'right',labels:{color:MUTED,boxWidth:10,font:{size:9}}}}}});
-new Chart(document.getElementById('chart-dspo-radar1'),{type:'radar',data:{labels:['Individual','Relationship','Community','Societal','Institutional','Response'],datasets:[{label:'FY24',data:[72,65,58,44,80,68],borderColor:'rgba(0,200,255,.6)',backgroundColor:'rgba(0,200,255,.08)',pointRadius:3},{label:'FY25',data:[84,78,69,55,88,79],borderColor:'rgba(0,255,157,.7)',backgroundColor:'rgba(0,255,157,.08)',pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{color:MUTED,boxWidth:10,font:{size:9}}}},scales:{r:{grid:{color:GRID},angleLines:{color:GRID},pointLabels:{color:MUTED,font:{size:9}},ticks:{display:false},min:0,max:100}}}});
-new Chart(document.getElementById('chart-dspo-radar2'),{type:'radar',data:{labels:['Access to Care','Crisis Response','Lethal Means','Data Systems','Cultural Change','Research'],datasets:[{label:'Coverage',data:[88,76,61,82,55,70],borderColor:'rgba(255,107,53,.7)',backgroundColor:'rgba(255,107,53,.08)',pointRadius:3},{label:'Target',data:[90,90,80,90,80,85],borderColor:'rgba(167,139,250,.4)',backgroundColor:'transparent',borderDash:[4,3],pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{color:MUTED,boxWidth:10,font:{size:9}}}},scales:{r:{grid:{color:GRID},angleLines:{color:GRID},pointLabels:{color:MUTED,font:{size:9}},ticks:{display:false},min:0,max:100}}}});
-new Chart(document.getElementById('chart-branch'),{type:'bar',data:{labels:['Army','Navy','Air Force','Marines','Space Force','Coast Guard','Natl Guard'],datasets:[{label:'Referrals',data:[312,278,244,198,87,63,142],backgroundColor:['rgba(0,200,255,.75)','rgba(0,255,157,.75)','rgba(255,107,53,.75)','rgba(167,139,250,.75)','rgba(0,200,255,.5)','rgba(0,255,157,.5)','rgba(255,220,50,.6)'],borderRadius:4,borderWidth:0}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:GRID},ticks:{color:MUTED}},y:{grid:{color:GRID},ticks:{color:MUTED}}}}});
-
-/* ── BYTE BACK CHARTS ── */
-const covidPlugin={id:'covidShade',beforeDraw(chart){const{ctx,chartArea,scales}=chart;if(!chartArea||!scales.x)return;const x0=scales.x.getPixelForValue(1.5),x1=scales.x.getPixelForValue(2.5);ctx.save();ctx.fillStyle='rgba(255,60,60,.07)';ctx.fillRect(x0,chartArea.top,x1-x0,chartArea.height);ctx.setLineDash([4,3]);ctx.lineWidth=1;ctx.strokeStyle='rgba(255,80,60,.3)';[x0,x1].forEach(x=>{ctx.beginPath();ctx.moveTo(x,chartArea.top);ctx.lineTo(x,chartArea.bottom);ctx.stroke();});ctx.restore();}};
+new Chart(document.getElementById('chart-dspo-bar'),{type:'bar',data:{labels:['Army','Navy','Air Force','Marines','Space Force','Coast Guard','Guard/Res.'],datasets:[{label:'Activities',data:[62,48,54,38,18,14,13],backgroundColor:['rgba(0,200,255,.75)','rgba(0,255,157,.75)','rgba(255,107,53,.75)','rgba(167,139,250,.75)','rgba(0,200,255,.5)','rgba(0,255,157,.5)','rgba(255,107,53,.5)'],borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:GRID},ticks:{color:MUTED,maxRotation:30}},y:{grid:{color:GRID},ticks:{color:MUTED},beginAtZero:true}}}});
+new Chart(document.getElementById('chart-dspo-donut'),{type:'doughnut',data:{labels:['Training','Outreach','Research','Policy','Technology','Other'],datasets:[{data:[28,22,18,16,10,6],backgroundColor:['rgba(0,200,255,.8)','rgba(0,255,157,.8)','rgba(255,107,53,.8)','rgba(167,139,250,.8)','rgba(255,220,50,.8)','rgba(150,150,150,.6)'],borderColor:'rgba(5,10,15,.5)',borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'right',labels:{color:MUTED,boxWidth:10,font:{size:9}}}}}});
+new Chart(document.getElementById('chart-dspo-radar1'),{type:'radar',data:{labels:['Individual','Relationship','Community','Societal','Institutional','Response'],datasets:[{label:'FY24',data:[72,65,58,44,80,68],borderColor:'rgba(0,200,255,.6)',backgroundColor:'rgba(0,200,255,.08)',pointRadius:3},{label:'FY25',data:[84,78,69,55,88,79],borderColor:'rgba(0,255,157,.7)',backgroundColor:'rgba(0,255,157,.08)',pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{color:MUTED,boxWidth:10,font:{size:9}}}},scales:{r:{grid:{color:GRID},angleLines:{color:GRID},pointLabels:{color:MUTED,font:{size:9}},ticks:{display:false},min:0,max:100}}}});
+new Chart(document.getElementById('chart-dspo-radar2'),{type:'radar',data:{labels:['Access to Care','Crisis Response','Lethal Means','Data Systems','Cultural Change','Research'],datasets:[{label:'Coverage',data:[88,76,61,82,55,70],borderColor:'rgba(255,107,53,.7)',backgroundColor:'rgba(255,107,53,.08)',pointRadius:3},{label:'Target',data:[90,90,80,90,80,85],borderColor:'rgba(167,139,250,.4)',backgroundColor:'transparent',borderDash:[4,3],pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{color:MUTED,boxWidth:10,font:{size:9}}}},scales:{r:{grid:{color:GRID},angleLines:{color:GRID},pointLabels:{color:MUTED,font:{size:9}},ticks:{display:false},min:0,max:100}}}});
+new Chart(document.getElementById('chart-branch'),{type:'bar',data:{labels:['Army','Navy','Air Force','Marines','Space Force','Coast Guard','Natl Guard'],datasets:[{label:'Referrals',data:[312,278,244,198,87,63,142],backgroundColor:['rgba(0,200,255,.75)','rgba(0,255,157,.75)','rgba(255,107,53,.75)','rgba(167,139,250,.75)','rgba(0,200,255,.5)','rgba(0,255,157,.5)','rgba(255,220,50,.6)'],borderRadius:4}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:GRID},ticks:{color:MUTED}},y:{grid:{color:GRID},ticks:{color:MUTED}}}}});
+var covidPlugin={id:'covidShade',beforeDraw:function(chart){var ctx=chart.ctx,a=chart.chartArea,s=chart.scales;if(!a||!s.x)return;var x0=s.x.getPixelForValue(1.5),x1=s.x.getPixelForValue(2.5);ctx.save();ctx.fillStyle='rgba(255,60,60,.07)';ctx.fillRect(x0,a.top,x1-x0,a.height);ctx.setLineDash([4,3]);ctx.lineWidth=1;ctx.strokeStyle='rgba(255,80,60,.3)';[x0,x1].forEach(function(x){ctx.beginPath();ctx.moveTo(x,a.top);ctx.lineTo(x,a.bottom);ctx.stroke();});ctx.restore();}};
 new Chart(document.getElementById('chart-byteback'),{type:'line',plugins:[covidPlugin],data:{labels:['FY18','FY19','FY20','FY21','FY22','FY23'],datasets:[{label:'Enrolled',data:[710,780,455,560,820,955],borderColor:'#00c8ff',backgroundColor:'rgba(0,200,255,.07)',pointRadius:5,tension:.4,fill:true,borderWidth:2},{label:'Retained',data:[590,648,390,480,720,840],borderColor:'#00ff9d',backgroundColor:'rgba(0,255,157,.05)',pointRadius:5,tension:.4,fill:true,borderWidth:2},{label:'Placed',data:[52,57,47,53,64,71],borderColor:'#ff6b35',backgroundColor:'rgba(255,107,53,.05)',pointRadius:5,tension:.4,yAxisID:'y2',borderWidth:2}]},options:{responsive:true,maintainAspectRatio:true,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false}},scales:{x:{grid:{color:GRID},ticks:{color:MUTED}},y:{grid:{color:GRID},ticks:{color:MUTED}},y2:{position:'right',grid:{drawOnChartArea:false},ticks:{color:'rgba(255,107,53,.7)'}}}}});
-new Chart(document.getElementById('chart-funding'),{type:'doughnut',data:{labels:['Federal & DC Gov','Corporate Foundations','Private Foundations','TD Bank / TD Ready','Individual / Other'],datasets:[{data:[340,480,620,180,95],backgroundColor:['rgba(0,200,255,.8)','rgba(0,255,157,.8)','rgba(255,107,53,.8)','rgba(167,139,250,.8)','rgba(255,80,60,.7)'],borderColor:'rgba(5,10,15,.5)',borderWidth:2,hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: $${c.raw}K`}}}}});
-new Chart(document.getElementById('chart-cohort'),{type:'bar',data:{labels:['Computer\nFoundations','Office Tech\n/ Admin','CompTIA\nA+','Network+\n/ Security+'],datasets:[{label:'Completion %',data:[87,79,68,61],backgroundColor:['rgba(0,200,255,.75)','rgba(0,255,157,.75)','rgba(255,107,53,.75)','rgba(167,139,250,.75)'],borderRadius:4,borderWidth:0},{label:'Course-Pass %',data:[94,86,74,67],backgroundColor:['rgba(0,200,255,.25)','rgba(0,255,157,.25)','rgba(255,107,53,.25)','rgba(167,139,250,.25)'],borderRadius:4,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{color:MUTED,boxWidth:10,font:{size:9}}}},scales:{x:{grid:{color:GRID},ticks:{color:MUTED,maxRotation:0}},y:{grid:{color:GRID},ticks:{color:MUTED},min:50,max:100}}}});
-
-/* ── SIGNATURE CHARTS ── */
-function makeRing(id,pct,color){const el=document.getElementById(id);if(!el)return;new Chart(el,{type:'doughnut',data:{datasets:[{data:[pct,100-pct],backgroundColor:[color,'rgba(255,255,255,.05)'],borderWidth:0}]},options:{responsive:false,cutout:'78%',animation:{duration:1400},plugins:{legend:{display:false},tooltip:{enabled:false}}}});}
+new Chart(document.getElementById('chart-funding'),{type:'doughnut',data:{labels:['Federal & DC Gov','Corporate Fdn','Private Fdn','TD Bank','Individual'],datasets:[{data:[340,480,620,180,95],backgroundColor:['rgba(0,200,255,.8)','rgba(0,255,157,.8)','rgba(255,107,53,.8)','rgba(167,139,250,.8)','rgba(255,80,60,.7)'],borderColor:'rgba(5,10,15,.5)',borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.label+': $'+c.raw+'K'}}}}}});
+new Chart(document.getElementById('chart-cohort'),{type:'bar',data:{labels:['Computer\nFoundations','Office Tech\n/ Admin','CompTIA\nA+','Network+\n/ Security+'],datasets:[{label:'Completion %',data:[87,79,68,61],backgroundColor:['rgba(0,200,255,.75)','rgba(0,255,157,.75)','rgba(255,107,53,.75)','rgba(167,139,250,.75)'],borderRadius:4},{label:'Course-Pass %',data:[94,86,74,67],backgroundColor:['rgba(0,200,255,.25)','rgba(0,255,157,.25)','rgba(255,107,53,.25)','rgba(167,139,250,.25)'],borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{color:MUTED,boxWidth:10,font:{size:9}}}},scales:{x:{grid:{color:GRID},ticks:{color:MUTED,maxRotation:0}},y:{grid:{color:GRID},ticks:{color:MUTED},min:50,max:100}}}});
+function makeRing(id,pct,color){var el=document.getElementById(id);if(!el)return;new Chart(el,{type:'doughnut',data:{datasets:[{data:[pct,100-pct],backgroundColor:[color,'rgba(255,255,255,.05)'],borderWidth:0}]},options:{responsive:false,cutout:'78%',animation:{duration:1400},plugins:{legend:{display:false},tooltip:{enabled:false}}}});}
 makeRing('ring-faa',99.7,'#60b8ff');makeRing('ring-qt',94.2,'#00ff9d');makeRing('ring-inc',100,'#00ff9d');
-new Chart(document.getElementById('chart-acmix'),{type:'doughnut',data:{labels:['Private / HNWI','Executive Charter','Government / Military','Corporate Fleet','Medical / Medevac'],datasets:[{data:[52,22,14,8,4],backgroundColor:['rgba(167,139,250,.8)','rgba(255,107,53,.8)','rgba(0,255,157,.8)','rgba(0,200,255,.8)','rgba(255,80,60,.7)'],borderColor:'rgba(5,10,15,.5)',borderWidth:2,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'right',labels:{color:MUTED,boxWidth:10,font:{size:9}}}}}});
-const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-new Chart(document.getElementById('chart-sig-movements'),{type:'bar',data:{labels:months,datasets:[{label:'Gov / Military',data:[310,295,325,340,355,370,360,375,345,360,390,380],backgroundColor:'rgba(167,139,250,.7)',stack:'a',borderRadius:2},{label:'Executive Charter',data:[85,78,90,88,92,96,94,91,87,90,105,98],backgroundColor:'rgba(255,107,53,.7)',stack:'a',borderRadius:2},{label:'Corporate / Other',data:[55,50,58,60,62,68,65,64,60,62,72,68],backgroundColor:'rgba(0,255,157,.6)',stack:'a',borderRadius:2},{label:'Private / HNWI',data:[30,28,32,35,38,42,40,38,34,36,45,42],backgroundColor:'rgba(0,200,255,.6)',stack:'a',borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'top',labels:{color:MUTED,boxWidth:10,font:{size:9}}}},scales:{x:{stacked:true,grid:{color:GRID},ticks:{color:MUTED}},y:{stacked:true,grid:{color:GRID},ticks:{color:MUTED}}}}});
-new Chart(document.getElementById('chart-sig-compliance'),{type:'line',data:{labels:months,datasets:[{label:'FAA Compliance (%)',data:[99.8,99.7,99.9,100,99.8,99.6,99.9,100,99.7,99.8,99.5,99.9],borderColor:'#60b8ff',backgroundColor:'rgba(96,184,255,.07)',fill:true,tension:.4,pointRadius:4,borderWidth:2,yAxisID:'y'},{label:'LADD Requests',data:[12,14,11,16,18,15,17,19,14,16,21,18],borderColor:'#a78bfa',backgroundColor:'rgba(167,139,250,.05)',fill:true,tension:.4,pointRadius:4,borderWidth:2,yAxisID:'y2'}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:true,position:'top',labels:{color:MUTED,boxWidth:10,font:{size:9}}}},scales:{x:{grid:{color:GRID},ticks:{color:MUTED}},y:{grid:{color:GRID},ticks:{color:MUTED},min:99,max:100.2},y2:{position:'right',grid:{drawOnChartArea:false},ticks:{color:'rgba(167,139,250,.7)'}}}}});
+new Chart(document.getElementById('chart-acmix'),{type:'doughnut',data:{labels:['Private / HNWI','Exec Charter','Gov / Military','Corporate','Medical'],datasets:[{data:[52,22,14,8,4],backgroundColor:['rgba(167,139,250,.8)','rgba(255,107,53,.8)','rgba(0,255,157,.8)','rgba(0,200,255,.8)','rgba(255,80,60,.7)'],borderColor:'rgba(5,10,15,.5)',borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'right',labels:{color:MUTED,boxWidth:10,font:{size:9}}}}}});
+var months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+new Chart(document.getElementById('chart-sig-movements'),{type:'bar',data:{labels:months,datasets:[{label:'Gov/Mil',data:[310,295,325,340,355,370,360,375,345,360,390,380],backgroundColor:'rgba(167,139,250,.7)',stack:'a',borderRadius:2},{label:'Exec Charter',data:[85,78,90,88,92,96,94,91,87,90,105,98],backgroundColor:'rgba(255,107,53,.7)',stack:'a',borderRadius:2},{label:'Corp/Other',data:[55,50,58,60,62,68,65,64,60,62,72,68],backgroundColor:'rgba(0,255,157,.6)',stack:'a',borderRadius:2},{label:'Private',data:[30,28,32,35,38,42,40,38,34,36,45,42],backgroundColor:'rgba(0,200,255,.6)',stack:'a',borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{color:MUTED,boxWidth:10,font:{size:9}}}},scales:{x:{stacked:true,grid:{color:GRID},ticks:{color:MUTED}},y:{stacked:true,grid:{color:GRID},ticks:{color:MUTED}}}}});
+new Chart(document.getElementById('chart-sig-compliance'),{type:'line',data:{labels:months,datasets:[{label:'FAA (%)',data:[99.8,99.7,99.9,100,99.8,99.6,99.9,100,99.7,99.8,99.5,99.9],borderColor:'#60b8ff',backgroundColor:'rgba(96,184,255,.07)',fill:true,tension:.4,pointRadius:4,borderWidth:2,yAxisID:'y'},{label:'LADD Req',data:[12,14,11,16,18,15,17,19,14,16,21,18],borderColor:'#a78bfa',backgroundColor:'rgba(167,139,250,.05)',fill:true,tension:.4,pointRadius:4,borderWidth:2,yAxisID:'y2'}]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'top',labels:{color:MUTED,boxWidth:10,font:{size:9}}}},scales:{x:{grid:{color:GRID},ticks:{color:MUTED}},y:{grid:{color:GRID},ticks:{color:MUTED},min:99,max:100.2},y2:{position:'right',grid:{drawOnChartArea:false},ticks:{color:'rgba(167,139,250,.7)'}}}}});
+var ttStyle={backgroundColor:'rgba(10,18,32,.95)',borderColor:'rgba(0,200,255,.2)',borderWidth:1,titleFont:{family:MONO,size:10},bodyFont:{family:MONO,size:10},titleColor:'#00c8ff',bodyColor:'#e8f0fe',padding:10};
+new Chart(document.getElementById('chart-ml-inference'),{type:'line',data:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],datasets:[{label:'Predictions',data:[2340,2780,3150,2890,3420,1860,2847],borderColor:'#00c8ff',backgroundColor:'rgba(0,200,255,.08)',fill:true,tension:.35,pointRadius:4,pointBackgroundColor:'#00c8ff',pointBorderColor:'#050a0f',pointBorderWidth:2,borderWidth:2},{label:'Errors',data:[12,8,15,6,11,4,9],borderColor:'#ff6b35',backgroundColor:'rgba(255,107,53,.05)',tension:.35,pointRadius:3,pointBackgroundColor:'#ff6b35',borderWidth:1.5,borderDash:[4,4]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:ttStyle},scales:{x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{color:MUTED}},y:{grid:{color:'rgba(255,255,255,.03)'},ticks:{color:MUTED}}}}});
+new Chart(document.getElementById('chart-ml-accuracy'),{type:'bar',data:{labels:['v1.0','v1.2','v1.5','v2.0','v2.1'],datasets:[{label:'Accuracy',data:[.82,.85,.87,.89,.91],backgroundColor:['rgba(0,200,255,.25)','rgba(0,200,255,.35)','rgba(0,200,255,.45)','rgba(0,200,255,.6)','rgba(0,255,157,.6)'],borderColor:['rgba(0,200,255,.5)','rgba(0,200,255,.6)','rgba(0,200,255,.7)','rgba(0,200,255,.9)','rgba(0,255,157,.9)'],borderWidth:1,borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:ttStyle},scales:{x:{grid:{display:false},ticks:{color:MUTED}},y:{min:.75,max:.95,grid:{color:'rgba(255,255,255,.03)'},ticks:{color:MUTED,callback:function(v){return(v*100).toFixed(0)+'%'}}}}}});
 
-/* ── ML CHARTS ── */
-const ttStyle={backgroundColor:'rgba(10,18,32,.95)',borderColor:'rgba(0,200,255,.2)',borderWidth:1,titleFont:{family:MONO,size:10},bodyFont:{family:MONO,size:10},titleColor:'#00c8ff',bodyColor:'#e8f0fe',padding:10};
-new Chart(document.getElementById('chart-ml-inference'),{type:'line',data:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],datasets:[{label:'Predictions',data:[2340,2780,3150,2890,3420,1860,2847],borderColor:'#00c8ff',backgroundColor:'rgba(0,200,255,.08)',fill:true,tension:.35,pointRadius:4,pointBackgroundColor:'#00c8ff',pointBorderColor:'#050a0f',pointBorderWidth:2,borderWidth:2},{label:'Errors',data:[12,8,15,6,11,4,9],borderColor:'#ff6b35',backgroundColor:'rgba(255,107,53,.05)',fill:false,tension:.35,pointRadius:3,pointBackgroundColor:'#ff6b35',borderWidth:1.5,borderDash:[4,4]}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:ttStyle},scales:{x:{grid:{color:'rgba(255,255,255,.03)'},ticks:{color:MUTED}},y:{grid:{color:'rgba(255,255,255,.03)'},ticks:{color:MUTED}}}}});
-new Chart(document.getElementById('chart-ml-accuracy'),{type:'bar',data:{labels:['v1.0','v1.2','v1.5','v2.0','v2.1'],datasets:[{label:'Accuracy',data:[.82,.85,.87,.89,.91],backgroundColor:['rgba(0,200,255,.25)','rgba(0,200,255,.35)','rgba(0,200,255,.45)','rgba(0,200,255,.6)','rgba(0,255,157,.6)'],borderColor:['rgba(0,200,255,.5)','rgba(0,200,255,.6)','rgba(0,200,255,.7)','rgba(0,200,255,.9)','rgba(0,255,157,.9)'],borderWidth:1,borderRadius:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:ttStyle},scales:{x:{grid:{display:false},ticks:{color:MUTED}},y:{min:.75,max:.95,grid:{color:'rgba(255,255,255,.03)'},ticks:{color:MUTED,callback:v=>(v*100).toFixed(0)+'%'}}}}});
-
-/* ── EMPLOYER TABS ── */
-(function initTabs(){
-  // All charts rendered above with panels visible — now hide inactive ones
-  document.querySelectorAll('.tab-panel:not(.active)').forEach(p=>p.classList.add('hidden'));
-
-  document.querySelectorAll('.tab-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p=>{p.classList.remove('active');p.classList.add('hidden');});
-      btn.classList.add('active');
-      const panel=document.getElementById('tab-'+btn.dataset.tab);
-      panel.classList.remove('hidden');
-      panel.classList.add('active');
-      // Re-trigger reveals inside newly visible panel
-      panel.querySelectorAll('.reveal:not(.visible)').forEach(el=>{
-        const r=el.getBoundingClientRect();
-        if(r.top<window.innerHeight)el.classList.add('visible');
-      });
-      // Resize charts after paint
-      setTimeout(()=>window.dispatchEvent(new Event('resize')),60);
-    });
-  });
-})();
+/* ── TABS ── */
+document.querySelectorAll('.tab-panel:not(.active)').forEach(function(p){p.classList.add('hidden');});
+document.querySelectorAll('.tab-btn').forEach(function(btn){btn.addEventListener('click',function(){
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');p.classList.add('hidden');});
+  btn.classList.add('active');
+  var panel=document.getElementById('tab-'+btn.dataset.tab);
+  panel.classList.remove('hidden');panel.classList.add('active');
+  panel.querySelectorAll('.reveal:not(.visible),.dashboard-lab:not(.visible)').forEach(function(el){var r=el.getBoundingClientRect();if(r.top<window.innerHeight)el.classList.add('visible');});
+  setTimeout(function(){window.dispatchEvent(new Event('resize'));},60);
+});});
 </script>
 </body>
 </html>
